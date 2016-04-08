@@ -8,14 +8,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 @Stateless
-public class ManagerVehiculos{
+public class ManagerGestion{
 
 	@EJB
 	private ManagerDAO mDAO;
 
 	String h="";		
 		
-	public ManagerVehiculos() {
+	public ManagerGestion() {
 	}
 	
 	// Vehiculo
