@@ -1,6 +1,7 @@
 package transporte.controller.gestion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,14 +10,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
+import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
 
-
 import transporte.model.dao.entities.TransConductore;
-import transporte.model.dao.entities.TransLugare;
-import transporte.model.dao.entities.TransVehiculo;
+import transporte.model.generic.Funciones;
 import transporte.model.generic.Mensaje;
 import transporte.model.manager.ManagerGestion;
 
@@ -224,7 +223,7 @@ public class conductorBean implements Serializable {
 	 * @param cond_cedula
 	 * @throws Exception
 	 */
-	public String cambiarEstadoCon() {
+	public String cambiarEstadoCondu() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("INFORMACION",
@@ -267,5 +266,31 @@ public class conductorBean implements Serializable {
 			r = false;
 		}
 		return r;
+	}
+	
+	/**
+	 * Lista de estados
+	 * 
+	 * @return lista de items de estados
+	 */
+	public List<SelectItem> getlistEstados() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.estadoActivo, Funciones.estadoActivo
+				+ " : " + Funciones.valorEstadoActivo));
+		lista.add(new SelectItem(Funciones.estadoInactivo,
+				Funciones.estadoInactivo + " : "
+						+ Funciones.valorEstadoInactivo));
+		return lista;
+	}
+	
+	/**
+	 * Redirecciona a la pagina de creacion de conductores
+	 * 
+	 * @return
+	 */
+	public String nuevoConductor() {
+		mostrarcond_id= false;
+		edicion = false;
+		return "nconductor?faces-redirect=true";
 	}
 }

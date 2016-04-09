@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+	<ui:composition template="template.xhtml">
+		<ui:define name="titulo">
+            Vehiculos
+        </ui:define>
+		<ui:define name="contenido">
+			<h:form>
+				<center><h1>Vehiculos</h1></center>
+				<b:row>
+					<b:column span="1">
+						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{vehiculoBean.nuevoVehiculo()}" />
+					</b:column>
+					<b:column span="1">
+						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
+					</b:column>
+				</b:row>
+			</h:form>
+			<br/>
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="true" />
+			<b:panel title="Listado de vehiculoes" look="primary">
+				<p:dataTable id="tbb" value="#{vehiculoBean.listaVehiculo}"
+					reflow="true" var="vehi" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="50">
+						<p:commandButton id="btnE" icon="ui-icon-pencil"
+							action="#{vehiculoBean.cargarProducto(vehi)}">
+							<p:tooltip id="toolTipTrack1" for="btnE"
+								value="Bot&oacute;n para modificar el vehiculo"
+								trackMouse="true" />
+						</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
+							action="#{vehiculoBean.cambiarEstadovehi(vehi)}">
+							<p:tooltip id="toolTipTrack2" for="trackcamb"
+								value="Bot&oacute;n para cambiar el estado del condutor"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiIdplaca}" filterMatchMode="contains"
+						headerText="CEDULA" width="70">
+						<h:outputText value="#{vehi.vehiIdplaca}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiNombre}" filterMatchMode="contains"
+						headerText="NOMBRE" width="70">
+						<h:outputText value="#{vehi.vehiNombre}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiMarca}" filterMatchMode="contains"
+						headerText="MARCA" width="70">
+						<h:outputText value="#{vehi.vehiMarca}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiModelo}" filterMatchMode="contains"
+						headerText="MODELO" width="70">
+						<h:outputText value="#{vehi.vehiModelo}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiTipo}" filterMatchMode="contains"
+						headerText="TIPO" width="70">
+						<h:outputText value="#{vehi.vehiTipo}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiCapacidad}" filterMatchMode="contains"
+						headerText="TIPO" width="70">
+						<h:outputText value="#{vehi.vehiCapacidad}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.condEstado}" filterMatchMode="contains"
+						headerText="ESTADO" width="70">
+						<h:outputText value="#{vehi.condEstado}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{vehi.vehiEstadoFuncional}" filterMatchMode="contains"
+						 headerText="ESTADO FUNCIONAL"  width="30">
+						<h:outputText value="#{vehi.vehiEstadoFuncional}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de cambiar el estado?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="ce">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check"
+					action="#{vehiculoBean.cambiarEstadoVehi()}"
+					oncomplete="PF('ce').hide();" update="frm" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('ce').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+	</ui:composition>
+</html>
