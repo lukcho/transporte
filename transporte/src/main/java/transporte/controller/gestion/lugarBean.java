@@ -29,115 +29,75 @@ public class lugarBean implements Serializable {
 	@EJB
 	private ManagerGestion managergest;
 
-	// VEHICULO
-	private String vehi_id;
-	private String vehi_nombre;
-	private String vehi_marca;
-	private String vehi_modelo;
-	private String vehi_tipo;
-	private Integer vehi_capacidad;
-	private String vehi_estado;
-	private String vehi_estado_funcional;
+	// Lugares
+	private Integer lug_id;
+	private String lug_nombre;
+	private String lug_ciudad;
+	private String lug_estado;
 	
-	private TransVehiculo vehi;
-	private TransConductore cond;
 	private TransLugare lug;
 
 	//mmostrar
-	private boolean mostrarvehi_id;
+	private boolean mostrarlug_id;
 	private boolean edicion;
 	private boolean ediciontipo;
 	private boolean verhorario;
 	
-	private List<TransVehiculo> listaVehiculo;
 	private List<TransLugare> listaLugares;
-	private List<TransConductore> listaConductores;
 
 	public lugarBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		vehi_id = null;
-		vehi_estado_funcional = "A";
-		vehi_estado="A";
-		vehi_capacidad = 0;
+		lug_id = null;
+		lug_estado="A";
+		lug_nombre="";
+		lug_ciudad="";
 		edicion = false;
 		ediciontipo = false;
-		mostrarvehi_id = false;
-		listaVehiculo = managergest.findAllVehiculos();
+		mostrarlug_id = false;
+		listaLugares = managergest.findAllLugares();
 	}
 	
-	public String getVehi_id() {
-		return vehi_id;
+	public Integer getLug_id() {
+		return lug_id;
+	}
+	
+	public void setLug_id(Integer lug_id) {
+		this.lug_id = lug_id;
 	}
 
-	public void setVehi_id(String vehi_id) {
-		this.vehi_id = vehi_id;
+	public String getLug_nombre() {
+		return lug_nombre;
 	}
 
-	public String getVehi_nombre() {
-		return vehi_nombre;
+	public void setLug_nombre(String lug_nombre) {
+		this.lug_nombre = lug_nombre;
 	}
 
-	public void setVehi_nombre(String vehi_nombre) {
-		this.vehi_nombre = vehi_nombre;
+	public String getLug_ciudad() {
+		return lug_ciudad;
 	}
 
-	public String getVehi_marca() {
-		return vehi_marca;
+	public void setLug_ciudad(String lug_ciudad) {
+		this.lug_ciudad = lug_ciudad;
 	}
 
-	public void setVehi_marca(String vehi_marca) {
-		this.vehi_marca = vehi_marca;
+	public String getLug_estado() {
+		return lug_estado;
 	}
 
-	public String getVehi_modelo() {
-		return vehi_modelo;
+	public void setLug_estado(String lug_estado) {
+		this.lug_estado = lug_estado;
 	}
 
-	public void setVehi_modelo(String vehi_modelo) {
-		this.vehi_modelo = vehi_modelo;
+	public boolean isMostrarlug_id() {
+		return mostrarlug_id;
 	}
 
-	public String getVehi_tipo() {
-		return vehi_tipo;
-	}
-
-	public void setVehi_tipo(String vehi_tipo) {
-		this.vehi_tipo = vehi_tipo;
-	}
-
-	public Integer getVehi_capacidad() {
-		return vehi_capacidad;
-	}
-
-	public void setVehi_capacidad(Integer vehi_capacidad) {
-		this.vehi_capacidad = vehi_capacidad;
-	}
-
-	public String getVehi_estado() {
-		return vehi_estado;
-	}
-
-	public void setVehi_estado(String vehi_estado) {
-		this.vehi_estado = vehi_estado;
-	}
-
-	public String getVehi_estado_funcional() {
-		return vehi_estado_funcional;
-	}
-
-	public void setVehi_estado_funcional(String vehi_estado_funcional) {
-		this.vehi_estado_funcional = vehi_estado_funcional;
-	}
-
-	public boolean isMostrarvehi_id() {
-		return mostrarvehi_id;
-	}
-
-	public void setMostrarvehi_id(boolean mostrarvehi_id) {
-		this.mostrarvehi_id = mostrarvehi_id;
+	public void setMostrarlug_id(boolean mostrarlug_id) {
+		this.mostrarlug_id = mostrarlug_id;
 	}
 
 	public boolean isEdicion() {
@@ -164,14 +124,6 @@ public class lugarBean implements Serializable {
 		this.verhorario = verhorario;
 	}
 
-	public List<TransVehiculo> getListaVehiculo() {
-		return listaVehiculo;
-	}
-
-	public void setListaVehiculo(List<TransVehiculo> listaVehiculo) {
-		this.listaVehiculo = listaVehiculo;
-	}
-
 	public List<TransLugare> getListaLugares() {
 		return listaLugares;
 	}
@@ -179,31 +131,7 @@ public class lugarBean implements Serializable {
 	public void setListaLugares(List<TransLugare> listaLugares) {
 		this.listaLugares = listaLugares;
 	}
-
-	public List<TransConductore> getListaConductores() {
-		return listaConductores;
-	}
-
-	public void setListaConductores(List<TransConductore> listaConductores) {
-		this.listaConductores = listaConductores;
-	}
 	
-	public TransVehiculo getVehi() {
-		return vehi;
-	}
-
-	public void setVehi(TransVehiculo vehi) {
-		this.vehi = vehi;
-	}
-
-	public TransConductore getCond() {
-		return cond;
-	}
-
-	public void setCond(TransConductore cond) {
-		this.cond = cond;
-	}
-
 	public TransLugare getLug() {
 		return lug;
 	}
@@ -214,7 +142,7 @@ public class lugarBean implements Serializable {
 	
 	//VEHICULO
 	/**
-	 * accion para invocar el manager y crear vehiculo o editar el vehiculo
+	 * accion para invocar el manager y crear Lugar o editar el Lugar
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -227,18 +155,18 @@ public class lugarBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String crearVehiculo() {
+	public String crearLugar() {
 		String r = "";
 		try {
 			if (edicion) {
-				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad, vehi_estado, vehi_estado_funcional);
+				managergest.editarLugar(lug_id, lug_nombre, lug_ciudad, lug_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				r= "lugares?faces-redirect=true";
 			} else {
-				if (!averiguarVehiid(vehi_id)) {
-					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad);
+					managergest.insertarLugar(lug_nombre, lug_ciudad);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
+					r= "lugares?faces-redirect=true";
 				}
-			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -266,19 +194,15 @@ public class lugarBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String cargarProducto(TransVehiculo vehi) {
+	public String cargarLugar(TransLugare lug) {
 		try {
-			vehi_id=vehi.getVehiIdplaca();
-			vehi_nombre = vehi.getVehiNombre();
-			vehi_marca = vehi.getVehiMarca();
-			vehi_modelo = vehi.getVehiModelo();
-			vehi_tipo = vehi.getVehiTipo();
-			vehi_capacidad = vehi.getVehiCapacidad();
-			vehi_estado = vehi.getVehiEstado();
-			vehi_estado_funcional = vehi.getVehiEstadoFuncional();
+			lug_id=lug.getLugId();
+			lug_nombre = lug.getLugNombre();
+			lug_ciudad = lug.getLugCiudad();
+			lug_estado = lug.getLugEstado();
 			edicion = true;
 			ediciontipo = false;
-			return "nvehiculo?faces-redirect=true";
+			return "nlugar?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -287,173 +211,48 @@ public class lugarBean implements Serializable {
 	}
 
 	/**
-	 * activar y desactivar estado vehiculo
+	 * activar y desactivar estado Lugar
 	 * 
 	 * @param vehi_id
 	 * @throws Exception
 	 */
-	public String cambiarEstadoVehi() {
+	public String cambiarEstadoLugar() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
-			getListaVehiculo().clear();
-			getListaVehiculo().addAll(managergest.findAllVehiculos());
+					managergest.cambioEstadoLugar(getLug().getLugId())));
+			getListaLugares().clear();
+			getListaLugares().addAll(managergest.findAllLugares());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return "";
 	}
 
-	public void cambiarEstadovehi(TransVehiculo vehi) {
-		setVehi(vehi);
+	public void cambiarEstadoLugar(TransLugare cond) {
+		setLug(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 		System.out.println("holi");
 
 	}
 	
 	/**
-	 * metodo para conocer el prodid si esta usado
+	 * metodo para conocer el lug_id si esta usado
 	 * 
 	 */
-	public boolean averiguarVehiid(String vehi_id) {
+	public boolean averiguarLugarid(Integer lug_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TransVehiculo> pro = managergest.findAllVehiculos();
-		for (TransVehiculo y : pro) {
-			if (y.getVehiIdplaca().equals(vehi_id)) {
+		List<TransLugare> lug = managergest.findAllLugares();
+		for (TransLugare y : lug) {
+			if (y.getLugId().equals(lug_id)) {
 				System.out.println("si entra1");
 				t = 1;
 				r = true;
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del producto existe.", null));
-			}
-		}
-		if (t == 0) {
-			r = false;
-		}
-		return r;
-	}
-
-	// conductores
-	/**
-	 * accion para invocar el manager y crear conductor o editar el conductor
-	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
-	 * @throws Exception
-	 */
-	public String crearConductor() {
-		String r = "";
-		try {
-			if (edicion) {
-				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad, vehi_estado, vehi_estado_funcional);
-				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-			} else {
-				if (!averiguarVehiid(vehi_id)) {
-					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad);
-					Mensaje.crearMensajeINFO("Registrado - Creado");
-				}
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehiculo", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
-		}
-		return r;
-	}
-
-	/**
-	 * accion para cargar los datos en el formulario
-	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
-	 * @throws Exception
-	 */
-	public String cargarConductor(TransVehiculo vehi) {
-		try {
-			vehi_id=vehi.getVehiIdplaca();
-			vehi_nombre = vehi.getVehiNombre();
-			vehi_marca = vehi.getVehiMarca();
-			vehi_modelo = vehi.getVehiModelo();
-			vehi_tipo = vehi.getVehiTipo();
-			vehi_capacidad = vehi.getVehiCapacidad();
-			vehi_estado = vehi.getVehiEstado();
-			vehi_estado_funcional = vehi.getVehiEstadoFuncional();
-			edicion = true;
-			ediciontipo = false;
-			return "nvehiculo?faces-redirect=true";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	/**
-	 * activar y desactivar estado conductor
-	 * 
-	 * @param vehi_id
-	 * @throws Exception
-	 */
-	public String cambiarEstadoCon() {
-		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
-			getListaVehiculo().clear();
-			getListaVehiculo().addAll(managergest.findAllVehiculos());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "";
-	}
-
-	public void cambiarEstadoCon(TransVehiculo vehi) {
-		setVehi(vehi);
-		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
-
-	}
-	
-	/**
-	 * metodo para conocer el conductor si esta usado
-	 * 
-	 */
-	public boolean averiguarConid(String vehi_id) {
-		Integer t = 0;
-		boolean r = false;
-		List<TransVehiculo> pro = managergest.findAllVehiculos();
-		for (TransVehiculo y : pro) {
-			if (y.getVehiIdplaca().equals(vehi_id)) {
-				System.out.println("si entra1");
-				t = 1;
-				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del producto existe.", null));
+								"El codigo del lugar existe.", null));
 			}
 		}
 		if (t == 0) {

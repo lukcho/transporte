@@ -30,27 +30,19 @@ public class conductorBean implements Serializable {
 	private ManagerGestion managergest;
 
 	// VEHICULO
-	private String vehi_id;
-	private String vehi_nombre;
-	private String vehi_marca;
-	private String vehi_modelo;
-	private String vehi_tipo;
-	private Integer vehi_capacidad;
-	private String vehi_estado;
-	private String vehi_estado_funcional;
+	private String cond_cedula;
+	private String cond_nombre;
+	private String cond_apellido;
+	private String cond_telefono;
+	private String cond_estado;
 	
-	private TransVehiculo vehi;
 	private TransConductore cond;
-	private TransLugare lug;
 
-	//mmostrar
-	private boolean mostrarvehi_id;
+	//mostrar
+	private boolean mostrarcond_id;
 	private boolean edicion;
 	private boolean ediciontipo;
-	private boolean verhorario;
 	
-	private List<TransVehiculo> listaVehiculo;
-	private List<TransLugare> listaLugares;
 	private List<TransConductore> listaConductores;
 
 	public conductorBean() {
@@ -58,86 +50,76 @@ public class conductorBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		vehi_id = null;
-		vehi_estado_funcional = "A";
-		vehi_estado="A";
-		vehi_capacidad = 0;
+		cond_cedula = null;
+		cond_estado="A";
 		edicion = false;
 		ediciontipo = false;
-		mostrarvehi_id = false;
-		listaVehiculo = managergest.findAllVehiculos();
+		mostrarcond_id = false;
+		listaConductores = managergest.findAllConductores();
 	}
 	
-	public String getVehi_id() {
-		return vehi_id;
+	public ManagerGestion getManagergest() {
+		return managergest;
 	}
 
-	public void setVehi_id(String vehi_id) {
-		this.vehi_id = vehi_id;
+	public void setManagergest(ManagerGestion managergest) {
+		this.managergest = managergest;
 	}
 
-	public String getVehi_nombre() {
-		return vehi_nombre;
+	public String getCond_cedula() {
+		return cond_cedula;
 	}
 
-	public void setVehi_nombre(String vehi_nombre) {
-		this.vehi_nombre = vehi_nombre;
+	public void setCond_cedula(String cond_cedula) {
+		this.cond_cedula = cond_cedula;
 	}
 
-	public String getVehi_marca() {
-		return vehi_marca;
+	public String getCond_nombre() {
+		return cond_nombre;
 	}
 
-	public void setVehi_marca(String vehi_marca) {
-		this.vehi_marca = vehi_marca;
+	public void setCond_nombre(String cond_nombre) {
+		this.cond_nombre = cond_nombre;
 	}
 
-	public String getVehi_modelo() {
-		return vehi_modelo;
+	public String getCond_apellido() {
+		return cond_apellido;
 	}
 
-	public void setVehi_modelo(String vehi_modelo) {
-		this.vehi_modelo = vehi_modelo;
+	public void setCond_apellido(String cond_apellido) {
+		this.cond_apellido = cond_apellido;
 	}
 
-	public String getVehi_tipo() {
-		return vehi_tipo;
+	public String getCond_telefono() {
+		return cond_telefono;
 	}
 
-	public void setVehi_tipo(String vehi_tipo) {
-		this.vehi_tipo = vehi_tipo;
+	public void setCond_telefono(String cond_telefono) {
+		this.cond_telefono = cond_telefono;
 	}
 
-	public Integer getVehi_capacidad() {
-		return vehi_capacidad;
+	public String getCond_estado() {
+		return cond_estado;
 	}
 
-	public void setVehi_capacidad(Integer vehi_capacidad) {
-		this.vehi_capacidad = vehi_capacidad;
+	public void setCond_estado(String cond_estado) {
+		this.cond_estado = cond_estado;
 	}
 
-	public String getVehi_estado() {
-		return vehi_estado;
+	public TransConductore getCond() {
+		return cond;
 	}
 
-	public void setVehi_estado(String vehi_estado) {
-		this.vehi_estado = vehi_estado;
+	public void setCond(TransConductore cond) {
+		this.cond = cond;
 	}
 
-	public String getVehi_estado_funcional() {
-		return vehi_estado_funcional;
+	public boolean isMostrarcond_id() {
+		return mostrarcond_id;
 	}
 
-	public void setVehi_estado_funcional(String vehi_estado_funcional) {
-		this.vehi_estado_funcional = vehi_estado_funcional;
-	}
-
-	public boolean isMostrarvehi_id() {
-		return mostrarvehi_id;
-	}
-
-	public void setMostrarvehi_id(boolean mostrarvehi_id) {
-		this.mostrarvehi_id = mostrarvehi_id;
+	public void setMostrarcond_id(boolean mostrarcond_id) {
+		this.mostrarcond_id = mostrarcond_id;
 	}
 
 	public boolean isEdicion() {
@@ -156,30 +138,6 @@ public class conductorBean implements Serializable {
 		this.ediciontipo = ediciontipo;
 	}
 
-	public boolean isVerhorario() {
-		return verhorario;
-	}
-
-	public void setVerhorario(boolean verhorario) {
-		this.verhorario = verhorario;
-	}
-
-	public List<TransVehiculo> getListaVehiculo() {
-		return listaVehiculo;
-	}
-
-	public void setListaVehiculo(List<TransVehiculo> listaVehiculo) {
-		this.listaVehiculo = listaVehiculo;
-	}
-
-	public List<TransLugare> getListaLugares() {
-		return listaLugares;
-	}
-
-	public void setListaLugares(List<TransLugare> listaLugares) {
-		this.listaLugares = listaLugares;
-	}
-
 	public List<TransConductore> getListaConductores() {
 		return listaConductores;
 	}
@@ -187,32 +145,7 @@ public class conductorBean implements Serializable {
 	public void setListaConductores(List<TransConductore> listaConductores) {
 		this.listaConductores = listaConductores;
 	}
-	
-	public TransVehiculo getVehi() {
-		return vehi;
-	}
 
-	public void setVehi(TransVehiculo vehi) {
-		this.vehi = vehi;
-	}
-
-	public TransConductore getCond() {
-		return cond;
-	}
-
-	public void setCond(TransConductore cond) {
-		this.cond = cond;
-	}
-
-	public TransLugare getLug() {
-		return lug;
-	}
-
-	public void setLug(TransLugare lug) {
-		this.lug = lug;
-	}
-	
-	// conductores
 	/**
 	 * accion para invocar el manager y crear conductor o editar el conductor
 	 * 
@@ -231,19 +164,21 @@ public class conductorBean implements Serializable {
 		String r = "";
 		try {
 			if (edicion) {
-				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad, vehi_estado, vehi_estado_funcional);
+				managergest.editarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono, cond_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				r= "conductores?faces-redirect=true";
 			} else {
-//				if (!averiguarVehiid(vehi_id)) {
-//					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad);
-//					Mensaje.crearMensajeINFO("Registrado - Creado");
-//				}
+				if (!averiguarConid(cond_cedula)) {
+					managergest.insertarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono);
+					Mensaje.crearMensajeINFO("Registrado - Creado");
+					r= "conductores?faces-redirect=true";
+				}
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehiculo", null));
+							"Error al crear conductor", null));
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
@@ -266,19 +201,16 @@ public class conductorBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String cargarConductor(TransVehiculo vehi) {
+	public String cargarConductor(TransConductore cond) {
 		try {
-			vehi_id=vehi.getVehiIdplaca();
-			vehi_nombre = vehi.getVehiNombre();
-			vehi_marca = vehi.getVehiMarca();
-			vehi_modelo = vehi.getVehiModelo();
-			vehi_tipo = vehi.getVehiTipo();
-			vehi_capacidad = vehi.getVehiCapacidad();
-			vehi_estado = vehi.getVehiEstado();
-			vehi_estado_funcional = vehi.getVehiEstadoFuncional();
+			cond_cedula=cond.getCondCedula();
+			cond_nombre = cond.getCondNombre();
+			cond_apellido = cond.getCondApellido();
+			cond_telefono = cond.getCondTelefono();
+			cond_estado = cond.getCondEstado();
 			edicion = true;
 			ediciontipo = false;
-			return "nvehiculo?faces-redirect=true";
+			return "nconductor?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -289,24 +221,24 @@ public class conductorBean implements Serializable {
 	/**
 	 * activar y desactivar estado conductor
 	 * 
-	 * @param vehi_id
+	 * @param cond_cedula
 	 * @throws Exception
 	 */
 	public String cambiarEstadoCon() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
-			getListaVehiculo().clear();
-			getListaVehiculo().addAll(managergest.findAllVehiculos());
+					managergest.cambioEstadoConductor(getCond().getCondCedula())));
+			getListaConductores().clear();
+			getListaConductores().addAll(managergest.findAllConductores());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return "";
 	}
 
-	public void cambiarEstadoCon(TransVehiculo vehi) {
-		setVehi(vehi);
+	public void cambiarEstadoCon(TransConductore cond) {
+		setCond(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 		System.out.println("holi");
 
@@ -319,9 +251,9 @@ public class conductorBean implements Serializable {
 	public boolean averiguarConid(String vehi_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TransVehiculo> pro = managergest.findAllVehiculos();
-		for (TransVehiculo y : pro) {
-			if (y.getVehiIdplaca().equals(vehi_id)) {
+		List<TransConductore> cond = managergest.findAllConductores();
+		for (TransConductore y : cond) {
+			if (y.getCondCedula().equals(vehi_id)) {
 				System.out.println("si entra1");
 				t = 1;
 				r = true;

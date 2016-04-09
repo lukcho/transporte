@@ -257,7 +257,7 @@ public class ManagerGestion{
 	 * @param prod_id
 	 * @throws Exception
 	 */
-	public TransLugare LugarByID(String lug_id) throws Exception {
+	public TransLugare LugarByID(Integer lug_id) throws Exception {
 		return (TransLugare) mDAO.findById(TransLugare.class, lug_id);
 	}
 	
@@ -295,7 +295,7 @@ public class ManagerGestion{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarLugar(String lug_id,String lug_nombre, String lug_ciudad,String lug_estado) throws Exception {
+	public void editarLugar(Integer lug_id,String lug_nombre, String lug_ciudad,String lug_estado) throws Exception {
 		TransLugare lug =  this.LugarByID(lug_id);
 //		con.setCondCedula(con_cedid);
 		lug.setLugNombre(lug_nombre);
@@ -312,7 +312,7 @@ public class ManagerGestion{
 	 * @param correo
 	 * @throws Exception
 	 */	
-	public String cambioEstadoLugar(String lug_id) throws Exception{
+	public String cambioEstadoLugar(Integer lug_id) throws Exception{
 		String h="";
 		TransLugare vehi = LugarByID(lug_id);						
 		

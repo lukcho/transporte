@@ -50,8 +50,6 @@ public class vehiculoBean implements Serializable {
 	private boolean verhorario;
 	
 	private List<TransVehiculo> listaVehiculo;
-	private List<TransLugare> listaLugares;
-	private List<TransConductore> listaConductores;
 
 	public vehiculoBean() {
 	}
@@ -172,22 +170,6 @@ public class vehiculoBean implements Serializable {
 		this.listaVehiculo = listaVehiculo;
 	}
 
-	public List<TransLugare> getListaLugares() {
-		return listaLugares;
-	}
-
-	public void setListaLugares(List<TransLugare> listaLugares) {
-		this.listaLugares = listaLugares;
-	}
-
-	public List<TransConductore> getListaConductores() {
-		return listaConductores;
-	}
-
-	public void setListaConductores(List<TransConductore> listaConductores) {
-		this.listaConductores = listaConductores;
-	}
-	
 	public TransVehiculo getVehi() {
 		return vehi;
 	}
@@ -233,10 +215,12 @@ public class vehiculoBean implements Serializable {
 			if (edicion) {
 				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad, vehi_estado, vehi_estado_funcional);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				r= "vehiculos?faces-redirect=true";
 			} else {
 				if (!averiguarVehiid(vehi_id)) {
 					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
+					r= "vehiculos?faces-redirect=true";
 				}
 			}
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-﻿
+
 CREATE SEQUENCE seq_trans_lugares
   INCREMENT 1
   MINVALUE 1
