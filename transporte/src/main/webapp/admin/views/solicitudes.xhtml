@@ -17,57 +17,60 @@
 			<br/>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de solicitudes" look="primary">
-				<p:dataTable id="tbb" value="#{ vehiculoBean.listaVehiculo}"
-					reflow="true" var="vehi" rows="8" emptyMessage="Sin Datos"
+			<b:panel title="Listado de Solicitudes" look="primary">
+				<p:dataTable id="tbb" value="#{solicitudBean.listaSolicitudes}"
+					reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{vehiculoBean.cargarProducto(vehi)}">
+							action="#{solicitudBean.cargarSolicitud(sol)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
-								value="Bot&oacute;n para modificar el vehiculo"
+								value="Bot&oacute;n para modificar la soliciud"
 								trackMouse="true" />
 						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							action="#{vehiculoBean.cambiarEstadovehi(vehi)}">
+							action="#{solicitudBean.cambiarEstadoSoli(sol)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
-								value="Bot&oacute;n para cambiar el estado del condutor"
+								value="Bot&oacute;n para cambiar el estado de la solicitud"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiIdplaca}" filterMatchMode="contains"
-						headerText="CEDULA" width="70">
-						<h:outputText value="#{vehi.vehiIdplaca}"></h:outputText>
+					<p:column headerText="SOLICITUD ID" width="70">
+						<h:outputText value="#{sol.solId}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiNombre}" filterMatchMode="contains"
-						headerText="NOMBRE" width="70">
-						<h:outputText value="#{vehi.vehiNombre}"></h:outputText>
+					<p:column filterBy="#{sol.solIdSolicitante}" filterMatchMode="contains"
+						headerText="NOMBRE SOLICITANTE" width="70">
+						<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiMarca}" filterMatchMode="contains"
-						headerText="MARCA" width="70">
-						<h:outputText value="#{vehi.vehiMarca}"></h:outputText>
+					<p:column headerText="ORIGEN/DESTINO" width="100">
+						<h:outputText value="#{vehi.transLugare2.lugNombre} - #{vehi.transLugare1.lugNombre}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiModelo}" filterMatchMode="contains"
-						headerText="MODELO" width="70">
-						<h:outputText value="#{vehi.vehiModelo}"></h:outputText>
+					<p:column headerText="HORA INICIO/FIN" width="100">
+						<h:outputText value="#{vehi.solHoraInicio} - #{vehi.solHoraFin}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiTipo}" filterMatchMode="contains"
-						headerText="TIPO" width="70">
-						<h:outputText value="#{vehi.vehiTipo}"></h:outputText>
+					<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}" filterMatchMode="contains"
+						headerText="PLACA AUTO" width="70">
+						<h:outputText value="#{sol.transVehiculo.vehiNombre}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiCapacidad}" filterMatchMode="contains"
-						headerText="TIPO" width="70">
-						<h:outputText value="#{vehi.vehiCapacidad}"></h:outputText>
+					<p:column filterBy="#{sol.solPasajeros}" filterMatchMode="contains"
+						headerText="PASAJEROS" width="70">
+						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.condEstado}" filterMatchMode="contains"
+					<p:column filterBy="#{sol.transConductore.condCedula}" filterMatchMode="contains"
+						headerText="PLACA AUTO" width="70">
+						<h:outputText value="#{sol.transConductore.condCedula}"></h:outputText>
+					</p:column>
+					<p:column headerText="FECHA" width="70">
+						<h:outputText value="#{vehi.solFecha}"></h:outputText>
+					</p:column>
+					<p:column headerText="FECHA APROBACION" width="70">
+						<h:outputText value="#{vehi.solFechaAprobacion}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{sol.solEstado}" filterMatchMode="contains"
 						headerText="ESTADO" width="70">
-						<h:outputText value="#{vehi.condEstado}"></h:outputText>
-					</p:column>
-					<p:column filterBy="#{vehi.vehiEstadoFuncional}" filterMatchMode="contains"
-						 headerText="ESTADO FUNCIONAL"  width="30">
-						<h:outputText value="#{vehi.vehiEstadoFuncional}"></h:outputText>
+						<h:outputText value="#{sol.solEstado}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>
@@ -78,7 +81,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check"
-					action="#{vehiculoBean.cambiarEstadoVehi()}"
+					action="#{solicitudBean.cambiarEstadoSoli()}"
 					oncomplete="PF('ce').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
