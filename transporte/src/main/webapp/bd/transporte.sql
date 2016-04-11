@@ -71,7 +71,7 @@ create table TRANS_VEHICULO (
 /* Table: TRAN_SOLICITUD                                        */
 /*==============================================================*/
 create table TRAN_SOLICITUD (
-   SOL_ID               INT4                 not null DEFAULT nextval('seq_trans_solicitud'::regclass),
+   SOL_ID               INT4                 not null,
    SOL_ID_SOLICITANTE   VARCHAR(20)          null,
    LUG_ID_ORIGEN        INT4                 null,
    LUG_ID_DESTINO       INT4                 null,
@@ -80,6 +80,8 @@ create table TRAN_SOLICITUD (
    COND_CEDULA          VARCHAR(100)         null,
    SOL_FECHA            TIMESTAMP            null,
    SOL_FECHA_APROBACION TIMESTAMP            null,
+   SOL_PASAJEROS        INT4                 null,
+   SOL_MOTIVO           VARCHAR(255)         null,
    SOL_HORA_INICIO      TIME                 null,
    SOL_HORA_FIN         TIME                 null,
    SOL_FLEXIBILIDAD     CHAR(1)              null,

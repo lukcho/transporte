@@ -30,6 +30,12 @@ public class Funciones {
 	public static String estadoFinalizado = "F";
 	public static String valorEstadoFinalizado = "Finalizado";
 	
+	public static String estadoAprobado = "A";
+	public static String valorEstadoAprobado = "Aprobado";
+	
+	public static String estadoRechazado = "R";
+	public static String valorEstadoRechazado = "Rechazado";
+	
 	
 	//Atributos de producto
 	public static String estadoServicio = "S";

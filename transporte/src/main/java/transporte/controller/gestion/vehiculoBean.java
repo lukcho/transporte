@@ -14,8 +14,6 @@ import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
 
-import transporte.model.dao.entities.TransConductore;
-import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
 import transporte.model.generic.Mensaje;
@@ -41,8 +39,6 @@ public class vehiculoBean implements Serializable {
 	private String vehi_estado_funcional;
 	
 	private TransVehiculo vehi;
-	private TransConductore cond;
-	private TransLugare lug;
 
 	//mmostrar
 	private boolean mostrarvehi_id;
@@ -177,22 +173,6 @@ public class vehiculoBean implements Serializable {
 
 	public void setVehi(TransVehiculo vehi) {
 		this.vehi = vehi;
-	}
-
-	public TransConductore getCond() {
-		return cond;
-	}
-
-	public void setCond(TransConductore cond) {
-		this.cond = cond;
-	}
-
-	public TransLugare getLug() {
-		return lug;
-	}
-
-	public void setLug(TransLugare lug) {
-		this.lug = lug;
 	}
 	
 	//VEHICULO
