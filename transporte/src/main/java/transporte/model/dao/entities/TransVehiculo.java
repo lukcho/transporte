@@ -40,9 +40,9 @@ public class TransVehiculo implements Serializable {
 	@Column(name="vehi_tipo", length=100)
 	private String vehiTipo;
 
-	//bi-directional many-to-one association to TranSolicitud
+	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transVehiculo")
-	private List<TranSolicitud> tranSolicituds;
+	private List<TransSolicitud> TransSolicituds;
 
 	public TransVehiculo() {
 	}
@@ -111,26 +111,26 @@ public class TransVehiculo implements Serializable {
 		this.vehiTipo = vehiTipo;
 	}
 
-	public List<TranSolicitud> getTranSolicituds() {
-		return this.tranSolicituds;
+	public List<TransSolicitud> getTransSolicituds() {
+		return this.TransSolicituds;
 	}
 
-	public void setTranSolicituds(List<TranSolicitud> tranSolicituds) {
-		this.tranSolicituds = tranSolicituds;
+	public void setTransSolicituds(List<TransSolicitud> TransSolicituds) {
+		this.TransSolicituds = TransSolicituds;
 	}
 
-	public TranSolicitud addTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().add(tranSolicitud);
-		tranSolicitud.setTransVehiculo(this);
+	public TransSolicitud addTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().add(TransSolicitud);
+		TransSolicitud.setTransVehiculo(this);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
-	public TranSolicitud removeTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().remove(tranSolicitud);
-		tranSolicitud.setTransVehiculo(null);
+	public TransSolicitud removeTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().remove(TransSolicitud);
+		TransSolicitud.setTransVehiculo(null);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
 }

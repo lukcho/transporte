@@ -16,7 +16,7 @@ import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
 
-import transporte.model.dao.entities.TranSolicitud;
+import transporte.model.dao.entities.TransSolicitud;
 import transporte.model.dao.entities.TransConductore;
 import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.dao.entities.TransLugare;
@@ -64,13 +64,13 @@ public class solicitudBean implements Serializable {
 	private TransVehiculo vehi_idplaca;
 	private TransConductore cond_cedula;
 	
-	private TranSolicitud soli;
+	private TransSolicitud soli;
 
 	// mmostrar
 	private boolean edicion;
 	private boolean ediciontipo;
 
-	private List<TranSolicitud> listaSolicitudes;
+	private List<TransSolicitud> listaSolicitudes;
 
 	public solicitudBean() {
 	}
@@ -85,11 +85,11 @@ public class solicitudBean implements Serializable {
 		listaSolicitudes = managersol.findAllSolicitudes();
 	}
 	
-	public TranSolicitud getSoli() {
+	public TransSolicitud getSoli() {
 		return soli;
 	}
 
-	public void setSoli(TranSolicitud soli) {
+	public void setSoli(TransSolicitud soli) {
 		this.soli = soli;
 	}
 
@@ -261,11 +261,11 @@ public class solicitudBean implements Serializable {
 		this.cond_cedula = cond_cedula;
 	}
 
-	public List<TranSolicitud> getListaSolicitudes() {
+	public List<TransSolicitud> getListaSolicitudes() {
 		return listaSolicitudes;
 	}
 
-	public void setListaSolicitudes(List<TranSolicitud> listaSolicitudes) {
+	public void setListaSolicitudes(List<TransSolicitud> listaSolicitudes) {
 		this.listaSolicitudes = listaSolicitudes;
 	}
 
@@ -344,7 +344,7 @@ public class solicitudBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String cargarSolicitud(TranSolicitud sol) {
+	public String cargarSolicitud(TransSolicitud sol) {
 		try {
 			sol_id= sol.getSolId();
 //			sol_idsolicitante = sol.getSolicitante();
@@ -394,7 +394,7 @@ public class solicitudBean implements Serializable {
 		return "";
 	}
 
-	public void cambiarEstadoSoli(TranSolicitud soli) {
+	public void cambiarEstadoSoli(TransSolicitud soli) {
 		setSoli(soli);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 		System.out.println("holi");
@@ -408,8 +408,8 @@ public class solicitudBean implements Serializable {
 	public boolean averiguarSoliid(Integer soli_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TranSolicitud> soli = managersol.findAllSolicitudes();
-		for (TranSolicitud y : soli) {
+		List<TransSolicitud> soli = managersol.findAllSolicitudes();
+		for (TransSolicitud y : soli) {
 			if (y.getSolId().equals(soli_id)) {
 				System.out.println("si entra1");
 				t = 1;

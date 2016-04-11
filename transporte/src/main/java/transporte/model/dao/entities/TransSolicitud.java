@@ -7,18 +7,18 @@ import java.sql.Time;
 
 
 /**
- * The persistent class for the tran_solicitud database table.
+ * The persistent class for the trans_solicitud database table.
  * 
  */
 @Entity
-@Table(name="tran_solicitud")
-@NamedQuery(name="TranSolicitud.findAll", query="SELECT t FROM TranSolicitud t")
-public class TranSolicitud implements Serializable {
+@Table(name="trans_solicitud")
+@NamedQuery(name="TransSolicitud.findAll", query="SELECT t FROM TransSolicitud t")
+public class TransSolicitud implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TRAN_SOLICITUD_SOLID_GENERATOR", sequenceName="SEQ_TRANS_SOLICITUD", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TRAN_SOLICITUD_SOLID_GENERATOR")
+	@SequenceGenerator(name="TRANS_SOLICITUD_SOLID_GENERATOR", sequenceName="SEQ_TRANS_SOLICITUD", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TRANS_SOLICITUD_SOLID_GENERATOR")
 	@Column(name="sol_id")
 	private Integer solId;
 
@@ -77,7 +77,7 @@ public class TranSolicitud implements Serializable {
 	@JoinColumn(name="vehi_idplaca")
 	private TransVehiculo transVehiculo;
 
-	public TranSolicitud() {
+	public TransSolicitud() {
 	}
 
 	public Integer getSolId() {

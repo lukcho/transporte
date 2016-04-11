@@ -37,8 +37,8 @@ public class ManagerSolicitud{
 	 */	
 	
 	@SuppressWarnings("unchecked")
-	public List<TranSolicitud> findsol() {
-		return mDAO.findWhere(TranSolicitud.class, "1=1", null);
+	public List<TransSolicitud> findsol() {
+		return mDAO.findWhere(TransSolicitud.class, "1=1", null);
 	}
 
 	/**
@@ -47,8 +47,8 @@ public class ManagerSolicitud{
 	 * @throws Exception
 	 */	
 	@SuppressWarnings("unchecked") 
-	public List<TranSolicitud> findAllSolicitudes() {
-		return mDAO.findAll(TranSolicitud.class);
+	public List<TransSolicitud> findAllSolicitudes() {
+		return mDAO.findAll(TransSolicitud.class);
 	}
 
 	/**
@@ -56,8 +56,8 @@ public class ManagerSolicitud{
 	 * @param prod_id
 	 * @throws Exception
 	 */
-	public TranSolicitud solicitudByID(Integer vehi_id) throws Exception {
-		return (TranSolicitud) mDAO.findById(TranSolicitud.class, vehi_id);
+	public TransSolicitud solicitudByID(Integer vehi_id) throws Exception {
+		return (TransSolicitud) mDAO.findById(TransSolicitud.class, vehi_id);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class ManagerSolicitud{
 	 * @throws Exception
 	 */
 	public void insertarSolicitud(Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,String sol_flexibilidad, String sol_observacion) throws Exception {
-		TranSolicitud sol = new TranSolicitud();
+		TransSolicitud sol = new TransSolicitud();
 		//sol.setSolIdSolicitante(solIdSolicitante);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
@@ -105,7 +105,7 @@ public class ManagerSolicitud{
 	 * @throws Exception
 	 */	
 	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,String sol_flexibilidad, String sol_observacion, String sol_estado) throws Exception {
-		TranSolicitud sol =  this.solicitudByID(sol_id);
+		TransSolicitud sol =  this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
 		sol.setTransFuncionarioConductor(trans_fco);
@@ -198,7 +198,7 @@ public class ManagerSolicitud{
 	 */	
 	public String cambioEstadoSolicitud(Integer sol_id) throws Exception{
 		String h="";
-		TranSolicitud sol = solicitudByID(sol_id);						
+		TransSolicitud sol = solicitudByID(sol_id);						
 		
 		if(sol.getSolEstado().equals("P")){
 			sol.setSolEstado("A");
@@ -221,7 +221,7 @@ public class ManagerSolicitud{
 	 * @param u solicitudes a analizar
 	 * @return true o false
 	 */
-	public boolean esSolicitudActivo(TranSolicitud u){
+	public boolean esSolicitudActivo(TransSolicitud u){
 		boolean  resp = false;
 		if(u.getSolEstado().equals("A")){
 			resp = true;

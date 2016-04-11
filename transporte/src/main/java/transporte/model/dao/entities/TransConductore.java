@@ -31,9 +31,9 @@ public class TransConductore implements Serializable {
 	@Column(name="cond_telefono", length=10)
 	private String condTelefono;
 
-	//bi-directional many-to-one association to TranSolicitud
+	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transConductore")
-	private List<TranSolicitud> tranSolicituds;
+	private List<TransSolicitud> TransSolicituds;
 
 	public TransConductore() {
 	}
@@ -78,26 +78,26 @@ public class TransConductore implements Serializable {
 		this.condTelefono = condTelefono;
 	}
 
-	public List<TranSolicitud> getTranSolicituds() {
-		return this.tranSolicituds;
+	public List<TransSolicitud> getTransSolicituds() {
+		return this.TransSolicituds;
 	}
 
-	public void setTranSolicituds(List<TranSolicitud> tranSolicituds) {
-		this.tranSolicituds = tranSolicituds;
+	public void setTransSolicituds(List<TransSolicitud> TransSolicituds) {
+		this.TransSolicituds = TransSolicituds;
 	}
 
-	public TranSolicitud addTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().add(tranSolicitud);
-		tranSolicitud.setTransConductore(this);
+	public TransSolicitud addTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().add(TransSolicitud);
+		TransSolicitud.setTransConductore(this);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
-	public TranSolicitud removeTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().remove(tranSolicitud);
-		tranSolicitud.setTransConductore(null);
+	public TransSolicitud removeTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().remove(TransSolicitud);
+		TransSolicitud.setTransConductore(null);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
 }

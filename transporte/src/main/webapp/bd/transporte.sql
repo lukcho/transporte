@@ -70,7 +70,7 @@ create table TRANS_VEHICULO (
 /*==============================================================*/
 /* Table: TRAN_SOLICITUD                                        */
 /*==============================================================*/
-create table TRAN_SOLICITUD (
+create table TRANS_SOLICITUD (
    SOL_ID               INT4                 not null,
    SOL_ID_SOLICITANTE   VARCHAR(20)          null,
    LUG_ID_ORIGEN        INT4                 null,
@@ -90,27 +90,27 @@ create table TRAN_SOLICITUD (
    constraint PK_TRAN_SOLICITUD primary key (SOL_ID)
 );
 
-alter table TRAN_SOLICITUD
+alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_LU_OR foreign key (LUG_ID_ORIGEN)
       references TRANS_LUGARES (LUG_ID)
       on delete restrict on update restrict;
 
-alter table TRAN_SOLICITUD
+alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_LU_DES foreign key (LUG_ID_DESTINO)
       references TRANS_LUGARES (LUG_ID)
       on delete restrict on update restrict;
 
-alter table TRAN_SOLICITUD
+alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_FU foreign key (FCO_ID)
       references TRANS_FUNCIONARIO_CONDUCTOR (FCO_ID)
       on delete restrict on update restrict;
 
-alter table TRAN_SOLICITUD
+alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_VE foreign key (VEHI_IDPLACA)
       references TRANS_VEHICULO (VEHI_IDPLACA)
       on delete restrict on update restrict;
 
-alter table TRAN_SOLICITUD
+alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_CO foreign key (COND_CEDULA)
       references TRANS_CONDUCTORES (COND_CEDULA)
       on delete restrict on update restrict;

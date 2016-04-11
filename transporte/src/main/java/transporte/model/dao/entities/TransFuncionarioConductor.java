@@ -31,9 +31,9 @@ public class TransFuncionarioConductor implements Serializable {
 	@Column(name="fco_nombres", length=100)
 	private String fcoNombres;
 
-	//bi-directional many-to-one association to TranSolicitud
+	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transFuncionarioConductor")
-	private List<TranSolicitud> tranSolicituds;
+	private List<TransSolicitud> TransSolicituds;
 
 	public TransFuncionarioConductor() {
 	}
@@ -78,26 +78,26 @@ public class TransFuncionarioConductor implements Serializable {
 		this.fcoNombres = fcoNombres;
 	}
 
-	public List<TranSolicitud> getTranSolicituds() {
-		return this.tranSolicituds;
+	public List<TransSolicitud> getTransSolicituds() {
+		return this.TransSolicituds;
 	}
 
-	public void setTranSolicituds(List<TranSolicitud> tranSolicituds) {
-		this.tranSolicituds = tranSolicituds;
+	public void setTransSolicituds(List<TransSolicitud> TransSolicituds) {
+		this.TransSolicituds = TransSolicituds;
 	}
 
-	public TranSolicitud addTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().add(tranSolicitud);
-		tranSolicitud.setTransFuncionarioConductor(this);
+	public TransSolicitud addTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().add(TransSolicitud);
+		TransSolicitud.setTransFuncionarioConductor(this);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
-	public TranSolicitud removeTranSolicitud(TranSolicitud tranSolicitud) {
-		getTranSolicituds().remove(tranSolicitud);
-		tranSolicitud.setTransFuncionarioConductor(null);
+	public TransSolicitud removeTransSolicitud(TransSolicitud TransSolicitud) {
+		getTransSolicituds().remove(TransSolicitud);
+		TransSolicitud.setTransFuncionarioConductor(null);
 
-		return tranSolicitud;
+		return TransSolicitud;
 	}
 
 }
