@@ -159,11 +159,15 @@ public class lugarBean implements Serializable {
 		try {
 			if (edicion) {
 				managergest.editarLugar(lug_id, lug_nombre, lug_ciudad, lug_estado);
+				getListaLugares().clear();
+				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				r= "lugares?faces-redirect=true";
 			} else {
 					managergest.insertarLugar(lug_nombre, lug_ciudad);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
+					getListaLugares().clear();
+					getListaLugares().addAll(managergest.findAllLugares());
 					r= "lugares?faces-redirect=true";
 				}
 		} catch (Exception e) {
@@ -285,5 +289,26 @@ public class lugarBean implements Serializable {
 		mostrarlug_id = false;
 		edicion = false;
 		return "nlugar?faces-redirect=true";
+	}
+	
+	
+	/**
+	 * limpia la informacion de lugar
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String volverLugar() throws Exception {
+		// limpiar datos
+		lug_id= null;
+		lug_nombre = null;
+		lug_ciudad = null;
+		lug_estado = "A";
+		ediciontipo = false;
+		mostrarlug_id= false;
+		edicion = false;
+		getListaLugares().clear();
+		getListaLugares().addAll(managergest.findAllLugares());
+		return "lugares?faces-redirect=true";
 	}
 }

@@ -164,11 +164,15 @@ public class conductorBean implements Serializable {
 		try {
 			if (edicion) {
 				managergest.editarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono, cond_estado);
+				getListaConductores().clear();
+				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				r= "conductores?faces-redirect=true";
 			} else {
 				if (!averiguarConid(cond_cedula)) {
 					managergest.insertarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono);
+					getListaConductores().clear();
+					getListaConductores().addAll(managergest.findAllConductores());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					r= "conductores?faces-redirect=true";
 				}
@@ -289,8 +293,35 @@ public class conductorBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoConductor() {
+		cond_cedula= null;
+		cond_nombre = null;
+		cond_apellido = null;
+		cond_telefono = null;
+		cond_estado = "A";
+		ediciontipo = false;
 		mostrarcond_id= false;
 		edicion = false;
 		return "nconductor?faces-redirect=true";
+	}
+	
+	/**
+	 * limpia la informacion de horario
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String volverConductor() throws Exception {
+		// limpiar datos
+		cond_cedula= null;
+		cond_nombre = null;
+		cond_apellido = null;
+		cond_telefono = null;
+		cond_estado = "A";
+		ediciontipo = false;
+		mostrarcond_id= false;
+		edicion = false;
+		getListaConductores().clear();
+		getListaConductores().addAll(managergest.findAllConductores());
+		return "conductores?faces-redirect=true";
 	}
 }

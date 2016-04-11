@@ -51,7 +51,7 @@
 					</p:column>
 					<p:column filterBy="#{con.condNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="70">
-						<h:outputText value="#{con.proNombre}"></h:outputText>
+						<h:outputText value="#{con.condNombre}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.condApellido}" filterMatchMode="contains"
 						headerText="Apellido" width="70">
@@ -62,7 +62,7 @@
 					</p:column>
 					<p:column filterBy="#{con.condEstado}" filterMatchMode="contains"
 						 headerText="ESTADO"  width="30">
-						<h:outputText value="#{pro.condEstado}"></h:outputText>
+						<h:outputText value="#{con.condEstado}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

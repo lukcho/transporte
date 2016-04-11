@@ -34,7 +34,7 @@ public class vehiculoBean implements Serializable {
 	private String vehi_marca;
 	private String vehi_modelo;
 	private String vehi_tipo;
-	private Integer vehi_capacidad;
+	private String vehi_capacidad;
 	private String vehi_estado;
 	private String vehi_estado_funcional;
 	
@@ -56,7 +56,7 @@ public class vehiculoBean implements Serializable {
 		vehi_id = null;
 		vehi_estado_funcional = "A";
 		vehi_estado="A";
-		vehi_capacidad = 0;
+		vehi_capacidad = null;
 		edicion = false;
 		ediciontipo = false;
 		mostrarvehi_id = false;
@@ -103,14 +103,14 @@ public class vehiculoBean implements Serializable {
 		this.vehi_tipo = vehi_tipo;
 	}
 
-	public Integer getVehi_capacidad() {
+	public String getVehi_capacidad() {
 		return vehi_capacidad;
 	}
-
-	public void setVehi_capacidad(Integer vehi_capacidad) {
+	
+	public void setVehi_capacidad(String vehi_capacidad) {
 		this.vehi_capacidad = vehi_capacidad;
 	}
-
+	
 	public String getVehi_estado() {
 		return vehi_estado;
 	}
@@ -194,13 +194,19 @@ public class vehiculoBean implements Serializable {
 		String r = "";
 		try {
 			if (edicion) {
-				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad, vehi_estado, vehi_estado_funcional);
+				Integer capa = Integer.parseInt(vehi_capacidad);
+				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, capa, vehi_estado, vehi_estado_funcional);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				getListaVehiculo().clear();
+				getListaVehiculo().addAll(managergest.findAllVehiculos());
 				r= "vehiculos?faces-redirect=true";
 			} else {
 				if (!averiguarVehiid(vehi_id)) {
-					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, vehi_capacidad);
+					Integer capa = Integer.parseInt(vehi_capacidad);
+					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, capa);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
+					getListaVehiculo().clear();
+					getListaVehiculo().addAll(managergest.findAllVehiculos());
 					r= "vehiculos?faces-redirect=true";
 				}
 			}
@@ -238,7 +244,7 @@ public class vehiculoBean implements Serializable {
 			vehi_marca = vehi.getVehiMarca();
 			vehi_modelo = vehi.getVehiModelo();
 			vehi_tipo = vehi.getVehiTipo();
-			vehi_capacidad = vehi.getVehiCapacidad();
+			vehi_capacidad = vehi.getVehiCapacidad().toString();
 			vehi_estado = vehi.getVehiEstado();
 			vehi_estado_funcional = vehi.getVehiEstadoFuncional();
 			edicion = true;
@@ -318,14 +324,63 @@ public class vehiculoBean implements Serializable {
 	}
 	
 	/**
+	 * Lista de estadosfuncionales
+	 * 
+	 * @return lista de items de estadosfuncionales
+	 */
+	public List<SelectItem> getlistEstadosfuncional() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.estadoActivo, Funciones.estadoActivo
+				+ " : " + Funciones.valorEstadoActivo));
+		lista.add(new SelectItem(Funciones.estadoInactivo,
+				Funciones.estadoInactivo + " : "
+						+ Funciones.valorEstadoInactivo));
+		return lista;
+	}
+
+	
+	/**
 	 * Redirecciona a la pagina de creacion de vehiculos
 	 * 
 	 * @return
 	 */
 	public String nuevoVehiculo() {
-		verhorario = false;
-		mostrarvehi_id = false;
+		vehi_id= null;
+		vehi_nombre = null;
+		vehi_marca = null;
+		vehi_modelo = null;
+		vehi_tipo = null;
+		vehi_capacidad = null;
+		vehi_estado = "A";
+		vehi_estado_funcional = "A";
+		ediciontipo = false;
+		mostrarvehi_id= false;
 		edicion = false;
+		verhorario=false;
 		return "nvehiculo?faces-redirect=true";
+	}
+	
+	/**
+	 * limpia la informacion de horario
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String volverVehiculo() throws Exception {
+		// limpiar datos
+		vehi_id= null;
+		vehi_nombre = null;
+		vehi_marca = null;
+		vehi_modelo = null;
+		vehi_tipo = null;
+		vehi_capacidad = null;
+		vehi_estado = "A";
+		vehi_estado_funcional = "A";
+		ediciontipo = false;
+		mostrarvehi_id= false;
+		edicion = false;
+		getListaVehiculo().clear();
+		getListaVehiculo().addAll(managergest.findAllVehiculos());
+		return "vehiculos?faces-redirect=true";
 	}
 }

@@ -40,9 +40,13 @@
 				</b:row>
 				<br />
 				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Apellido:* " />
+					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_apellido}" required="true"
-							requiredMessage="Campo apellido requerido" maxlength="100"
+						<b:inputText value="#{conductorBean.cond_apellido}"
+							required="true" requiredMessage="Campo apellido requerido"
+							maxlength="100"
 							validatorMessage="Apellido no debe contener espacios ni caracteres especiales.">
 							<f:validateRegex pattern="[a-zA-Z]+" />
 						</b:inputText>
@@ -51,8 +55,9 @@
 						<h:outputLabel value="Teléfono:* " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_telefono}" required="true"
-							requiredMessage="Campo teléfono requerido" maxlength="10"
+						<b:inputText value="#{conductorBean.cond_telefono}"
+							required="true" requiredMessage="Campo teléfono requerido"
+							maxlength="10"
 							validatorMessage="Teléfono no debe contener letras solo números.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
@@ -73,6 +78,12 @@
 							style="padding:7px;" onclick="PF('gu').show();"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
+					</b:column>
+					<b:column span="5">
+						<b:commandButton value="Volver"
+							action="#{conductorBean.volverConductor()}" update="frm"
+							look="info" process="@this" >
+						</b:commandButton>&nbsp;&nbsp;&nbsp;
 					</b:column>
 				</b:row>
 				<br />
