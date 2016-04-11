@@ -159,6 +159,15 @@ public class ManagerGestion{
 	}
 	
 	/**
+	 * buscar conductoresfuncionario por ID
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	public TransFuncionarioConductor conductorfuncionarioByID(String confun_id) throws Exception {
+		return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, confun_id);
+	}
+	
+	/**
 	 * Agrega conductores
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -340,7 +349,4 @@ public class ManagerGestion{
 		}
 		return resp;
 	}
-	
-	
-
 }

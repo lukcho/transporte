@@ -31,8 +31,8 @@ public class TransSolicitud implements Serializable {
 	@Column(name="sol_fecha_aprobacion")
 	private Timestamp solFechaAprobacion;
 
-	@Column(name="sol_flexibilidad", columnDefinition="bpchar", length=1)
-	private String solFlexibilidad;
+	@Column(name="sol_flexibilidad")
+	private Boolean solFlexibilidad;
 
 	@Column(name="sol_hora_fin")
 	private Time solHoraFin;
@@ -112,11 +112,11 @@ public class TransSolicitud implements Serializable {
 		this.solFechaAprobacion = solFechaAprobacion;
 	}
 
-	public String getSolFlexibilidad() {
+	public Boolean getSolFlexibilidad() {
 		return this.solFlexibilidad;
 	}
 
-	public void setSolFlexibilidad(String solFlexibilidad) {
+	public void setSolFlexibilidad(Boolean solFlexibilidad) {
 		this.solFlexibilidad = solFlexibilidad;
 	}
 

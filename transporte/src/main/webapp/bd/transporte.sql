@@ -71,7 +71,7 @@ create table TRANS_VEHICULO (
 /* Table: TRAN_SOLICITUD                                        */
 /*==============================================================*/
 create table TRANS_SOLICITUD (
-   SOL_ID               INT4                 not null,
+   SOL_ID               INT4                 not null DEFAULT nextval('seq_trans_solicitud'::regclass),
    SOL_ID_SOLICITANTE   VARCHAR(20)          null,
    LUG_ID_ORIGEN        INT4                 null,
    LUG_ID_DESTINO       INT4                 null,
@@ -84,7 +84,7 @@ create table TRANS_SOLICITUD (
    SOL_MOTIVO           VARCHAR(255)         null,
    SOL_HORA_INICIO      TIME                 null,
    SOL_HORA_FIN         TIME                 null,
-   SOL_FLEXIBILIDAD     CHAR(1)              null,
+   SOL_FLEXIBILIDAD     BOOL                 null,
    SOL_OBSERVACION      VARCHAR(255)         null,
    SOL_ESTADO           CHAR(1)              null,
    constraint PK_TRAN_SOLICITUD primary key (SOL_ID)

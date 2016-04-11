@@ -13,6 +13,14 @@
 		<ui:define name="contenido">
 			<h:form>
 				<center><h1>Solicitudes</h1></center>
+				<b:row>
+					<b:column span="1">
+						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{solicitudBean.nuevoSolicitud()}" />
+					</b:column>
+					<b:column span="1">
+						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
+					</b:column>
+				</b:row>
 			</h:form>
 			<br/>
 		<h:form id="frm">
@@ -37,7 +45,7 @@
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<p:column headerText="SOLICITUD ID" width="70">
+					<p:column filterBy="#{sol.solIdSolicitante}" filterMatchMode="contains" headerText="SOLICITUD ID" width="70">
 						<h:outputText value="#{sol.solId}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{sol.solIdSolicitante}" filterMatchMode="contains"
@@ -45,28 +53,33 @@
 						<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
 					</p:column>
 					<p:column headerText="ORIGEN/DESTINO" width="100">
-						<h:outputText value="#{vehi.transLugare2.lugNombre} - #{vehi.transLugare1.lugNombre}"></h:outputText>
+						<h:outputText value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
 					</p:column>
 					<p:column headerText="HORA INICIO/FIN" width="100">
-						<h:outputText value="#{vehi.solHoraInicio} - #{vehi.solHoraFin}"></h:outputText>
+						<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
+						</h:outputText>
 					</p:column>
 					<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}" filterMatchMode="contains"
 						headerText="PLACA AUTO" width="70">
-						<h:outputText value="#{sol.transVehiculo.vehiNombre}"></h:outputText>
+						<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{sol.solPasajeros}" filterMatchMode="contains"
 						headerText="PASAJEROS" width="70">
 						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{sol.transConductore.condCedula}" filterMatchMode="contains"
-						headerText="PLACA AUTO" width="70">
-						<h:outputText value="#{sol.transConductore.condCedula}"></h:outputText>
+						headerText="CONDUCTOR" width="70">
+						<h:outputText value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 					</p:column>
 					<p:column headerText="FECHA" width="70">
-						<h:outputText value="#{vehi.solFecha}"></h:outputText>
+						<h:outputText value="#{sol.solFecha}">
+								<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="FECHA APROBACION" width="70">
-						<h:outputText value="#{vehi.solFechaAprobacion}"></h:outputText>
+						<h:outputText value="#{sol.solFechaAprobacion}">
+								<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
 					</p:column>
 					<p:column filterBy="#{sol.solEstado}" filterMatchMode="contains"
 						headerText="ESTADO" width="70">

@@ -73,7 +73,7 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,String sol_flexibilidad, String sol_observacion) throws Exception {
+	public void insertarSolicitud(Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		//sol.setSolIdSolicitante(solIdSolicitante);
 		sol.setTransLugare2(trans_lugori);
@@ -104,7 +104,7 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,String sol_flexibilidad, String sol_observacion, String sol_estado) throws Exception {
+	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion, String sol_estado) throws Exception {
 		TransSolicitud sol =  this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
@@ -299,4 +299,30 @@ public class ManagerSolicitud{
 		return trans_con;
 	}
 	
+	/**
+	 * metodo para asignar el conductorfunaiconario
+	 * 
+	 * @param u
+	 *            conductorfunionario a analizar
+	 * @return true o false
+	 */
+	public TransFuncionarioConductor asignarConductorfuncionario(String confun_id) {
+		try {
+			trans_fco = mGes.conductorfuncionarioByID(confun_id);
+		} catch (Exception e) {
+			// TODO Auto-generated prodch block
+			e.printStackTrace();
+		}
+		return trans_fco;
+	}
+	
+	/**
+	 * listar todos los conductores funcionarios
+	 * @param prod_id
+	 * @throws Exception
+	 */	
+	@SuppressWarnings("unchecked") 
+	public List<TransFuncionarioConductor> findAllConductFuncionarios() {
+		return mDAO.findAll(TransFuncionarioConductor.class);
+	}
 }

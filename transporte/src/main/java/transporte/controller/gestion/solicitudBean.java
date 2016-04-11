@@ -3,7 +3,10 @@ package transporte.controller.gestion;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -42,11 +45,11 @@ public class solicitudBean implements Serializable {
 	private Integer sol_id;
 	private Timestamp sol_fecha;
 	private Timestamp sol_fecha_aprobacion;
-	private Integer sol_pasajeros;
+	private String sol_pasajeros;
 	private String sol_motivo;
-	private Time sol_hora_inicio;
-	private Time sol_hora_fin;
-	private String sol_flexibilidad;
+	private Date sol_hora_inicio;
+	private Date sol_hora_fin;
+	private boolean sol_flexibilidad;
 	private String sol_observacion;
 	private String sol_estado;
 	private Integer sol_id_origen;
@@ -55,7 +58,6 @@ public class solicitudBean implements Serializable {
 	private String sol_vehi;
 	private String sol_conductor;
 	private String sol_usuario_cedula;
-	
 
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
@@ -63,28 +65,76 @@ public class solicitudBean implements Serializable {
 	private TransFuncionarioConductor fco_id;
 	private TransVehiculo vehi_idplaca;
 	private TransConductore cond_cedula;
-	
+
 	private TransSolicitud soli;
 
 	// mmostrar
 	private boolean edicion;
 	private boolean ediciontipo;
+	private boolean guardaredicion;
 
 	private List<TransSolicitud> listaSolicitudes;
+
+	// fechas
+	private Date date;
+	private Date fecha;
+	private Time horainiciotiemp;
+	private Time horafintiemp;
 
 	public solicitudBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		sol_hora_inicio = null;
+		sol_hora_fin = null;
 		sol_id = null;
-		sol_estado = "A";
-		sol_pasajeros = 1;
+		sol_estado = "P";
+		sol_flexibilidad=false;
+		sol_pasajeros = null;
 		edicion = false;
 		ediciontipo = false;
+		guardaredicion= true;
 		listaSolicitudes = managersol.findAllSolicitudes();
 	}
+
+	public Time getHorainiciotiemp() {
+		return horainiciotiemp;
+	}
 	
+	public boolean isGuardaredicion() {
+		return guardaredicion;
+	}
+
+	public void setGuardaredicion(boolean guardaredicion) {
+		this.guardaredicion = guardaredicion;
+	}
+
+	public void setHorainiciotiemp(Time horainiciotiemp) {
+		this.horainiciotiemp = horainiciotiemp;
+	}
+
+	public Time getHorafintiemp() {
+		return horafintiemp;
+	}
+
+	public void setHorafintiemp(Time horafintiemp) {
+		this.horafintiemp = horafintiemp;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public Date getDate() {
+		date = new Date();
+		return date;
+	}
+
 	public TransSolicitud getSoli() {
 		return soli;
 	}
@@ -165,11 +215,11 @@ public class solicitudBean implements Serializable {
 		this.sol_fecha_aprobacion = sol_fecha_aprobacion;
 	}
 
-	public Integer getSol_pasajeros() {
+	public String getSol_pasajeros() {
 		return sol_pasajeros;
 	}
-
-	public void setSol_pasajeros(Integer sol_pasajeros) {
+	
+	public void setSol_pasajeros(String sol_pasajeros) {
 		this.sol_pasajeros = sol_pasajeros;
 	}
 
@@ -181,27 +231,31 @@ public class solicitudBean implements Serializable {
 		this.sol_motivo = sol_motivo;
 	}
 
-	public Time getSol_hora_inicio() {
+	public Date getSol_hora_inicio() {
 		return sol_hora_inicio;
 	}
 
-	public void setSol_hora_inicio(Time sol_hora_inicio) {
+	public void setSol_hora_inicio(Date sol_hora_inicio) {
 		this.sol_hora_inicio = sol_hora_inicio;
 	}
 
-	public Time getSol_hora_fin() {
+	public Date getSol_hora_fin() {
 		return sol_hora_fin;
+	}
+
+	public void setSol_hora_fin(Date sol_hora_fin) {
+		this.sol_hora_fin = sol_hora_fin;
 	}
 
 	public void setSol_hora_fin(Time sol_hora_fin) {
 		this.sol_hora_fin = sol_hora_fin;
 	}
 
-	public String getSol_flexibilidad() {
+	public boolean isSol_flexibilidad() {
 		return sol_flexibilidad;
 	}
 
-	public void setSol_flexibilidad(String sol_flexibilidad) {
+	public void setSol_flexibilidad(boolean sol_flexibilidad) {
 		this.sol_flexibilidad = sol_flexibilidad;
 	}
 
@@ -303,31 +357,108 @@ public class solicitudBean implements Serializable {
 	public String crearSolicitud() {
 		String r = "";
 		try {
-			if (edicion) {
-				managersol.editarSolicitud(sol_id, sol_fecha, sol_pasajeros,
-						sol_motivo, sol_hora_inicio, sol_hora_fin,
+			setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
+			setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
+			sol_fecha = new Timestamp(fecha.getTime());
+			Integer pasajeros;
+			pasajeros = Integer.parseInt(sol_pasajeros);
+			System.out.println(sol_flexibilidad+""+sol_estado);
+			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Error..!!!",
+						"Verifique su horario "));
+			} else if (edicion) {
+				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
+						sol_motivo, horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion, sol_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r = "vehiculos?faces-redirect=true";
-			} else {
-				managersol.insertarSolicitud(sol_fecha, sol_pasajeros,
-						sol_motivo, sol_hora_inicio, sol_hora_fin,
+				sol_id = null;
+				date = new Date();
+				// sol_idsolicitante = sol.getSolicitante();
+				sol_usuario_cedula = null;
+				sol_id_origen = null;
+				sol_id_destino = null;
+				sol_fcoid = null;
+				sol_vehi = null;
+				sol_conductor = null;
+				sol_fecha = null;
+				sol_fecha_aprobacion = null;
+				sol_pasajeros = null;
+				sol_motivo = null;
+				sol_hora_inicio = null;
+				sol_hora_fin = null;
+				sol_flexibilidad = false;
+				sol_observacion = null;
+				sol_estado = "P";
+				edicion = true;
+				ediciontipo = false;
+				sol_hora_inicio = null;
+				sol_hora_fin = null;
+				horainiciotiemp = null;
+				horafintiemp = null;
+				guardaredicion = false;
+				getListaSolicitudes().clear();
+				getListaSolicitudes().addAll(managersol.findAllSolicitudes());
+				r = "solicitudes?faces-redirect=true";
+			} else {				
+				System.out.println(sol_fecha);
+				managersol.insertarSolicitud(sol_fecha, pasajeros,
+						sol_motivo, horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
-				r = "vehiculos?faces-redirect=true";
+				sol_id = null;
+				date = new Date();
+				// sol_idsolicitante = sol.getSolicitante();
+				sol_usuario_cedula = null;
+				sol_id_origen = null;
+				sol_id_destino = null;
+				sol_fcoid = null;
+				sol_vehi = null;
+				sol_conductor = null;
+				sol_fecha = null;
+				sol_fecha_aprobacion = null;
+				sol_pasajeros = null;
+				sol_motivo = null;
+				sol_hora_inicio = null;
+				sol_hora_fin = null;
+				sol_flexibilidad = false;
+				sol_observacion = null;
+				sol_estado = "P";
+				edicion = true;
+				ediciontipo = false;
+				sol_hora_inicio = null;
+				sol_hora_fin = null;
+				horainiciotiemp = null;
+				horafintiemp = null;
+				guardaredicion=false;
+				getListaSolicitudes().clear();
+				getListaSolicitudes().addAll(managersol.findAllSolicitudes());
+				r = "solicitudes?faces-redirect=true";
 
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehiculo", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+							"Error al crear solicitud", null));
 		}
 		return r;
+	}
+
+	/**
+	 * JAVA.DATE TO SQL.TIME
+	 * 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("deprecation")
+	public Time fechaAtiempo(Date fecha) {
+		DateFormat dateFormatH = new SimpleDateFormat("HH:mm");
+		String hora = dateFormatH.format(fecha).toString();
+		String[] array = hora.split(":");
+		Time resp = new Time(Integer.parseInt(array[0]),
+				Integer.parseInt(array[1]), 00);
+		return resp;
 	}
 
 	/**
@@ -346,17 +477,17 @@ public class solicitudBean implements Serializable {
 	 */
 	public String cargarSolicitud(TransSolicitud sol) {
 		try {
-			sol_id= sol.getSolId();
-//			sol_idsolicitante = sol.getSolicitante();
+			sol_id = sol.getSolId();
+			// sol_idsolicitante = sol.getSolicitante();
 			sol_usuario_cedula = sol.getSolIdSolicitante();
-			sol_id_origen  = sol.getTransLugare2().getLugId();
+			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
 			sol_conductor = sol.getTransConductore().getCondCedula();
-			sol_fecha = sol.getSolFecha();
+			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
-			sol_pasajeros = sol.getSolPasajeros();
+			sol_pasajeros = sol.getSolPasajeros().toString();
 			sol_motivo = sol.getSolMotivo();
 			sol_hora_inicio = sol.getSolHoraInicio();
 			sol_hora_fin = sol.getSolHoraFin();
@@ -365,6 +496,7 @@ public class solicitudBean implements Serializable {
 			sol_estado = sol.getSolEstado();
 			edicion = true;
 			ediciontipo = false;
+			guardaredicion=false;
 			return "nsolicitud?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -384,8 +516,8 @@ public class solicitudBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managersol.cambioEstadoSolicitud
-							(getSoli().getSolId())));
+					new FacesMessage("INFORMACION", managersol
+							.cambioEstadoSolicitud(getSoli().getSolId())));
 			getListaSolicitudes().clear();
 			getListaSolicitudes().addAll(managersol.findAllSolicitudes());
 		} catch (Exception e) {
@@ -433,12 +565,167 @@ public class solicitudBean implements Serializable {
 	 */
 	public List<SelectItem> getlistEstados() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
-		lista.add(new SelectItem(Funciones.estadoAprobado, Funciones.estadoAprobado
-				+ " : " + Funciones.valorEstadoAprobado));
+		lista.add(new SelectItem(Funciones.estadoAprobado,
+				Funciones.estadoAprobado + " : "
+						+ Funciones.valorEstadoAprobado));
 		lista.add(new SelectItem(Funciones.estadoRechazado,
 				Funciones.estadoRechazado + " : "
 						+ Funciones.valorEstadoRechazado));
 		return lista;
+	}
+
+	/**
+	 * metodo para mostrar los lugaresorigen en solicitud
+	 * 
+	 */
+	public List<SelectItem> getListaOrigen() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransLugare t : managergest.findAllLugares()) {
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+		}
+
+		return listadoSI;
+	}
+
+	/**
+	 * metodo para mostrar los lugaresdestino en solicitud
+	 * 
+	 */
+	public List<SelectItem> getListaDestino() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransLugare t : managergest.findAllLugares()) {
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+		}
+
+		return listadoSI;
+	}
+
+	/**
+	 * metodo para mostrar los conductores en solicitud
+	 * 
+	 */
+	public List<SelectItem> getListaConductor() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransConductore t : managergest.findAllConductores()) {
+			listadoSI.add(new SelectItem(t.getCondCedula(), t.getCondNombre()
+					+ " " + t.getCondApellido()));
+		}
+
+		return listadoSI;
+	}
+	
+	/**
+	 * metodo para mostrar los conductorefunacionario en solicitud
+	 * Me llaMO lkc ELECTROFLOGEAUR JAJAJ
+	 */
+	public List<SelectItem> getListaConductorfuncionario() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransFuncionarioConductor t : managersol.findAllConductFuncionarios()) {
+			listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
+					+ " " + t.getFcoGerencia()));
+		}
+
+		return listadoSI;
+	}
+	
+	/**
+	 * metodo para mostrar los vehiculos en solicitud
+	 * 
+	 */
+	public List<SelectItem> getListaVehiculo() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransVehiculo t : managergest.findAllVehiculos()) {
+			listadoSI.add(new SelectItem(t.getVehiIdplaca(), t.getVehiNombre()));
+		}
+
+		return listadoSI;
+	}
+
+	/**
+	 * metodo para asignar el condutor a solicitud
+	 * 
+	 */
+	public String asignarConductor() {
+		managersol.asignarConductor(sol_conductor);
+		return "";
+	}
+	
+	/**
+	 * metodo para asignar el condutorfuncionario a solicitud
+	 * 
+	 */
+	public String asignarConductorFuncionario() {
+		managersol.asignarConductorfuncionario(sol_conductor);
+		return "";
+	}
+
+	/**
+	 * metodo para asignar el lugarorigen a solicitud
+	 * 
+	 */
+	public String asignarLugarOrigen() {
+		managersol.asignarlugarini(sol_id_origen);
+		return "";
+	}
+
+	/**
+	 * metodo para asignar el lugarorigen a solicitud
+	 * 
+	 */
+	public String asignarLugarDestino() {
+		managersol.asignarlugarfin(sol_id_destino);
+		return "";
+	}
+	
+	/**
+	 * metodo para asignar el vehiculo a solicitud
+	 * 
+	 */
+	public String asignarVehiculo() {
+		managersol.asignarvehiculo(sol_vehi);
+		return "";
+	}
+	
+	/**
+	 * limpia la informacion de horario
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String volverSolicitud() throws Exception {
+		// limpiar datos
+		sol_id = null;
+		date = new Date();
+		// sol_idsolicitante = sol.getSolicitante();
+		sol_usuario_cedula = null;
+		sol_id_origen = null;
+		sol_id_destino = null;
+		sol_fcoid = null;
+		sol_vehi = null;
+		sol_conductor = null;
+		sol_fecha = null;
+		sol_fecha_aprobacion = null;
+		sol_pasajeros = null;
+		sol_motivo = null;
+		sol_hora_inicio = null;
+		sol_hora_fin = null;
+		sol_flexibilidad = false;
+		sol_observacion = null;
+		sol_estado = "P";
+		edicion = true;
+		ediciontipo = false;
+		sol_hora_inicio = null;
+		sol_hora_fin = null;
+		horainiciotiemp = null;
+		horafintiemp = null;
+		getListaSolicitudes().clear();
+		getListaSolicitudes().addAll(managersol.findAllSolicitudes());
+		return "solicitudes?faces-redirect=true";
 	}
 
 	/**
@@ -447,7 +734,34 @@ public class solicitudBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoSolicitud() {
+		sol_id = null;
+		date = new Date();
+		fecha=null;
+		// sol_idsolicitante = sol.getSolicitante();
+		sol_usuario_cedula = null;
+		sol_id_origen = null;
+		sol_id_destino = null;
+		sol_fcoid = null;
+		sol_vehi = null;
+		sol_conductor = null;
+		sol_fecha = null;
+		sol_fecha_aprobacion = null;
+		sol_pasajeros = null;
+		sol_motivo = null;
+		sol_hora_inicio = null;
+		sol_hora_fin = null;
+		sol_flexibilidad = false;
+		sol_observacion = null;
+		sol_estado = "P";
+		edicion = true;
+		ediciontipo = false;
+		sol_hora_inicio = null;
+		sol_hora_fin = null;
+		horainiciotiemp = null;
+		horafintiemp = null;
 		edicion = false;
+		date = new Date();
 		return "nsolicitud?faces-redirect=true";
 	}
+
 }
