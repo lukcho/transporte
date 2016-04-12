@@ -50,7 +50,29 @@ public class ManagerSolicitud{
 	public List<TransSolicitud> findAllSolicitudes() {
 		return mDAO.findAll(TransSolicitud.class);
 	}
+	
+	/**
+	 * listar todos los eventos en ordenados aprobadosrechazados
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllSolicitudesOrdenadosaaprorecha() {
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado not like 'P' ", " o.solFecha desc ");
+	}
 
+	/**
+	 * listar todos los eventos en ordenados pendientes
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllSolicitudesOrdenadosapend() {
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc ");
+	}
+	
 	/**
 	 * listar todos los eventos en ordenados
 	 * 
@@ -58,8 +80,8 @@ public class ManagerSolicitud{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TransSolicitud> findAllSolicitudesOrdenadosa() {
-		return mDAO.findWhere(TransSolicitud.class, "1=1", "and o.solFecha desc ");
+	public List<TransSolicitud> findAllSolicitudesOrdenadosapendiente() {
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc ");
 	}
 	
 	/**

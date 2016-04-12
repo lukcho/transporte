@@ -73,8 +73,10 @@ public class solicitudaBean implements Serializable {
 	private boolean ediciontipo;
 	private boolean guardaredicion;
 
-	private List<TransSolicitud> listaSolicitudes;
+	private List<TransSolicitud> listaSolicitudespend;
+	private List<TransSolicitud> listaSolicitudaprorecha;
 
+	
 	// fechas
 	private Date date;
 	private Date fecha;
@@ -95,7 +97,17 @@ public class solicitudaBean implements Serializable {
 		edicion = false;
 		ediciontipo = false;
 		guardaredicion= true;
-		listaSolicitudes = managersol.findAllSolicitudesOrdenadosa();
+		listaSolicitudespend = managersol.findAllSolicitudesOrdenadosapendiente();
+		listaSolicitudaprorecha = managersol.findAllSolicitudesOrdenadosaaprorecha();
+	}
+	
+	public List<TransSolicitud> getListaSolicitudaprorecha() {
+		return listaSolicitudaprorecha;
+	}
+
+	public void setListaSolicitudaprorecha(
+			List<TransSolicitud> listaSolicitudaprorecha) {
+		this.listaSolicitudaprorecha = listaSolicitudaprorecha;
 	}
 
 	public Time getHorainiciotiemp() {
@@ -315,12 +327,13 @@ public class solicitudaBean implements Serializable {
 		this.cond_cedula = cond_cedula;
 	}
 
-	public List<TransSolicitud> getListaSolicitudes() {
-		return listaSolicitudes;
+	public List<TransSolicitud> getListaSolicitudespend() {
+		return listaSolicitudespend;
 	}
-
-	public void setListaSolicitudes(List<TransSolicitud> listaSolicitudes) {
-		this.listaSolicitudes = listaSolicitudes;
+	
+	public void setListaSolicitudespend(
+			List<TransSolicitud> listaSolicitudespend) {
+		this.listaSolicitudespend = listaSolicitudespend;
 	}
 
 	public boolean isEdicion() {
@@ -397,8 +410,10 @@ public class solicitudaBean implements Serializable {
 				horainiciotiemp = null;
 				horafintiemp = null;
 				guardaredicion = false;
-				getListaSolicitudes().clear();
-				getListaSolicitudes().addAll(managersol.findAllSolicitudesOrdenadosa());
+				getListaSolicitudespend().clear();
+				getListaSolicitudespend().addAll(managersol.findAllSolicitudesOrdenadosapendiente());
+				getListaSolicitudaprorecha().clear();
+				getListaSolicitudaprorecha().addAll(managersol.findAllSolicitudesOrdenadosaaprorecha());
 				r = "solicitudesa?faces-redirect=true";
 			} else {				
 				System.out.println(sol_fecha);
@@ -431,8 +446,10 @@ public class solicitudaBean implements Serializable {
 				horainiciotiemp = null;
 				horafintiemp = null;
 				guardaredicion=false;
-				getListaSolicitudes().clear();
-				getListaSolicitudes().addAll(managersol.findAllSolicitudesOrdenadosa());
+				getListaSolicitudespend().clear();
+				getListaSolicitudespend().addAll(managersol.findAllSolicitudesOrdenadosapendiente());
+				getListaSolicitudaprorecha().clear();
+				getListaSolicitudaprorecha().addAll(managersol.findAllSolicitudesOrdenadosaaprorecha());
 				r = "solicitudesa?faces-redirect=true";
 
 			}
@@ -498,7 +515,7 @@ public class solicitudaBean implements Serializable {
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion=false;
-			return "nsolicitud?faces-redirect=true";
+			return "nsolicituda?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -519,8 +536,8 @@ public class solicitudaBean implements Serializable {
 					null,
 					new FacesMessage("INFORMACION", managersol
 							.cambioEstadoSolicitud(getSoli().getSolId())));
-			getListaSolicitudes().clear();
-			getListaSolicitudes().addAll(managersol.findAllSolicitudesOrdenadosa());
+			getListaSolicitudespend().clear();
+			getListaSolicitudespend().addAll(managersol.findAllSolicitudesOrdenadosapendiente());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -541,7 +558,7 @@ public class solicitudaBean implements Serializable {
 	public boolean averiguarSoliid(Integer soli_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TransSolicitud> soli = managersol.findAllSolicitudesOrdenadosa();
+		List<TransSolicitud> soli = managersol.findAllSolicitudesOrdenadosapendiente();
 		for (TransSolicitud y : soli) {
 			if (y.getSolId().equals(soli_id)) {
 				System.out.println("si entra1");
@@ -723,8 +740,10 @@ public class solicitudaBean implements Serializable {
 		sol_hora_fin = null;
 		horainiciotiemp = null;
 		horafintiemp = null;
-		getListaSolicitudes().clear();
-		getListaSolicitudes().addAll(managersol.findAllSolicitudesOrdenadosa());
+		getListaSolicitudespend().clear();
+		getListaSolicitudespend().addAll(managersol.findAllSolicitudesOrdenadosapendiente());
+		getListaSolicitudaprorecha().clear();
+		getListaSolicitudaprorecha().addAll(managersol.findAllSolicitudesOrdenadosaaprorecha());
 		return "solicitudesa?faces-redirect=true";
 	}
 
@@ -761,7 +780,7 @@ public class solicitudaBean implements Serializable {
 		horafintiemp = null;
 		edicion = false;
 		date = new Date();
-		return "nsolicitud?faces-redirect=true";
+		return "nsolicituda?faces-redirect=true";
 	}
 	
 	/**
@@ -770,7 +789,7 @@ public class solicitudaBean implements Serializable {
 	 * @return
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
-		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenadosa();
+		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenadosapendiente();
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
 		for (TransSolicitud t : a) {
 			l1.add(t);
@@ -785,7 +804,7 @@ public class solicitudaBean implements Serializable {
 	 * @return
 	 */
 	public List<TransSolicitud> getListVehiculosDisponible() {
-		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenadosa();
+		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenadosapendiente();
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
 		for (TransSolicitud t : a) {
 			if (t.getSolEstado().equals("A") && t.getSolFecha().equals(sol_fecha)) {

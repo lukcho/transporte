@@ -1,100 +1,190 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
 
-	<ui:composition template="template.xhtml">
-		<ui:define name="titulo">
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
             Solicitudes
         </ui:define>
-		<ui:define name="contenido">
-			<h:form>
-				<center><h1>Solicitudes</h1></center>
-				<b:row>
-					<b:column span="1">
-						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{solicitudBean.nuevoSolicitud()}" />
-					</b:column>
-					<b:column span="1">
-						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
-					</b:column>
-				</b:row>
-			</h:form>
-			<br/>
+	<ui:define name="contenido">
+		<h:form>
+			<center>
+				<h1>Solicitudes</h1>
+			</center>
+			<b:row>
+				<b:column span="1">
+					<b:commandButton value="Nuevo" iconAwesome="file-o"
+						action="#{solicitudaBean.nuevoSolicitud()}" />
+				</b:column>
+				<b:column span="1">
+					<b:commandButton value="Volver" iconAwesome="angle-left"
+						action="index?faces-redirect=true" />
+				</b:column>
+			</b:row>
+		</h:form>
+		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de Solicitudes" look="primary">
-				<p:dataTable id="tbb" value="#{solicitudBean.listaSolicitudes}"
-					reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
-					paginator="true"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="OPCIONES" width="50">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{solicitudBean.cargarSolicitud(sol)}">
-							<p:tooltip id="toolTipTrack1" for="btnE"
-								value="Bot&oacute;n para modificar la soliciud"
-								trackMouse="true" />
-						</p:commandButton>
+			<b:tabView
+				contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+				<b:tab title="Listado de Solicitudes Pendientes">
+					<p:growl id="messages" showDetail="true" />
+					<b:panel title="Listado de Solicitudes" look="primary">
+						<p:dataTable id="tbb" value="#{solicitudaBean.listaSolicitudDesc}"
+							reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="OPCIONES" width="50">
+								<p:commandButton id="btnE" icon="ui-icon-pencil"
+									action="#{solicitudaBean.cargarSolicitud()}">
+									<p:tooltip id="toolTipTrack1" for="btnE"
+										value="Bot&oacute;n para modificar la soliciud"
+										trackMouse="true" />
+								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							action="#{solicitudBean.cambiarEstadoSoli(sol)}">
-							<p:tooltip id="toolTipTrack2" for="trackcamb"
-								value="Bot&oacute;n para cambiar el estado de la solicitud"
-								trackMouse="true" />
-						</p:commandButton>
-					</p:column>
-					<p:column filterBy="#{sol.solIdSolicitante}" filterMatchMode="contains" headerText="SOLICITUD ID" width="70">
-						<h:outputText value="#{sol.solId}"></h:outputText>
-					</p:column>
-					<p:column filterBy="#{sol.solIdSolicitante}" filterMatchMode="contains"
-						headerText="NOMBRE SOLICITANTE" width="70">
-						<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
-					</p:column>
-					<p:column headerText="ORIGEN/DESTINO" width="100">
-						<h:outputText value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
-					</p:column>
-					<p:column headerText="HORA INICIO/FIN" width="100">
-						<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
-						</h:outputText>
-					</p:column>
-					<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}" filterMatchMode="contains"
-						headerText="PLACA AUTO" width="70">
-						<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
-					</p:column>
-					<p:column filterBy="#{sol.solPasajeros}" filterMatchMode="contains"
-						headerText="PASAJEROS" width="70">
-						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
-					</p:column>
-					<p:column filterBy="#{sol.transConductore.condCedula}" filterMatchMode="contains"
-						headerText="CONDUCTOR" width="70">
-						<h:outputText value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
-					</p:column>
-					<p:column headerText="FECHA" width="70">
-						<h:outputText value="#{sol.solFecha}">
-								<f:convertDateTime pattern="yyyy/MM/dd" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="FECHA APROBACION" width="70">
-						<h:outputText value="#{sol.solFechaAprobacion}">
-								<f:convertDateTime pattern="yyyy/MM/dd" />
-						</h:outputText>
-					</p:column>
-					<p:column filterBy="#{sol.solEstado}" filterMatchMode="contains"
-						headerText="ESTADO" width="70">
-						<h:outputText value="#{sol.solEstado}"></h:outputText>
-					</p:column>
-				</p:dataTable>
-			</b:panel>
+							<p:commandButton id="trackcamb" icon="ui-icon-close"
+									action="#{solicitudaBean.cambiarEstadoSoli(sol)}">
+									<p:tooltip id="toolTipTrack2" for="trackcamb"
+										value="Bot&oacute;n para negar la solicitud"
+										trackMouse="true" />
+								</p:commandButton>
+							</p:column>
+							<p:column filterBy="#{sol.solIdSolicitante}"
+								filterMatchMode="contains" headerText="SOLICITUD ID" width="70">
+								<h:outputText value="#{sol.solId}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.solIdSolicitante}"
+								filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
+								width="70">
+								<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
+							</p:column>
+							<p:column headerText="ORIGEN/DESTINO" width="100">
+								<h:outputText
+									value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
+							</p:column>
+							<p:column headerText="HORA INICIO/FIN" width="100">
+								<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
+								</h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}"
+								filterMatchMode="contains" headerText="PLACA AUTO" width="70">
+								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.solPasajeros}"
+								filterMatchMode="contains" headerText="PASAJEROS" width="70">
+								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.transConductore.condCedula}"
+								filterMatchMode="contains" headerText="CONDUCTOR" width="70">
+								<h:outputText
+									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+							</p:column>
+							<p:column headerText="FECHA" width="70">
+								<h:outputText value="#{sol.solFecha}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="FECHA APROBACION" width="70">
+								<h:outputText value="#{sol.solFechaAprobacion}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.solEstado}" filterMatchMode="contains"
+								headerText="ESTADO" width="70">
+								<h:outputText value="#{sol.solEstado}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</b:tab>
+			<p:confirmDialog header="Confirmación"
+				message="Está seguro de cambiar el estado?" closable="false"
+				showEffect="fade" hideEffect="explode" widgetVar="ce">
+				<h:form>
+					<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check"
+						action="#{solicitudabean.cambiarEstadoSoli()}"
+						oncomplete="PF('ce').hide();" update="frm" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('ce').hide();" />
+				</h:form>
+			</p:confirmDialog>
+				<b:tab title="Listado de Solicitudes Aprobadas/Rechazadas/Anuladas">
+					<p:growl id="messages1" showDetail="true" />
+					<b:panel title="Listado de Solicitudes Aprobadas/Rechazadas/Anuladas"
+						look="primary">
+						<p:dataTable id="tbb1"
+							value="#{solicitudaBean.listaSolicitudaprorecha}" reflow="true"
+							var="sol1" rows="8" emptyMessage="Sin Datos" paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="OPCIONES" width="50">
+								<p:commandButton id="btnE" icon="ui-icon-pencil"
+									action="#{solicitudabean.cargarSolicitud(sol1)}">
+									<p:tooltip id="toolTipTrack1" for="btnE"
+										value="Bot&oacute;n para modificar la soliciud"
+										trackMouse="true" />
+								</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="trackcamb" icon="ui-icon-close"
+									action="#{solicitudabean.cambiarEstadoSoli(sol1)}">
+									<p:tooltip id="toolTipTrack2" for="trackcamb"
+										value="Bot&oacute;n para cambiar el estado de la solicitud"
+										trackMouse="true" />
+								</p:commandButton>
+							</p:column>
+							<p:column headerText="SOLICITUD NRO." width="80">
+								<h:outputText value="#{sol1.solId}"></h:outputText>
+							</p:column>
+							<p:column headerText="ORIGEN/DESTINO" width="120">
+								<h:outputText
+									value="#{sol1.transLugare2.lugNombre} - #{sol1.transLugare1.lugNombre}"></h:outputText>
+							</p:column>
+							<p:column headerText="FECHA" width="70">
+								<h:outputText value="#{sol1.solFecha}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="HORA INICIO/FIN" width="100">
+								<h:outputText value="#{sol1.solHoraInicio} - #{sol1.solHoraFin}">
+								</h:outputText>
+							</p:column>
+							<p:column headerText="PLACA AUTO" width="100">
+								<h:outputText value="#{sol1.transVehiculo.vehiIdplaca}"></h:outputText>
+							</p:column>
+							<p:column headerText="PASAJEROS" width="100">
+								<h:outputText value="#{sol1.solPasajeros}"></h:outputText>
+							</p:column>
+							<p:column headerText="CONDUCTOR" width="100">
+								<h:outputText
+									value="#{sol1.transConductore.condNombre} #{sol1.transConductore.condApellido}"></h:outputText>
+							</p:column>
+							<p:column headerText="FUNCIONARIO CON." width="100">
+								<h:outputText
+									value="#{sol1.transFuncionarioConductor.fcoNombres}"></h:outputText>
+							</p:column>
+							<p:column headerText="FECHA APROBACION" width="100">
+								<h:outputText value="#{sol1.solFechaAprobacion}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol1.solEstado}" filterMatchMode="contains"
+								headerText="ESTADO" width="100">
+								<h:outputText value="#{sol1.solEstado}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</b:tab>
+			</b:tabView>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
 			message="Está seguro de cambiar el estado?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check"
-					action="#{solicitudBean.cambiarEstadoSoli()}"
+					icon="ui-icon-check" action="#{solicitudabean.cambiarEstadoSoli()}"
 					oncomplete="PF('ce').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -102,5 +192,5 @@
 			</h:form>
 		</p:confirmDialog>
 	</ui:define>
-	</ui:composition>
+</ui:composition>
 </html>
