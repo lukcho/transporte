@@ -52,6 +52,39 @@ public class ManagerSolicitud{
 	}
 
 	/**
+	 * listar todos los eventos en ordenados
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllSolicitudesOrdenadosa() {
+		return mDAO.findWhere(TransSolicitud.class, "1=1", "and o.solFecha desc ");
+	}
+	
+	/**
+	 * listar todos los eventos en ordenados
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllSolicitudesOrdenados(String sol_idsolicitante) {
+		return mDAO.findWhere(TransSolicitud.class, " o.solIdSolicitante = '"+sol_idsolicitante+"' ", " o.solFecha desc ");
+	}
+	
+	/**
+	 * listar todos los eventos en ordenados
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllVehiculosDisponibles() {
+		return mDAO.findWhere(TransSolicitud.class, "1=1", "o.solFecha desc");
+	}
+
+	/**
 	 * buscar solicitudes por ID
 	 * @param prod_id
 	 * @throws Exception
@@ -79,7 +112,9 @@ public class ManagerSolicitud{
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
 		sol.setTransFuncionarioConductor(trans_fco);
+		asignarvehiculo("Ninguno");
 		sol.setTransVehiculo(trans_vehi);
+		asignarConductor("Ninguno");
 		sol.setTransConductore(trans_con);
 		sol.setSolFecha(sol_fecha);
 		sol.setSolPasajeros(sol_pasajeros);
@@ -201,16 +236,11 @@ public class ManagerSolicitud{
 		TransSolicitud sol = solicitudByID(sol_id);						
 		
 		if(sol.getSolEstado().equals("P")){
-			sol.setSolEstado("A");
+			sol.setSolEstado("N");
 			h="Estado Modificado";
 			}
-		else if(sol.getSolEstado().equals("R")){
-			sol.setSolEstado("A");
-			h="Estado Modificado";
-			}
-		else if(sol.getSolEstado().equals("A")){
-			sol.setSolEstado("R");
-			h="Estado Modificado";
+		else if(sol.getSolEstado().equals("N")){
+			h="Ya está anulada la solicitud";
 			}
 		mDAO.actualizar(sol);
 		return h;

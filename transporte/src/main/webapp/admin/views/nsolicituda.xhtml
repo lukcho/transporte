@@ -75,7 +75,7 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini"
+								<p:calendar id="horaini" minMinute="0" maxMinute="0"
 									value="#{solicitudBean.sol_hora_inicio}" pattern="HH:mm"
 									required="true" requiredMessage="Requerido Hora Inicio"
 									timeOnly="true">
@@ -98,7 +98,7 @@
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
 								<p:calendar id="horafin" value="#{solicitudBean.sol_hora_fin}"
-									pattern="HH:mm" required="true"
+									pattern="HH:mm" required="true" minMinute="0" maxMinute="0"
 									requiredMessage="Requerido Hora Inicio" timeOnly="true">
 								</p:calendar>
 							</f:facet>
