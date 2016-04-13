@@ -75,6 +75,7 @@ public class solicitudaBean implements Serializable {
 
 	private List<TransSolicitud> listaSolicitudespend;
 	private List<TransSolicitud> listaSolicitudaprorecha;
+	private List<TransSolicitud> listaVehiculoCond;
 
 	
 	// fechas
@@ -82,6 +83,9 @@ public class solicitudaBean implements Serializable {
 	private Date fecha;
 	private Time horainiciotiemp;
 	private Time horafintiemp;
+	
+	private Date fi;
+	private Date ff;
 	
 	//flexibilidad cambio hora
 	private boolean horamostrar;
@@ -104,10 +108,36 @@ public class solicitudaBean implements Serializable {
 		horamostrar = false;
 		ediciontipo = false;
 		guardaredicion= true;
+		fi = new Date();
+		ff = new Date();
 		listaSolicitudespend = managersol.findAllSolicitudesOrdenadosapendiente();
 		listaSolicitudaprorecha = managersol.findAllSolicitudesOrdenadosaaprorecha();
+		listaVehiculoCond = managersol.findAllVehiculosfechacond(sol_vehi, new Timestamp(fi.getTime()),new Timestamp(ff.getTime()));;
 	}
 	
+	public Date getFi() {
+		return fi;
+	}
+	public void setFi(Date fi) {
+		this.fi = fi;
+	}
+
+	public Date getFf() {
+		return ff;
+	}
+
+	public void setFf(Date ff) {
+		this.ff = ff;
+	}
+	
+	public List<TransSolicitud> getListaVehiculoCond() {
+		return listaVehiculoCond;
+	}
+
+	public void setListaVehiculoCond(List<TransSolicitud> listaVehiculoCond) {
+		this.listaVehiculoCond = listaVehiculoCond;
+	}
+
 	public List<TransSolicitud> getListaSolicitudaprorecha() {
 		return listaSolicitudaprorecha;
 	}
@@ -741,6 +771,16 @@ public class solicitudaBean implements Serializable {
 	}
 	
 	/**
+	 * metodo para reporte del vehiculo
+	 * 
+	 */
+	public String reporteVehiculoConductor() {
+		getListaVehiculoCond().clear();
+		getListaVehiculoCond().addAll(managersol.findAllVehiculosfechacond(sol_vehi, new Timestamp(fi.getTime()),new Timestamp(ff.getTime())));
+		return "";
+	}
+	
+	/**
 	 * limpia la informacion de horario
 	 * 
 	 * @return
@@ -858,6 +898,23 @@ public class solicitudaBean implements Serializable {
 			if (t.getSolEstado().equals("A") && t.getSolFecha().equals(sol_fecha)) {
 				l1.add(t);
 			}
+		}
+		return l1;
+	}
+	
+	/**
+	 * metodo para listar reporte vahiculo conductor
+	 * 
+	 * @return
+	 */
+	public List<TransSolicitud> getListavehiculoconduct() {
+		getListaVehiculoCond().clear();
+		getListaVehiculoCond().addAll(managersol.findAllVehiculosfechacond(sol_vehi, new Timestamp(fi.getTime()),new Timestamp(ff.getTime())));
+		List<TransSolicitud> a = managersol.findAllVehiculosfechacond(sol_vehi, new Timestamp(fi.getTime()),new Timestamp(ff.getTime()));
+		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
+		for (TransSolicitud t : a) {
+			l1.add(t);
+
 		}
 		return l1;
 	}

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+           Reporte Vehículo/Conductor
+        </ui:define>
+	<ui:define name="contenido">
+		<center>
+			<h1>Reporte Vehículo/Conductor</h1>
+		</center>
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="true" />
+			<b:panel title="Crear Nueva Solicitud" look="primary">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Fecha Inicio: " />
+					</b:column>
+					<b:column span="4">
+						<p:calendar required="true" mode="popup"
+							requiredMessage="Requerido Fecha Inicio" id="fechai"
+							value="#{solicitudaBean.fi}" pattern="yyyy/MM/dd" mask="true">
+							<p:ajax event="dateSelect" update="frm"></p:ajax>
+						</p:calendar>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Fecha Fin: " />
+					</b:column>
+					<p:column span="4">
+						<p:calendar required="true" mode="popup"
+							requiredMessage="Requerido Fecha Fin" id="fechaf"
+							value="#{solicitudaBean.ff}" pattern="yyyy/MM/dd" mask="true">
+							<p:ajax event="dateSelect" update="frm"></p:ajax>
+						</p:calendar>
+					</p:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Vehículo: " />
+					</b:column>
+					<b:column span="4">
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar5" required="true"
+								requiredMessage="Requerido Vehículo" styleClass="form-control"
+								value="#{solicitudaBean.sol_vehi}">
+								<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
+								<f:selectItems value="#{solicitudaBean.listaVehiculo}"  />
+								<f:ajax  listener="#{solicitudaBean.reporteVehiculoConductor}"  render="frm"/>
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</b:column>
+				</b:row>
+			</b:panel>
+			
+			<h:form id="frm">
+					<p:growl id="messages" showDetail="true" />
+					<b:panel title="Listado de Vehículos por Conductor" look="primary">
+						<p:dataTable id="tbb"
+							value="#{solicitudaBean.listavehiculoconduct}" reflow="true"
+							var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="FECHA" width="70">
+								<h:outputText value="#{sol.solFecha}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}"
+								filterMatchMode="contains" headerText="PLACA AUTO" width="70">
+								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.transConductore.condCedula}"
+								filterMatchMode="contains" headerText="CONDUCTOR" width="70">
+								<h:outputText
+									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.solIdSolicitante}"
+								filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
+								width="70">
+								<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
+							</p:column>
+							<p:column headerText="ORIGEN/DESTINO" width="100">
+								<h:outputText
+									value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
+							</p:column>
+							<p:column headerText="HORA INICIO/FIN" width="100">
+								<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+		</h:form>
+		</h:form>
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

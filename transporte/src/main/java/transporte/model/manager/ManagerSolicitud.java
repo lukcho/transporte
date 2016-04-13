@@ -108,7 +108,7 @@ public class ManagerSolicitud{
 	public List<TransSolicitud> findAllVehiculosOcu(String placa, Timestamp fecha) {
 		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and o.solFecha = '" +fecha+ "' ", " o.solFecha desc ");
 	}
-	
+
 	/**
 	 * listar todos los eventos en ordenados
 	 * 
@@ -127,6 +127,17 @@ public class ManagerSolicitud{
 	 */
 	public TransSolicitud solicitudByID(Integer vehi_id) throws Exception {
 		return (TransSolicitud) mDAO.findById(TransSolicitud.class, vehi_id);
+	}
+	
+	/**
+	 * listar todos los vehiculos con en la fecha 
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllVehiculosfechacond(String placa, Timestamp fechai,Timestamp fechaf) {
+		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and  o.solFecha between '" +fechai+ "' and  '" +fechaf+ "'", " o.solFecha desc ");
 	}
 	
 	/**
