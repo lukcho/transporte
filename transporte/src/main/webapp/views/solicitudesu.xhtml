@@ -64,18 +64,17 @@
 						<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
 						</h:outputText>
 					</p:column>
-					<p:column  headerText="PLACA AUTO" width="100">
+					<p:column headerText="PLACA AUTO" width="100">
 						<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
-					</p:column>
-					<p:column headerText="PASAJEROS" width="100">
-						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 					</p:column>
 					<p:column headerText="CONDUCTOR" width="100">
 						<h:outputText
 							value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 					</p:column>
-					<p:column headerText="FUNCIONARIO CON."
-						width="100">
+					<p:column headerText="PASAJEROS" width="100">
+						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
+					</p:column>
+					<p:column headerText="FUNCIONARIO CON." width="100">
 						<h:outputText value="#{sol.transFuncionarioConductor.fcoNombres}"></h:outputText>
 					</p:column>
 					<p:column headerText="FECHA APROBACION" width="100">

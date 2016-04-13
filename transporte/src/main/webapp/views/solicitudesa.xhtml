@@ -73,14 +73,14 @@
 								filterMatchMode="contains" headerText="PLACA AUTO" width="70">
 								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
 							</p:column>
-							<p:column filterBy="#{sol.solPasajeros}"
-								filterMatchMode="contains" headerText="PASAJEROS" width="70">
-								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
-							</p:column>
 							<p:column filterBy="#{sol.transConductore.condCedula}"
 								filterMatchMode="contains" headerText="CONDUCTOR" width="70">
 								<h:outputText
 									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+							</p:column>
+							<p:column filterBy="#{sol.solPasajeros}"
+								filterMatchMode="contains" headerText="PASAJEROS" width="70">
+								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 							</p:column>
 							<p:column headerText="FECHA" width="70">
 								<h:outputText value="#{sol.solFecha}">

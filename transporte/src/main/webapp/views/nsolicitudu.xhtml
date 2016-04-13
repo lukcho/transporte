@@ -36,10 +36,11 @@
 						<h:outputLabel value="Lukcho correa " />
 						<h:outputLabel value="José Manuel Vega" />
 					</b:column>
+					<b:column span="1"></b:column>
 					<b:column span="2">
 						<h:outputLabel value="Pasajeros:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<b:inputText value="#{solicituduBean.sol_pasajeros}"
 							disabled="#{solicituduBean.edicion}" required="true"
 							requiredMessage="Campo pasajeros requerido" maxlength="10"
@@ -52,7 +53,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha de petición:* " />
 					</b:column>
-					<b:column span="2">
+					<b:column span="3">
 						<p:calendar required="true" mindate="#{solicituduBean.date}"
 							disabled="#{solicituduBean.edicion}" label="Hora Fin"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
@@ -63,7 +64,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Motivo:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<b:inputTextarea value="#{solicituduBean.sol_motivo}"
 							disabled="#{solicituduBean.edicion}" required="true"
 							requiredMessage="Campo motivo requerido" maxlength="255"
@@ -125,13 +126,13 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="4">
+					<b:column span="2">
 						<b:selectBooleanCheckbox
 							value="#{solicituduBean.sol_flexibilidad}"
 							disabled="#{solicituduBean.edicion}"
 							caption="Flexibilidad de cambio de hora" />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:outputLabel value="Funcionario Conductor: " />
 						<h:panelGroup>
 							<h:selectOneMenu id="trackseleccionar7" required="true"

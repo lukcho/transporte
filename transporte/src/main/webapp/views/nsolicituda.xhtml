@@ -25,10 +25,11 @@
 						<h:outputLabel value="Lukcho correa " />
 						<h:outputLabel value="José Manuel Vega" />
 					</b:column>
+					<b:column span="1"></b:column>
 					<b:column span="2">
 						<h:outputLabel value="Pasajeros:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<b:inputText value="#{solicitudaBean.sol_pasajeros}"
 							required="true" requiredMessage="Campo pasajeros requerido"
 							maxlength="10"
@@ -41,17 +42,17 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha de petición:* " />
 					</b:column>
-					<b:column span="2">
+					<b:column span="3">
 						<p:calendar required="true" mindate="#{solicitudaBean.date}"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
 							value="#{solicitudaBean.fecha}" pattern="yyyy/MM/dd" mask="true">
-							<p:ajax event="dateSelect" update="frm messages"></p:ajax>
+							<p:ajax event="dateSelect" render="frm" update="frm messages"></p:ajax>
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
 						<h:outputLabel value="Motivo:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<b:inputTextarea value="#{solicitudaBean.sol_motivo}"
 							required="true" requiredMessage="Campo motivo requerido"
 							maxlength="255"
@@ -110,12 +111,12 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="4">
+					<b:column span="2">
 						<b:selectBooleanCheckbox
 							value="#{solicitudaBean.sol_flexibilidad}"
 							caption="Flexibilidad de cambio de hora" />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:outputLabel value="Funcionario Conductor:* " />
 						<h:panelGroup>
 							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"
@@ -129,10 +130,8 @@
 							</h:selectOneMenu>
 						</h:panelGroup>
 					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="4">
-						<b:thumbnail tooltip="Asignar Vehículo"
+					<b:column span="5" >
+						<b:thumbnail tooltip="Asignar Vehículo" tooltip-position="right"
 							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
 								<h:outputLabel value="Vehículo:* " />
@@ -142,7 +141,7 @@
 										value="#{solicitudaBean.sol_vehi}">
 										<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
-										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}" update="frm messages" />
+										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}" render="frm" update="frm messages" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<h:outputLabel value="Conductor:* " />
