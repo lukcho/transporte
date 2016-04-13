@@ -8,11 +8,11 @@
 
 	<ui:composition template="template.xhtml">
 		<ui:define name="titulo">
-            Vehiculos
+            Veh&iacute;culos
         </ui:define>
 		<ui:define name="contenido">
 			<h:form>
-				<center><h1>Vehiculos</h1></center>
+				<center><h1> Gest&iacute;on de Veh&iacute;culos</h1></center>
 				<b:row>
 					<b:column span="1">
 						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{vehiculoBean.nuevoVehiculo()}" />
@@ -25,7 +25,7 @@
 			<br/>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de vehiculos" look="primary">
+			<b:panel title="Listado de Veh&iacute;culos" look="primary">
 				<p:dataTable id="tbb" value="#{vehiculoBean.listaVehiculo}"
 					reflow="true" var="vehi" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
@@ -34,19 +34,19 @@
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
 							action="#{vehiculoBean.cargarProducto(vehi)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
-								value="Bot&oacute;n para modificar el vehiculo"
+								value="Bot&oacute;n para modificar el veh&iacute;culo"
 								trackMouse="true" />
 						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
 							action="#{vehiculoBean.cambiarEstadovehi(vehi)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
-								value="Bot&oacute;n para cambiar el estado del condutor"
+								value="Bot&oacute;n para cambiar el estado del veh&iacute;culo"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiIdplaca}" filterMatchMode="contains"
-						headerText="CEDULA" width="70">
+						headerText="PLACA" width="70">
 						<h:outputText value="#{vehi.vehiIdplaca}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiNombre}" filterMatchMode="contains"
@@ -57,16 +57,14 @@
 						headerText="MARCA" width="70">
 						<h:outputText value="#{vehi.vehiMarca}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiModelo}" filterMatchMode="contains"
-						headerText="MODELO" width="70">
+					<p:column headerText="MODELO" width="70">
 						<h:outputText value="#{vehi.vehiModelo}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{vehi.vehiTipo}" filterMatchMode="contains"
-						headerText="TIPO" width="70">
+					<p:column	headerText="TIPO" width="70">
 						<h:outputText value="#{vehi.vehiTipo}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiCapacidad}" filterMatchMode="contains"
-						headerText="cAPACIDAD" width="70">
+						headerText="CAPACIDAD" width="70">
 						<h:outputText value="#{vehi.vehiCapacidad}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiEstado}" filterMatchMode="contains"
@@ -81,7 +79,7 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de cambiar el estado?" closable="false"
+			message="Est&aacute; seguro de cambiar el estado?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

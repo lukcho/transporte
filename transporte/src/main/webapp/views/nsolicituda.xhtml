@@ -33,14 +33,14 @@
 						<b:inputText value="#{solicitudaBean.sol_pasajeros}"
 							required="true" requiredMessage="Campo pasajeros requerido"
 							maxlength="10"
-							validatorMessage="Campo pasajeros debe ingresar solo números.">
+							validatorMessage="Campo pasajeros debe ingresar solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Fecha de petición:* " />
+						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
 						<p:calendar required="true" mindate="#{solicitudaBean.date}"
@@ -56,7 +56,7 @@
 						<b:inputTextarea value="#{solicitudaBean.sol_motivo}"
 							required="true" requiredMessage="Campo motivo requerido"
 							maxlength="255"
-							validatorMessage="Campo motvo no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Campo motivo no debe contener espacios ni caracteres especiales.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputTextarea>
 					</b:column>
@@ -70,7 +70,7 @@
 									<h:selectOneMenu id="trackseleccionar2" required="true"
 										styleClass="form-control" requiredMessage="Requerido Origen"
 										value="#{solicitudaBean.sol_id_origen}">
-										<f:selectItem itemLabel="Selección Origen" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Origen" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaOrigen}" />
 										<f:ajax listener="#{solicitudaBean.asignarLugarOrigen()}" />
 									</h:selectOneMenu>
@@ -94,7 +94,7 @@
 									<h:selectOneMenu id="trackseleccionar3" required="true"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_id_destino}">
-										<f:selectItem itemLabel="Selección Destino" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Destino" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaDestino}" />
 										<f:ajax listener="#{solicitudaBean.asignarLugarDestino()}" />
 									</h:selectOneMenu>
@@ -121,7 +121,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"
 								value="#{solicitudaBean.sol_fcoid}">
-								<f:selectItem itemLabel="Selección Funcionario Conductor"
+								<f:selectItem itemLabel="Selecci&oacute;n Funcionario Conductor"
 									itemValue="" />
 								<f:selectItems
 									value="#{solicitudaBean.listaConductorfuncionario}" />
@@ -131,13 +131,13 @@
 						</h:panelGroup>
 					</b:column>
 					<b:column span="5" >
-						<b:thumbnail tooltip="Asignar Vehículo" tooltip-position="right"
+						<b:thumbnail tooltip="Asignar Veh&iacute;culo" tooltip-position="right"
 							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
 								<h:outputLabel value="Vehículo:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
-										requiredMessage="Requerido Vehículo" styleClass="form-control"
+										requiredMessage="Requerido Veh&iacute;culo" styleClass="form-control"
 										value="#{solicitudaBean.sol_vehi}">
 										<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
@@ -149,7 +149,7 @@
 									<h:selectOneMenu id="trackseleccionar6"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_conductor}">
-										<f:selectItem itemLabel="Selección Conductor" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Conductor" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaConductor}" />
 										<f:ajax listener="#{solicitudaBean.asignarConductor()}" />
 									</h:selectOneMenu>
@@ -168,7 +168,7 @@
 						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
 							required="true" requiredMessage="Requerido Estado"
 							rendered="#{solicitudaBean.edicion}">
-							<f:selectItem itemLabel="Selección Estado" itemValue="" />
+							<f:selectItem itemLabel="Selecci&oacute;n Estado" itemValue="" />
 							<f:selectItems value="#{solicitudaBean.listEstados}" />
 						</b:selectOneMenu>
 					</b:column>
@@ -176,7 +176,7 @@
 				<br />
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
 							<p:growl id="messages" showDetail="true" />
-							<b:panel title="Listado de Vehículos" look="primary">
+							<b:panel title="Listado de Veh&iacute;culos" look="primary">
 								<p:dataTable id="tbb"
 									value="#{solicitudaBean.listaVehiOcu}" reflow="true"
 									var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
@@ -202,7 +202,7 @@
 										<h:outputText
 											value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 									</p:column>
-									<p:column headerText="FECHA APROBACION" width="70">
+									<p:column headerText="FECHA APROBACI&Oacute;N" width="70">
 										<h:outputText value="#{sol.solFechaAprobacion}">
 											<f:convertDateTime pattern="yyyy/MM/dd" />
 										</h:outputText>
@@ -231,7 +231,7 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

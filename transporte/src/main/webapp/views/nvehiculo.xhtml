@@ -15,15 +15,15 @@
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Registro de Vehiculos" look="primary">
+			<b:panel title="Registro de Veh&iacute;culos" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Numero de Placa:* " />
+						<h:outputLabel value="N&uacute;mero de Placa:* " />
 					</b:column>
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_id}" required="true"
 							requiredMessage="Campo num. placa requerido" maxlength="100"
-							validatorMessage="Num. placa no debe contener espacios ni caracteres especiales con mayúsculas.">
+							validatorMessage="Num. placa no debe contener espacios ni caracteres especiales con may&uacute;sculas.">
 							<f:validateRegex pattern="^([A-Z]{3}-\d{3,4})$" />
 						</b:inputText>
 					</b:column>
@@ -126,7 +126,7 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Está seguro de guardar la informaci&oacute;n?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

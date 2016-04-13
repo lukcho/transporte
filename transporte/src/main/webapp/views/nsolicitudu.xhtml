@@ -51,7 +51,7 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Fecha de petición:* " />
+						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
 						<p:calendar required="true" mindate="#{solicituduBean.date}"
@@ -67,8 +67,7 @@
 					<b:column span="3">
 						<b:inputTextarea value="#{solicituduBean.sol_motivo}"
 							disabled="#{solicituduBean.edicion}" required="true"
-							requiredMessage="Campo motivo requerido" maxlength="255"
-							validatorMessage="Campo motvo no debe contener espacios ni caracteres especiales.">
+							requiredMessage="Campo motivo requerido" maxlength="255">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputTextarea>
 					</b:column>
@@ -150,7 +149,7 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Vehículo Asignado: "
+						<h:outputLabel value="Veh&iacute;culo Asignado: "
 							rendered="#{solicituduBean.edicion}" />
 					</b:column>
 					<b:column span="4">
@@ -190,7 +189,7 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Está seguro de guardar la informaci&oacute;n?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

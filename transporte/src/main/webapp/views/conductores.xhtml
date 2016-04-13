@@ -12,7 +12,7 @@
         </ui:define>
 		<ui:define name="contenido">
 			<h:form>
-				<center><h1>Conductores</h1></center>
+				<center><h1>Gesti&oacute;n de Conductores</h1></center>
 				<b:row>
 					<b:column span="1">
 						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{conductorBean.nuevoConductor()}" />
@@ -46,7 +46,7 @@
 						</p:commandButton>
 					</p:column>
 					<p:column filterBy="#{con.condCedula}" filterMatchMode="contains"
-						headerText="CEDULA" width="70">
+						headerText="C&Eacute;DULA" width="70">
 						<h:outputText value="#{con.condCedula}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.condNombre}" filterMatchMode="contains"
@@ -57,7 +57,7 @@
 						headerText="Apellido" width="70">
 						<h:outputText value="#{con.condApellido}"></h:outputText>
 					</p:column>
-					<p:column headerText="TELEFONO" width="60">
+					<p:column headerText="TEL&Eacute;FONO" width="60">
 						<h:outputText value="#{con.condTelefono}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.condEstado}" filterMatchMode="contains"

@@ -13,7 +13,7 @@
         </ui:define>
 	<ui:define name="contenido">
 		<center>
-			<h1>Reporte Vehículo/Conductor</h1>
+			<h1>Reporte Veh&iacute;culo/Conductor</h1>
 		</center>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
@@ -42,12 +42,12 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Vehículo: " />
+						<h:outputLabel value="Veh&iacute;culo: " />
 					</b:column>
 					<b:column span="4">
 						<h:panelGroup>
 							<h:selectOneMenu id="trackseleccionar5" required="true"
-								requiredMessage="Requerido Vehículo" styleClass="form-control"
+								requiredMessage="Requerido Veh&iacute;culo" styleClass="form-control"
 								value="#{solicitudaBean.sol_vehi}">
 								<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 								<f:selectItems value="#{solicitudaBean.listaVehiculo}"  />
@@ -60,7 +60,7 @@
 			
 			<h:form id="frm">
 					<p:growl id="messages" showDetail="true" />
-					<b:panel title="Listado de Vehículos por Conductor" look="primary">
+					<b:panel title="Listado de Conductor por Veh&iacute;culos " look="primary">
 						<p:dataTable id="tbb"
 							value="#{solicitudaBean.listavehiculoconduct}" reflow="true"
 							var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"

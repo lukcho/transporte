@@ -52,12 +52,10 @@
 										trackMouse="true" />
 								</p:commandButton>
 							</p:column>
-							<p:column filterBy="#{sol.solIdSolicitante}"
-								filterMatchMode="contains" headerText="SOLICITUD ID" width="70">
+							<p:column headerText="SOLICITUD" width="70">
 								<h:outputText value="#{sol.solId}"></h:outputText>
 							</p:column>
-							<p:column filterBy="#{sol.solIdSolicitante}"
-								filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
+							<p:column headerText="NOMBRE SOLICITANTE"
 								width="70">
 								<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
 							</p:column>
@@ -70,16 +68,14 @@
 								</h:outputText>
 							</p:column>
 							<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}"
-								filterMatchMode="contains" headerText="PLACA AUTO" width="70">
+								filterMatchMode="contains" headerText="PLACA AUTOM&Oacute;VIL" width="70">
 								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
 							</p:column>
-							<p:column filterBy="#{sol.transConductore.condCedula}"
-								filterMatchMode="contains" headerText="CONDUCTOR" width="70">
+							<p:column headerText="CONDUCTOR" width="70">
 								<h:outputText
 									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 							</p:column>
-							<p:column filterBy="#{sol.solPasajeros}"
-								filterMatchMode="contains" headerText="PASAJEROS" width="70">
+							<p:column headerText="PASAJEROS" width="70">
 								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 							</p:column>
 							<p:column headerText="FECHA" width="70">
@@ -87,7 +83,7 @@
 									<f:convertDateTime pattern="yyyy/MM/dd" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="FECHA APROBACION" width="70">
+							<p:column headerText="FECHA APROBACI&Oacute;N" width="70">
 								<h:outputText value="#{sol.solFechaAprobacion}">
 									<f:convertDateTime pattern="yyyy/MM/dd" />
 								</h:outputText>
@@ -99,7 +95,7 @@
 						</p:dataTable>
 					</b:panel>
 				</b:tab>
-			<p:confirmDialog header="Confirmación"
+			<p:confirmDialog header="Confirmaci&oacute;n"
 				message="Está seguro de cambiar el estado?" closable="false"
 				showEffect="fade" hideEffect="explode" widgetVar="ce">
 				<h:form>
@@ -135,7 +131,7 @@
 										trackMouse="true" />
 								</p:commandButton>
 							</p:column>
-							<p:column headerText="SOLICITUD NRO." width="80">
+							<p:column headerText="SOLICITUD" width="80">
 								<h:outputText value="#{sol1.solId}"></h:outputText>
 							</p:column>
 							<p:column headerText="SOLICITANTE" width="100">
@@ -169,7 +165,7 @@
 								<h:outputText
 									value="#{sol1.transFuncionarioConductor.fcoNombres}"></h:outputText>
 							</p:column>
-							<p:column headerText="FECHA APROBACION" width="100">
+							<p:column headerText="FECHA APROBACI&Oacute;N" width="100">
 								<h:outputText value="#{sol1.solFechaAprobacion}">
 									<f:convertDateTime pattern="yyyy/MM/dd" />
 								</h:outputText>
@@ -184,7 +180,7 @@
 			</b:tabView>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de cambiar el estado?" closable="false"
+			message="Est&aacute; seguro de cambiar el estado?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
