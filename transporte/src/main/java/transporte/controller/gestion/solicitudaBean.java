@@ -82,12 +82,18 @@ public class solicitudaBean implements Serializable {
 	private Date fecha;
 	private Time horainiciotiemp;
 	private Time horafintiemp;
+	
+	//flexibilidad cambio hora
+	private boolean horamostrar;
 
 	public solicitudaBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		sol_conductor = "Ninguno";
+		sol_vehi = "Ninguno";
+		sol_fcoid = "Ninguno";
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -95,6 +101,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad=false;
 		sol_pasajeros = null;
 		edicion = false;
+		horamostrar = false;
 		ediciontipo = false;
 		guardaredicion= true;
 		listaSolicitudespend = managersol.findAllSolicitudesOrdenadosapendiente();
@@ -114,6 +121,14 @@ public class solicitudaBean implements Serializable {
 		return horainiciotiemp;
 	}
 	
+	public boolean isHoramostrar() {
+		return horamostrar;
+	}
+
+	public void setHoramostrar(boolean horamostrar) {
+		this.horamostrar = horamostrar;
+	}
+
 	public boolean isGuardaredicion() {
 		return guardaredicion;
 	}
@@ -376,11 +391,21 @@ public class solicitudaBean implements Serializable {
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
 			System.out.println(sol_flexibilidad+""+sol_estado);
+			
 			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("Error..!!!",
 						"Verifique su horario "));
 			} else if (edicion) {
+					if(sol_fcoid.equals(null))
+					{
+						sol_fcoid = "Ninguno";
+					}
+				asignarConductor();
+				asignarConductorFuncionario();
+				asignarLugarDestino();
+				asignarLugarOrigen();
+				asignarVehiculo();
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo, horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion, sol_estado);
@@ -416,7 +441,6 @@ public class solicitudaBean implements Serializable {
 				getListaSolicitudaprorecha().addAll(managersol.findAllSolicitudesOrdenadosaaprorecha());
 				r = "solicitudesa?faces-redirect=true";
 			} else {				
-				System.out.println(sol_fecha);
 				managersol.insertarSolicitud(sol_fecha, pasajeros,
 						sol_motivo, horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion);
@@ -493,13 +517,13 @@ public class solicitudaBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cargarSolicitud(TransSolicitud sol) {
+		String r = "";
 		try {
 			sol_id = sol.getSolId();
 			// sol_idsolicitante = sol.getSolicitante();
 			sol_usuario_cedula = sol.getSolIdSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			
 			sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
 			sol_conductor = sol.getTransConductore().getCondCedula();
@@ -512,10 +536,18 @@ public class solicitudaBean implements Serializable {
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
+			if(sol_flexibilidad==true)
+			{
+				horamostrar=false;
+			}
+			else
+				horamostrar=true;
+			
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion=false;
-			return "nsolicituda?faces-redirect=true";
+			r="nsolicituda?faces-redirect=true";
+			return  r;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -538,6 +570,8 @@ public class solicitudaBean implements Serializable {
 							.cambioEstadoSolicitud(getSoli().getSolId())));
 			getListaSolicitudespend().clear();
 			getListaSolicitudespend().addAll(managersol.findAllSolicitudesOrdenadosapendiente());
+			getListaSolicitudaprorecha().clear();
+			getListaSolicitudaprorecha().addAll(managersol.findAllSolicitudesOrdenadosaaprorecha());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -589,6 +623,9 @@ public class solicitudaBean implements Serializable {
 		lista.add(new SelectItem(Funciones.estadoRechazado,
 				Funciones.estadoRechazado + " : "
 						+ Funciones.valorEstadoRechazado));
+		lista.add(new SelectItem(Funciones.estadoAnulado,
+				Funciones.estadoAnulado + " : "
+						+ Funciones.valorEstadoAnulado));
 		return lista;
 	}
 
@@ -598,9 +635,8 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaOrigen() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (TransLugare t : managergest.findAllLugares()) {
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()+" - "+t.getLugCiudad()));
 		}
 
 		return listadoSI;
@@ -612,9 +648,8 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaDestino() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (TransLugare t : managergest.findAllLugares()) {
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()+" - "+t.getLugCiudad()));
 		}
 
 		return listadoSI;
@@ -626,7 +661,6 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaConductor() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem(0, "Ninguno"));
 		for (TransConductore t : managergest.findAllConductores()) {
 			listadoSI.add(new SelectItem(t.getCondCedula(), t.getCondNombre()
 					+ " " + t.getCondApellido()));
@@ -641,7 +675,6 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaConductorfuncionario() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem(0, "Ninguno"));
 		for (TransFuncionarioConductor t : managersol.findAllConductFuncionarios()) {
 			listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
 					+ " " + t.getFcoGerencia()));
@@ -656,7 +689,6 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaVehiculo() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (TransVehiculo t : managergest.findAllVehiculos()) {
 			listadoSI.add(new SelectItem(t.getVehiIdplaca(), t.getVehiIdplaca()+" "+t.getVehiNombre()));
 		}
@@ -677,7 +709,7 @@ public class solicitudaBean implements Serializable {
 	 * 
 	 */
 	public String asignarConductorFuncionario() {
-		managersol.asignarConductorfuncionario(sol_conductor);
+		managersol.asignarConductorfuncionario(sol_fcoid);
 		return "";
 	}
 
@@ -718,6 +750,7 @@ public class solicitudaBean implements Serializable {
 		// limpiar datos
 		sol_id = null;
 		date = new Date();
+		horamostrar=false;
 		// sol_idsolicitante = sol.getSolicitante();
 		sol_usuario_cedula = null;
 		sol_id_origen = null;
@@ -790,6 +823,21 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
 		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenadosapendiente();
+		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
+		for (TransSolicitud t : a) {
+			l1.add(t);
+
+		}
+		return l1;
+	}
+	
+	/**
+	 * metodo para listar los vehiculos que tienen solicitud por fecha
+	 * 
+	 * @return
+	 */
+	public List<TransSolicitud> getListaVehiOcu() {
+		List<TransSolicitud> a = managersol.findAllVehiculosOcu(sol_vehi, new Timestamp(fecha.getTime()));
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
 		for (TransSolicitud t : a) {
 			l1.add(t);

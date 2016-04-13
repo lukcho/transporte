@@ -79,6 +79,7 @@ create table TRANS_SOLICITUD (
    VEHI_IDPLACA         VARCHAR(100)         null,
    COND_CEDULA          VARCHAR(100)         null,
    SOL_FECHA            TIMESTAMP            null,
+   SOL_FECHA_CREACION   TIMESTAMP            null,
    SOL_FECHA_APROBACION TIMESTAMP            null,
    SOL_PASAJEROS        INT4                 null,
    SOL_MOTIVO           VARCHAR(255)         null,

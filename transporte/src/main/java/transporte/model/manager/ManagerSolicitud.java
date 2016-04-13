@@ -4,6 +4,7 @@ import transporte.model.dao.entities.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class ManagerSolicitud{
 	private static TransLugare trans_lugdes;
 	private static TransVehiculo trans_vehi;
 	private static TransFuncionarioConductor trans_fco;
+	
+	private  Timestamp fecha_creacion;
 
 	String h="";		
 		
@@ -96,6 +99,17 @@ public class ManagerSolicitud{
 	}
 	
 	/**
+	 * listar todos los vehiculos con solicitud
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllVehiculosOcu(String placa, Timestamp fecha) {
+		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and o.solFecha = '" +fecha+ "' ", " o.solFecha desc ");
+	}
+	
+	/**
 	 * listar todos los eventos en ordenados
 	 * 
 	 * @param prod_id
@@ -130,14 +144,16 @@ public class ManagerSolicitud{
 	 */
 	public void insertarSolicitud(Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
-		//sol.setSolIdSolicitante(solIdSolicitante);
+		sol.setSolIdSolicitante("1");
+		cargafecha();
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
 		sol.setTransFuncionarioConductor(trans_fco);
 		asignarvehiculo("Ninguno");
-		sol.setTransVehiculo(trans_vehi);
 		asignarConductor("Ninguno");
+		sol.setTransVehiculo(trans_vehi);
 		sol.setTransConductore(trans_con);
+		sol.setSolFechaCreacion(fecha_creacion);
 		sol.setSolFecha(sol_fecha);
 		sol.setSolPasajeros(sol_pasajeros);
 		sol.setSolMotivo(sol_motivo);
@@ -146,6 +162,18 @@ public class ManagerSolicitud{
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolEstado("P");
 		mDAO.insertar(sol);		
+	}
+	
+	/**
+	 * Cargar datos fecha
+	 * 
+	 * @throws Exception
+	 */
+	public void cargafecha() {
+		Calendar calendar = Calendar.getInstance();
+		java.sql.Timestamp ourJavaTimestampObject = new java.sql.Timestamp(
+				calendar.getTime().getTime());
+		fecha_creacion = ourJavaTimestampObject;
 	}
 	
 	/**
@@ -264,6 +292,10 @@ public class ManagerSolicitud{
 		else if(sol.getSolEstado().equals("N")){
 			h="Ya está anulada la solicitud";
 			}
+		else
+		{
+			h="No puede ser anulada la solicitud";
+		}
 		mDAO.actualizar(sol);
 		return h;
 		}		

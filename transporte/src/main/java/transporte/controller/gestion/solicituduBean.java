@@ -57,6 +57,7 @@ public class solicituduBean implements Serializable {
 	private String sol_fcoid;
 	private String sol_vehi;
 	private String sol_conductor;
+	private String sol_conductornombre;
 	private String sol_usuario_cedula;
 
 	// private transolicitante solicitante;
@@ -90,14 +91,23 @@ public class solicituduBean implements Serializable {
 		sol_hora_fin = null;
 		sol_id = null;
 		sol_estado = "P";
-		sol_conductor="Ninguno";
-		sol_vehi="Ninguno";
-		sol_fcoid="Ninguno";
+		sol_conductor = "Ninguno";
+		sol_vehi = "Ninguno";
+		sol_fcoid = "Ninguno";
 		sol_flexibilidad = false;
 		sol_pasajeros = null;
 		edicion = false;
 		ediciontipo = false;
 		guardaredicion = true;
+		sol_conductornombre="";
+	}
+
+	public String getSol_conductornombre() {
+		return sol_conductornombre;
+	}
+
+	public void setSol_conductornombre(String sol_conductornombre) {
+		this.sol_conductornombre = sol_conductornombre;
 	}
 
 	public Time getHorainiciotiemp() {
@@ -369,7 +379,7 @@ public class solicituduBean implements Serializable {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("Error..!!!",
 						"Verifique su horario "));
-			}else if (edicion) {
+			} else if (edicion) {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo, horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion, sol_estado);
@@ -399,8 +409,7 @@ public class solicituduBean implements Serializable {
 				horafintiemp = null;
 				guardaredicion = false;
 				getListaSolicitudDesc().clear();
-				getListaSolicitudDesc().addAll(
-						managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
+				getListaSolicitudDesc().addAll(managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
 				r = "solicitudesu?faces-redirect=true";
 			} else {
 				managersol.insertarSolicitud(sol_fecha, pasajeros, sol_motivo,
@@ -432,8 +441,9 @@ public class solicituduBean implements Serializable {
 				horafintiemp = null;
 				guardaredicion = false;
 				getListaSolicitudDesc().clear();
-				getListaSolicitudDesc().addAll(
-						managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
+				getListaSolicitudDesc()
+						.addAll(managersol
+								.findAllSolicitudesOrdenados(sol_usuario_cedula));
 				r = "solicitudesu?faces-redirect=true";
 
 			}
@@ -477,29 +487,30 @@ public class solicituduBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cargarSolicitud(TransSolicitud sol) {
-		String r="";
+		String r = "";
 		try {
-				sol_id = sol.getSolId();
-				// sol_idsolicitante = sol.getSolicitante();
-				sol_usuario_cedula = sol.getSolIdSolicitante();
-				sol_id_origen = sol.getTransLugare2().getLugId();
-				sol_id_destino = sol.getTransLugare1().getLugId();
-				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
-				sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
-				sol_conductor = sol.getTransConductore().getCondCedula();
-				fecha = sol.getSolFecha();
-				sol_fecha_aprobacion = sol.getSolFechaAprobacion();
-				sol_pasajeros = sol.getSolPasajeros().toString();
-				sol_motivo = sol.getSolMotivo();
-				sol_hora_inicio = sol.getSolHoraInicio();
-				sol_hora_fin = sol.getSolHoraFin();
-				sol_flexibilidad = sol.getSolFlexibilidad();
-				sol_observacion = sol.getSolObservacion();
-				sol_estado = sol.getSolEstado();
-				edicion = true;
-				ediciontipo = false;
-				guardaredicion = false;
-				r = "nsolicitudu?faces-redirect=true";
+			sol_id = sol.getSolId();
+			// sol_idsolicitante = sol.getSolicitante();
+			sol_usuario_cedula = sol.getSolIdSolicitante();
+			sol_id_origen = sol.getTransLugare2().getLugId();
+			sol_id_destino = sol.getTransLugare1().getLugId();
+			sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			sol_conductor = sol.getTransConductore().getCondCedula();
+			sol_conductornombre = sol.getTransConductore().getCondNombre()+" "+sol.getTransConductore().getCondApellido();
+			fecha = sol.getSolFecha();
+			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
+			sol_pasajeros = sol.getSolPasajeros().toString();
+			sol_motivo = sol.getSolMotivo();
+			sol_hora_inicio = sol.getSolHoraInicio();
+			sol_hora_fin = sol.getSolHoraFin();
+			sol_flexibilidad = sol.getSolFlexibilidad();
+			sol_observacion = sol.getSolObservacion();
+			sol_estado = sol.getSolEstado();
+			edicion = true;
+			ediciontipo = false;
+			guardaredicion = false;
+			r = "nsolicitudu?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -543,7 +554,8 @@ public class solicituduBean implements Serializable {
 	public boolean averiguarSoliid(Integer soli_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TransSolicitud> soli = managersol.findAllSolicitudesOrdenados(sol_usuario_cedula);
+		List<TransSolicitud> soli = managersol
+				.findAllSolicitudesOrdenados(sol_usuario_cedula);
 		for (TransSolicitud y : soli) {
 			if (y.getSolId().equals(soli_id)) {
 				System.out.println("si entra1");
@@ -584,7 +596,8 @@ public class solicituduBean implements Serializable {
 	public List<SelectItem> getListaOrigen() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
+					+ t.getLugCiudad()));
 		}
 
 		return listadoSI;
@@ -597,7 +610,8 @@ public class solicituduBean implements Serializable {
 	public List<SelectItem> getListaDestino() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()));
+			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
+					+ t.getLugCiudad()));
 		}
 
 		return listadoSI;
@@ -722,7 +736,8 @@ public class solicituduBean implements Serializable {
 		horainiciotiemp = null;
 		horafintiemp = null;
 		getListaSolicitudDesc().clear();
-		getListaSolicitudDesc().addAll(managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
+		getListaSolicitudDesc().addAll(
+				managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
 		return "solicitudesu?faces-redirect=true";
 	}
 
@@ -761,8 +776,6 @@ public class solicituduBean implements Serializable {
 		date = new Date();
 		return "nsolicitudu?faces-redirect=true";
 	}
-	
-	
 
 	/**
 	 * metodo para listar los registros
@@ -770,8 +783,9 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
-		sol_usuario_cedula="1";
-		List<TransSolicitud> a = managersol.findAllSolicitudesOrdenados(sol_usuario_cedula);
+		sol_usuario_cedula = "1";
+		List<TransSolicitud> a = managersol
+				.findAllSolicitudesOrdenados(sol_usuario_cedula);
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
 		for (TransSolicitud t : a) {
 			l1.add(t);

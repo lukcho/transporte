@@ -67,8 +67,9 @@
 								<h:outputLabel value="Lugar Origen:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar2" required="true"
-										styleClass="form-control"
+										styleClass="form-control" requiredMessage="Requerido Origen"
 										value="#{solicitudaBean.sol_id_origen}">
+										<f:selectItem itemLabel="Selección Origen" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaOrigen}" />
 										<f:ajax listener="#{solicitudaBean.asignarLugarOrigen()}" />
 									</h:selectOneMenu>
@@ -76,6 +77,7 @@
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
 								<p:calendar id="horaini" minMinute="0" maxMinute="0"
+									disabled="#{solicitudaBean.horamostrar}"
 									value="#{solicitudaBean.sol_hora_inicio}" pattern="HH:mm"
 									required="true" requiredMessage="Requerido Hora Inicio"
 									timeOnly="true">
@@ -91,6 +93,7 @@
 									<h:selectOneMenu id="trackseleccionar3" required="true"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_id_destino}">
+										<f:selectItem itemLabel="Selección Destino" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaDestino}" />
 										<f:ajax listener="#{solicitudaBean.asignarLugarDestino()}" />
 									</h:selectOneMenu>
@@ -98,7 +101,8 @@
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
 								<p:calendar id="horafin" value="#{solicitudaBean.sol_hora_fin}"
-									pattern="HH:mm" required="true" minMinute="0" maxMinute="0"
+									disabled="#{solicitudaBean.horamostrar}" pattern="HH:mm"
+									required="true" minMinute="0" maxMinute="0"
 									requiredMessage="Requerido Hora Inicio" timeOnly="true">
 								</p:calendar>
 							</f:facet>
@@ -107,39 +111,48 @@
 				</b:row>
 				<b:row>
 					<b:column span="4">
-						<b:selectBooleanCheckbox value="#{solicitudaBean.sol_flexibilidad}"
+						<b:selectBooleanCheckbox
+							value="#{solicitudaBean.sol_flexibilidad}"
 							caption="Flexibilidad de cambio de hora" />
+					</b:column>
+					<b:column span="4">
+						<h:outputLabel value="Funcionario Conductor:* " />
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"
+								value="#{solicitudaBean.sol_fcoid}">
+								<f:selectItem itemLabel="Selección Funcionario Conductor"
+									itemValue="" />
+								<f:selectItems
+									value="#{solicitudaBean.listaConductorfuncionario}" />
+								<f:ajax
+									listener="#{solicitudaBean.asignarConductorFuncionario()}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="4" >
-						<b:thumbnail tooltip="Asignar Vehículo" >
+					<b:column span="4">
+						<b:thumbnail tooltip="Asignar Vehículo"
+							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
 								<h:outputLabel value="Vehículo:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
-										styleClass="form-control" value="#{solicitudaBean.sol_vehi}">
+										requiredMessage="Requerido Vehículo" styleClass="form-control"
+										value="#{solicitudaBean.sol_vehi}">
+										<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
-										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}" />
+										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}" update="frm messages" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<h:outputLabel value="Conductor:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar6" required="true"
+									<h:selectOneMenu id="trackseleccionar6"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_conductor}">
+										<f:selectItem itemLabel="Selección Conductor" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaConductor}" />
 										<f:ajax listener="#{solicitudaBean.asignarConductor()}" />
-									</h:selectOneMenu>
-								</h:panelGroup>
-								<br />
-								<h:outputLabel value="Funcionario Conductor:* " />
-								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar7" required="true"
-										styleClass="form-control"
-										value="#{solicitudaBean.sol_fcoid}">
-										<f:selectItems value="#{solicitudaBean.listaConductorfuncionario}" />
-										<f:ajax listener="#{solicitudaBean.asignarConductorFuncionario()}" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 							</f:facet>
@@ -149,15 +162,58 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*" rendered="#{solicitudaBean.edicion}" />
+						<h:outputLabel value="Estado*"
+							rendered="#{solicitudaBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
+							required="true" requiredMessage="Requerido Estado"
 							rendered="#{solicitudaBean.edicion}">
+							<f:selectItem itemLabel="Selección Estado" itemValue="" />
 							<f:selectItems value="#{solicitudaBean.listEstados}" />
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
+				<br />
+				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
+							<p:growl id="messages" showDetail="true" />
+							<b:panel title="Listado de Vehículos" look="primary">
+								<p:dataTable id="tbb"
+									value="#{solicitudaBean.listaVehiOcu}" reflow="true"
+									var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									<p:column headerText="FECHA" width="70">
+										<h:outputText value="#{sol.solFecha}">
+											<f:convertDateTime pattern="yyyy/MM/dd" />
+										</h:outputText>
+									</p:column>
+									<p:column  headerText="NOMBRE SOLICITANTE"
+										width="70">
+										<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
+									</p:column>
+									<p:column headerText="ORIGEN/DESTINO" width="100">
+										<h:outputText
+											value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
+									</p:column>
+									<p:column headerText="HORA INICIO/FIN" width="100">
+										<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
+										</h:outputText>
+									</p:column>
+									<p:column headerText="CONDUCTOR" width="70">
+										<h:outputText
+											value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+									</p:column>
+									<p:column headerText="FECHA APROBACION" width="70">
+										<h:outputText value="#{sol.solFechaAprobacion}">
+											<f:convertDateTime pattern="yyyy/MM/dd" />
+										</h:outputText>
+									</p:column>
+									<p:column headerText="ESTADO" width="70">
+										<h:outputText value="#{sol.solEstado}"></h:outputText>
+									</p:column>
+								</p:dataTable>
+							</b:panel>
+				</h:form>
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"

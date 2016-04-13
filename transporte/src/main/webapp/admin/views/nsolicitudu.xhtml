@@ -22,8 +22,8 @@
 							rendered="#{solicituduBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<h:outputLabel value="#{solicituduBean.sol_estado}"  style="color: #317eac;"
-							rendered="#{solicituduBean.edicion}">
+						<h:outputLabel value="#{solicituduBean.sol_estado}"
+							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
 						</h:outputLabel>
 					</b:column>
 				</b:row>
@@ -40,9 +40,9 @@
 						<h:outputLabel value="Pasajeros:* " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{solicituduBean.sol_pasajeros}" disabled="#{solicituduBean.edicion}"
-							required="true" requiredMessage="Campo pasajeros requerido"
-							maxlength="10"
+						<b:inputText value="#{solicituduBean.sol_pasajeros}"
+							disabled="#{solicituduBean.edicion}" required="true"
+							requiredMessage="Campo pasajeros requerido" maxlength="10"
 							validatorMessage="Campo pasajeros debe ingresar solo números.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
@@ -50,13 +50,13 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Fecha de petición:* "/>
+						<h:outputLabel value="Fecha de petición:* " />
 					</b:column>
 					<b:column span="2">
-						<p:calendar required="true" mindate="#{solicituduBean.date}" disabled="#{solicituduBean.edicion}"
-							label="Hora Fin" requiredMessage="Requerido Fecha" id="fechai"
-							mode="popup" value="#{solicituduBean.fecha}" pattern="yyyy/MM/dd"
-							mask="true">
+						<p:calendar required="true" mindate="#{solicituduBean.date}"
+							disabled="#{solicituduBean.edicion}" label="Hora Fin"
+							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
+							value="#{solicituduBean.fecha}" pattern="yyyy/MM/dd" mask="true">
 							<p:ajax event="dateSelect" update="frm messages"></p:ajax>
 						</p:calendar>
 					</b:column>
@@ -64,9 +64,9 @@
 						<h:outputLabel value="Motivo:* " />
 					</b:column>
 					<b:column span="4">
-						<b:inputTextarea value="#{solicituduBean.sol_motivo}" disabled="#{solicituduBean.edicion}"
-							required="true" requiredMessage="Campo motivo requerido"
-							maxlength="255"
+						<b:inputTextarea value="#{solicituduBean.sol_motivo}"
+							disabled="#{solicituduBean.edicion}" required="true"
+							requiredMessage="Campo motivo requerido" maxlength="255"
 							validatorMessage="Campo motvo no debe contener espacios ni caracteres especiales.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputTextarea>
@@ -78,8 +78,9 @@
 							<f:facet name="caption">
 								<h:outputLabel value="Lugar Origen:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar2" required="true" disabled="#{solicituduBean.edicion}"
-										styleClass="form-control" requiredMessage="Requerido Origen"
+									<h:selectOneMenu id="trackseleccionar2" required="true"
+										disabled="#{solicituduBean.edicion}" styleClass="form-control"
+										requiredMessage="Requerido Origen"
 										value="#{solicituduBean.sol_id_origen}">
 										<f:selectItem itemLabel="Selección Origen" itemValue="" />
 										<f:selectItems value="#{solicituduBean.listaOrigen}" />
@@ -88,7 +89,8 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini" label="Hora inicio" title="Hora Inicio" disabled="#{solicituduBean.edicion}"
+								<p:calendar id="horaini" label="Hora inicio" title="Hora Inicio"
+									disabled="#{solicituduBean.edicion}"
 									value="#{solicituduBean.sol_hora_inicio}" pattern="HH:mm"
 									minMinute="0" maxMinute="0" required="true"
 									requiredMessage="Requerido Hora Inicio" timeOnly="true">
@@ -101,8 +103,9 @@
 							<f:facet name="caption">
 								<h:outputLabel value="Lugar Destino:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar3" required="true" disabled="#{solicituduBean.edicion}"
-										styleClass="form-control" requiredMessage="Requerido Destino"
+									<h:selectOneMenu id="trackseleccionar3" required="true"
+										disabled="#{solicituduBean.edicion}" styleClass="form-control"
+										requiredMessage="Requerido Destino"
 										value="#{solicituduBean.sol_id_destino}">
 										<f:selectItem itemLabel="Selección Destino" itemValue="" />
 										<f:selectItems value="#{solicituduBean.listaDestino}" />
@@ -111,9 +114,10 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
-								<p:calendar id="horafin" value="#{solicituduBean.sol_hora_fin}" disabled="#{solicituduBean.edicion}"
-									label="Escoger hora" pattern="HH:mm" required="true"
-									title="Hora Inicio" minMinute="0" maxMinute="0"
+								<p:calendar id="horafin" value="#{solicituduBean.sol_hora_fin}"
+									disabled="#{solicituduBean.edicion}" label="Escoger hora"
+									pattern="HH:mm" required="true" title="Hora Inicio"
+									minMinute="0" maxMinute="0"
 									requiredMessage="Requerido Hora Inicio" timeOnly="true">
 								</p:calendar>
 							</f:facet>
@@ -123,15 +127,17 @@
 				<b:row>
 					<b:column span="4">
 						<b:selectBooleanCheckbox
-							value="#{solicituduBean.sol_flexibilidad}" disabled="#{solicituduBean.edicion}"
+							value="#{solicituduBean.sol_flexibilidad}"
+							disabled="#{solicituduBean.edicion}"
 							caption="Flexibilidad de cambio de hora" />
 					</b:column>
 					<b:column span="4">
-
 						<h:outputLabel value="Funcionario Conductor: " />
 						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar7" required="true" requiredMessage="Requerido Funcionario" disabled="#{solicituduBean.edicion}"
-								styleClass="form-control" value="#{solicituduBean.sol_fcoid}">
+							<h:selectOneMenu id="trackseleccionar7" required="true"
+								requiredMessage="Requerido Funcionario"
+								disabled="#{solicituduBean.edicion}" styleClass="form-control"
+								value="#{solicituduBean.sol_fcoid}">
 								<f:selectItem itemLabel="Selección" itemValue="" />
 								<f:selectItems
 									value="#{solicituduBean.listaConductorfuncionario}" />
@@ -141,10 +147,33 @@
 						</h:panelGroup>
 					</b:column>
 				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Vehículo Asignado: "
+							rendered="#{solicituduBean.edicion}" />
+					</b:column>
+					<b:column span="4">
+						<h:outputLabel value="#{solicituduBean.sol_vehi}"
+							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+						</h:outputLabel>
+					</b:column>
+				</b:row>
+				<b:row>	
+					<b:column span="2">
+						<h:outputLabel value="Conductor Asignado: "
+							rendered="#{solicituduBean.edicion}" />
+					</b:column>
+					<b:column span="4">
+						<h:outputLabel value="#{solicituduBean.sol_conductornombre}"
+							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+						</h:outputLabel>
+					</b:column>
+				</b:row>
 				<br />
 				<b:row>
 					<b:column span="5">
-						<p:commandButton value="Guardar" styleClass="btn btn-info" disabled="#{solicituduBean.edicion}"
+						<p:commandButton value="Guardar" styleClass="btn btn-info"
+							disabled="#{solicituduBean.edicion}"
 							renrendered="#{solicituduBean.guardaredicion}"
 							style="padding:7px;" onclick="PF('gu').show();"
 							update="frm messages">

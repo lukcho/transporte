@@ -36,14 +36,9 @@ public class Funciones {
 	public static String estadoRechazado = "R";
 	public static String valorEstadoRechazado = "Rechazado";
 	
-	
-	//Atributos de producto
-	public static String estadoServicio = "S";
-	public static String valorEstadoServicio = "Servicio";
-	public static String estadoProducto = "P";
-	public static String valorEstadoProducto = "Producto";
-	
-	
+	public static String estadoAnulado = "N";
+	public static String valorEstadoAnulado= "Anulado";
+
 	//Atributos de Genero
 	public static String estadoFemenino = "F";
 	public static String valorEstadoFemenino = "Femenino";

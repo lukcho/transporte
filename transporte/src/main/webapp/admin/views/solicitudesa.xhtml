@@ -39,9 +39,9 @@
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 							<p:column headerText="OPCIONES" width="50">
 								<p:commandButton id="btnE" icon="ui-icon-pencil"
-									action="#{solicitudaBean.cargarSolicitud()}">
+									action="#{solicitudaBean.cargarSolicitud(sol)}">
 									<p:tooltip id="toolTipTrack1" for="btnE"
-										value="Bot&oacute;n para modificar la soliciud"
+										value="Bot&oacute;n para modificar la solicitud"
 										trackMouse="true" />
 								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
@@ -105,7 +105,7 @@
 				<h:form>
 					<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 						icon="ui-icon-check"
-						action="#{solicitudabean.cambiarEstadoSoli()}"
+						action="#{solicitudaBean.cambiarEstadoSoli()}"
 						oncomplete="PF('ce').hide();" update="frm" />
 					<p:commandButton value="No" type="button"
 						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -122,14 +122,14 @@
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 							<p:column headerText="OPCIONES" width="50">
 								<p:commandButton id="btnE" icon="ui-icon-pencil"
-									action="#{solicitudabean.cargarSolicitud(sol1)}">
+									action="#{solicitudaBean.cargarSolicitud(sol1)}">
 									<p:tooltip id="toolTipTrack1" for="btnE"
 										value="Bot&oacute;n para modificar la soliciud"
 										trackMouse="true" />
 								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-close"
-									action="#{solicitudabean.cambiarEstadoSoli(sol1)}">
+									action="#{solicitudaBean.cambiarEstadoSoli(sol1)}">
 									<p:tooltip id="toolTipTrack2" for="trackcamb"
 										value="Bot&oacute;n para cambiar el estado de la solicitud"
 										trackMouse="true" />
@@ -137,6 +137,10 @@
 							</p:column>
 							<p:column headerText="SOLICITUD NRO." width="80">
 								<h:outputText value="#{sol1.solId}"></h:outputText>
+							</p:column>
+							<p:column headerText="SOLICITANTE" width="100">
+								<h:outputText
+									value="#{sol1.solIdSolicitante}"></h:outputText>
 							</p:column>
 							<p:column headerText="ORIGEN/DESTINO" width="120">
 								<h:outputText
@@ -184,7 +188,7 @@
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{solicitudabean.cambiarEstadoSoli()}"
+					icon="ui-icon-check" action="#{solicitudaBean.cambiarEstadoSoli()}"
 					oncomplete="PF('ce').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
