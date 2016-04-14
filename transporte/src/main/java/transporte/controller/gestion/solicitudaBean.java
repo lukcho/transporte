@@ -682,8 +682,10 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaOrigen() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
+			if(!t.getLugEstado().equals("I")){
 			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
 					+ t.getLugCiudad()));
+			}
 		}
 
 		return listadoSI;
@@ -696,8 +698,10 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaDestino() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
+			if(!t.getLugEstado().equals("I")){
 			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
 					+ t.getLugCiudad()));
+			}
 		}
 
 		return listadoSI;
@@ -710,8 +714,10 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaConductor() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransConductore t : managergest.findAllConductores()) {
+			if(!t.getCondEstado().equals("I")){
 			listadoSI.add(new SelectItem(t.getCondCedula(), t.getCondNombre()
 					+ " " + t.getCondApellido()));
+			}
 		}
 
 		return listadoSI;
@@ -725,8 +731,10 @@ public class solicitudaBean implements Serializable {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransFuncionarioConductor t : managersol
 				.findAllConductFuncionarios()) {
+			if(!t.getFcoEstado().equals("I")){
 			listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres() + " "
 					+ t.getFcoGerencia()));
+			}
 		}
 
 		return listadoSI;
@@ -739,8 +747,10 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaVehiculo() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransVehiculo t : managergest.findAllVehiculos()) {
+			if(!t.getVehiEstado().equals("I")){
 			listadoSI.add(new SelectItem(t.getVehiIdplaca(), t.getVehiIdplaca()
 					+ " " + t.getVehiNombre()));
+			}
 		}
 		return listadoSI;
 	}
