@@ -92,9 +92,9 @@ public class SesionBean implements Serializable{
 				Mensaje.crearMensajeWARN("Campos usuario y contraseña requeridos");
 				return "";
 			}else{
-				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "ARRHAB"));
+				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "TRANS"));
 				setPass(null);
-				return "/admin/views/index?faces-redirect=true";
+				return "/views/index?faces-redirect=true";
 			}
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR(e.getMessage());setPass(null);
@@ -110,7 +110,7 @@ public class SesionBean implements Serializable{
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
         setPass(null);setUsuario(null);setMenu(new ArrayList<Menu>());
-        return "/admin/index?faces-redirect=true";
+        return "/index?faces-redirect=true";
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/admin/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -135,7 +135,7 @@ public class SesionBean implements Serializable{
         		return user.getUsuario();
         	else{
         		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/admin/views/index.xhtml");
+       				FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/views/index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }
@@ -155,7 +155,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/admin/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }

@@ -16,9 +16,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import tranporte.controller.access.SesionBean;
 import transporte.model.dao.entities.TransSolicitud;
 import transporte.model.dao.entities.TransConductore;
 import transporte.model.dao.entities.TransFuncionarioConductor;
@@ -81,12 +83,19 @@ public class solicituduBean implements Serializable {
 	private Date fecha;
 	private Time horainiciotiemp;
 	private Time horafintiemp;
+	
+	@Inject
+	SesionBean ms;
+	
+	private String usuario;
 
 	public solicituduBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
+		sol_usuario_cedula = usuario;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -386,7 +395,6 @@ public class solicituduBean implements Serializable {
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				date = new Date();
-				// sol_idsolicitante = sol.getSolicitante();
 				sol_id_origen = null;
 				sol_id_destino = null;
 				sol_fcoid = null;
@@ -410,15 +418,14 @@ public class solicituduBean implements Serializable {
 				guardaredicion = false;
 				getListaSolicitudDesc().clear();
 				getListaSolicitudDesc().addAll(managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
-				r = "solicitudesu?faces-redirect=true";
+				r = "trans_solicitudesu?faces-redirect=true";
 			} else {
-				managersol.insertarSolicitud(sol_fecha, pasajeros, sol_motivo,
+				managersol.insertarSolicitud(sol_fecha,sol_usuario_cedula, pasajeros, sol_motivo,
 						horainiciotiemp, horafintiemp, sol_flexibilidad,
 						sol_observacion);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
-				// sol_idsolicitante = sol.getSolicitante();
 				sol_id_origen = null;
 				sol_id_destino = null;
 				sol_fcoid = null;
@@ -444,7 +451,7 @@ public class solicituduBean implements Serializable {
 				getListaSolicitudDesc()
 						.addAll(managersol
 								.findAllSolicitudesOrdenados(sol_usuario_cedula));
-				r = "solicitudesu?faces-redirect=true";
+				r = "trans_solicitudesu?faces-redirect=true";
 
 			}
 		} catch (Exception e) {
@@ -510,7 +517,7 @@ public class solicituduBean implements Serializable {
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
-			r = "nsolicitudu?faces-redirect=true";
+			r = "trans_nsolicitudu?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -712,6 +719,8 @@ public class solicituduBean implements Serializable {
 	 */
 	public String volverSolicitud() throws Exception {
 		// limpiar datos
+		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+		sol_usuario_cedula = usuario;
 		sol_id = null;
 		date = new Date();
 		// sol_idsolicitante = sol.getSolicitante();
@@ -738,7 +747,7 @@ public class solicituduBean implements Serializable {
 		getListaSolicitudDesc().clear();
 		getListaSolicitudDesc().addAll(
 				managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
-		return "solicitudesu?faces-redirect=true";
+		return "trans_solicitudesu?faces-redirect=true";
 	}
 
 	/**
@@ -747,11 +756,12 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoSolicitud() {
+		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+		sol_usuario_cedula = usuario;
 		sol_id = null;
 		date = new Date();
 		fecha = null;
 		// sol_idsolicitante = sol.getSolicitante();
-		sol_usuario_cedula = null;
 		sol_id_origen = null;
 		sol_id_destino = null;
 		sol_fcoid = null;
@@ -774,7 +784,7 @@ public class solicituduBean implements Serializable {
 		horafintiemp = null;
 		edicion = false;
 		date = new Date();
-		return "nsolicitudu?faces-redirect=true";
+		return "trans_nsolicitudu?faces-redirect=true";
 	}
 
 	/**
@@ -783,7 +793,6 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
-		sol_usuario_cedula = "1";
 		List<TransSolicitud> a = managersol
 				.findAllSolicitudesOrdenados(sol_usuario_cedula);
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();

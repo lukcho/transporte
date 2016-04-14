@@ -11,9 +11,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import tranporte.controller.access.SesionBean;
 import transporte.model.generic.Funciones;
 import transporte.model.dao.entities.TransLugare;
 import transporte.model.generic.Mensaje;
@@ -44,11 +46,17 @@ public class lugarBean implements Serializable {
 	
 	private List<TransLugare> listaLugares;
 
+	@Inject
+	SesionBean ms;
+	private String usuario;
+	
 	public lugarBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		usuario = ms.validarSesion("trans_lugares.xhtml");
+		usuario = ms.validarSesion("trans_nlugar.xhtml");
 		lug_id = null;
 		lug_estado="A";
 		lug_nombre="";
@@ -162,13 +170,13 @@ public class lugarBean implements Serializable {
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "lugares?faces-redirect=true";
+				r= "trans_lugares?faces-redirect=true";
 			} else {
 					managergest.insertarLugar(lug_nombre, lug_ciudad);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaLugares().clear();
 					getListaLugares().addAll(managergest.findAllLugares());
-					r= "lugares?faces-redirect=true";
+					r= "trans_lugares?faces-redirect=true";
 				}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -205,7 +213,7 @@ public class lugarBean implements Serializable {
 			lug_estado = lug.getLugEstado();
 			edicion = true;
 			ediciontipo = false;
-			return "nlugar?faces-redirect=true";
+			return "trans_nlugar?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -288,7 +296,7 @@ public class lugarBean implements Serializable {
 		verhorario = false;
 		mostrarlug_id = false;
 		edicion = false;
-		return "nlugar?faces-redirect=true";
+		return "trans_nlugar?faces-redirect=true";
 	}
 	
 	
@@ -309,6 +317,6 @@ public class lugarBean implements Serializable {
 		edicion = false;
 		getListaLugares().clear();
 		getListaLugares().addAll(managergest.findAllLugares());
-		return "lugares?faces-redirect=true";
+		return "trans_lugares?faces-redirect=true";
 	}
 }

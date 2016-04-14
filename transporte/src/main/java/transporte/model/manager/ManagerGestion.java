@@ -159,15 +159,6 @@ public class ManagerGestion{
 	}
 	
 	/**
-	 * buscar conductoresfuncionario por ID
-	 * @param prod_id
-	 * @throws Exception
-	 */
-	public TransFuncionarioConductor conductorfuncionarioByID(String confun_id) throws Exception {
-		return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, confun_id);
-	}
-	
-	/**
 	 * Agrega conductores
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -223,17 +214,17 @@ public class ManagerGestion{
 	 */	
 	public String cambioEstadoConductor(String con_id) throws Exception{
 		String h="";
-		TransConductore vehi = conductorByID(con_id);						
+		TransConductore con = conductorByID(con_id);						
 		
-		if(vehi.getCondEstado().equals("A")){
-			vehi.setCondEstado("I");
+		if(con.getCondEstado().equals("A")){
+			con.setCondEstado("I");
 			h="Estado Modificado";
 			}
-		else if(vehi.getCondEstado().equals("I")){
-			vehi.setCondEstado("A");
+		else if(con.getCondEstado().equals("I")){
+			con.setCondEstado("A");
 			h="Estado Modificado";
 			}
-		mDAO.actualizar(vehi);
+		mDAO.actualizar(con);
 		return h;
 		}		
 	
@@ -249,6 +240,108 @@ public class ManagerGestion{
 		}
 		return resp;
 	}
+	
+	//CONDUCTORES FUNCIONARIOS
+		/**
+		 * listar todos los conductores funcionarios
+		 * @param prod_id
+		 * @throws Exception
+		 */	
+		@SuppressWarnings("unchecked") 
+		public List<TransFuncionarioConductor> findAllConductoresFuncionarios() {
+			return mDAO.findAll(TransFuncionarioConductor.class);
+		}
+
+		/**
+		 * buscar conductores funcionarios por ID
+		 * @param prod_id
+		 * @throws Exception
+		 */
+		public TransFuncionarioConductor conductorfunByID(String conf_id) throws Exception {
+			return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, conf_id);
+		}
+		
+		/**
+		 * Agrega conductores funcionarios
+		 * @param pro_id
+		 * @param prodfoto_id
+		 * @param pro_nombre
+		 * @param pro_descripcion
+		 * @param pro_costo
+		 * @param pro_precio
+		 * @param pro_stock
+		 * @param pro_estado
+		 * @param pro_estado_fun
+		 * @throws Exception
+		 */
+		public void insertarConductorFun(String conf_cedid,String conf_nombre, String conf_gerencia, String conf_direccion) throws Exception {
+			TransFuncionarioConductor conf = new TransFuncionarioConductor();
+			conf.setFcoId(conf_cedid);
+			conf.setFcoNombres(conf_nombre);
+			conf.setFcoGerencia(conf_gerencia);
+			conf.setFcoDireccion(conf_direccion);
+			conf.setFcoEstado("A");
+			mDAO.insertar(conf);		
+		}
+
+		/**
+		 * Cambiar datos de conductores funcionarios
+		 * @param pro_id
+		 * @param prodfoto_id
+		 * @param pro_nombre
+		 * @param pro_descripcion
+		 * @param pro_costo
+		 * @param pro_precio
+		 * @param pro_stock
+		 * @param pro_estado
+		 * @param pro_estado_fun
+		 * @throws Exception
+		 */	
+		public void editarConductorFun(String conf_cedid,String conf_nombre, String conf_gerencia, String conf_direccion, String conf_estado) throws Exception {
+			TransFuncionarioConductor conf =  this.conductorfunByID(conf_cedid);
+			conf.setFcoNombres(conf_nombre);
+			conf.setFcoGerencia(conf_gerencia);
+			conf.setFcoDireccion(conf_direccion);
+			conf.setFcoEstado(conf_estado);
+			mDAO.actualizar(conf);	
+		}
+		
+		/**
+		 * Cambiar estado conductores funcionarios
+		 * @param id_prod
+		 * @param nombre
+		 * @param apellido
+		 * @param correo
+		 * @throws Exception
+		 */	
+		public String cambioEstadoConductorFun(String conf_id) throws Exception{
+			String h="";
+			TransFuncionarioConductor conf = conductorfunByID(conf_id);						
+			
+			if(conf.getFcoEstado().equals("A")){
+				conf.setFcoEstado("I");
+				h="Estado Modificado";
+				}
+			else if(conf.getFcoEstado().equals("I")){
+				conf.setFcoEstado("A");
+				h="Estado Modificado";
+				}
+			mDAO.actualizar(conf);
+			return h;
+			}		
+		
+		/**
+		 * Verifica si el conductores esta activado
+		 * @param u conductores a analizar
+		 * @return true o false
+		 */
+		public boolean esConFunActivo(TransFuncionarioConductor u){
+			boolean  resp = false;
+			if(u.getFcoEstado().equals("A")){
+				resp = true;
+			}
+			return resp;
+		}
 	
 	//LUGARES
 	/**

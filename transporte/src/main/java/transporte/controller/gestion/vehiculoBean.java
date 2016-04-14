@@ -11,9 +11,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import tranporte.controller.access.SesionBean;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
 import transporte.model.generic.Mensaje;
@@ -47,12 +49,17 @@ public class vehiculoBean implements Serializable {
 	private boolean verhorario;
 	
 	private List<TransVehiculo> listaVehiculo;
+	
+	@Inject
+	SesionBean ms;
+	private String usuario;
 
 	public vehiculoBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		usuario = ms.validarSesion("trans_vehiculos.xhtml");
 		vehi_id = null;
 		vehi_estado_funcional = "A";
 		vehi_estado="A";
@@ -166,6 +173,18 @@ public class vehiculoBean implements Serializable {
 	public void setListaVehiculo(List<TransVehiculo> listaVehiculo) {
 		this.listaVehiculo = listaVehiculo;
 	}
+	
+	//metodo para listar los VEHICULOS
+	public List<TransVehiculo> ListaVehiculosSin(){			
+		List<TransVehiculo> a = managergest.findAllVehiculos();
+		List<TransVehiculo> l1 = new ArrayList<TransVehiculo>();			
+		for (TransVehiculo t : a ){								
+				if(!t.getVehiIdplaca().equals("Ninguno")){
+						l1.add(t);
+			}		
+		}
+		return l1;
+	}
 
 	public TransVehiculo getVehi() {
 		return vehi;
@@ -199,7 +218,7 @@ public class vehiculoBean implements Serializable {
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				getListaVehiculo().clear();
 				getListaVehiculo().addAll(managergest.findAllVehiculos());
-				r= "vehiculos?faces-redirect=true";
+				r= "trans_vehiculos?faces-redirect=true";
 			} else {
 				if (!averiguarVehiid(vehi_id)) {
 					Integer capa = Integer.parseInt(vehi_capacidad);
@@ -207,7 +226,7 @@ public class vehiculoBean implements Serializable {
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaVehiculo().clear();
 					getListaVehiculo().addAll(managergest.findAllVehiculos());
-					r= "vehiculos?faces-redirect=true";
+					r= "trans_vehiculos?faces-redirect=true";
 				}
 			}
 		} catch (Exception e) {
@@ -237,7 +256,7 @@ public class vehiculoBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String cargarProducto(TransVehiculo vehi) {
+	public String cargarVehiculo(TransVehiculo vehi) {
 		try {
 			vehi_id=vehi.getVehiIdplaca();
 			vehi_nombre = vehi.getVehiNombre();
@@ -248,8 +267,9 @@ public class vehiculoBean implements Serializable {
 			vehi_estado = vehi.getVehiEstado();
 			vehi_estado_funcional = vehi.getVehiEstadoFuncional();
 			edicion = true;
+			mostrarvehi_id = true;
 			ediciontipo = false;
-			return "nvehiculo?faces-redirect=true";
+			return "trans_nvehiculo?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -299,7 +319,7 @@ public class vehiculoBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del producto existe.", null));
+								"El codigo del Veh&iacute;culo existe.", null));
 			}
 		}
 		if (t == 0) {
@@ -357,7 +377,7 @@ public class vehiculoBean implements Serializable {
 		mostrarvehi_id= false;
 		edicion = false;
 		verhorario=false;
-		return "nvehiculo?faces-redirect=true";
+		return "trans_nvehiculo?faces-redirect=true";
 	}
 	
 	/**
@@ -381,6 +401,6 @@ public class vehiculoBean implements Serializable {
 		edicion = false;
 		getListaVehiculo().clear();
 		getListaVehiculo().addAll(managergest.findAllVehiculos());
-		return "vehiculos?faces-redirect=true";
+		return "trans_vehiculos?faces-redirect=true";
 	}
 }

@@ -30,11 +30,9 @@
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Solicitante:  " />
-						<h:outputLabel value="Jefe Imediato:  " />
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Lukcho correa " />
-						<h:outputLabel value="José Manuel Vega" />
+						<h:outputLabel value="#{solicituduBean.sol_usuario_cedula} " />
 					</b:column>
 					<b:column span="1"></b:column>
 					<b:column span="2">
@@ -158,7 +156,7 @@
 						</h:outputLabel>
 					</b:column>
 				</b:row>
-				<b:row>	
+				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Conductor Asignado: "
 							rendered="#{solicituduBean.edicion}" />
@@ -189,8 +187,9 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la informaci&oacute;n?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			message="Está seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{solicituduBean.crearSolicitud()}"

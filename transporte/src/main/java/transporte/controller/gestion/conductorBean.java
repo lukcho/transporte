@@ -11,9 +11,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import tranporte.controller.access.SesionBean;
 import transporte.model.dao.entities.TransConductore;
 import transporte.model.generic.Funciones;
 import transporte.model.generic.Mensaje;
@@ -43,12 +45,18 @@ public class conductorBean implements Serializable {
 	private boolean ediciontipo;
 	
 	private List<TransConductore> listaConductores;
+	
+	@Inject
+	SesionBean ms;
+	private String usuario;
 
 	public conductorBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		usuario = ms.validarSesion("trans_conductores.xhtml");
+		usuario = ms.validarSesion("trans_nconductor.xhtml");
 		cond_cedula = null;
 		cond_estado="A";
 		edicion = false;
@@ -140,6 +148,18 @@ public class conductorBean implements Serializable {
 	public List<TransConductore> getListaConductores() {
 		return listaConductores;
 	}
+	
+	//metodo para listar los conductores
+	public List<TransConductore> ListaConductoresSin(){			
+		List<TransConductore> a = managergest.findAllConductores();
+		List<TransConductore> l1 = new ArrayList<TransConductore>();			
+		for (TransConductore t : a ){								
+				if(!t.getCondCedula().equals("Ninguno")){
+						l1.add(t);
+			}		
+		}
+		return l1;
+	}
 
 	public void setListaConductores(List<TransConductore> listaConductores) {
 		this.listaConductores = listaConductores;
@@ -163,18 +183,19 @@ public class conductorBean implements Serializable {
 		String r = "";
 		try {
 			if (edicion) {
+				System.out.println(cond_cedula+"....."+cond_nombre+"....."+cond_apellido+"......."+cond_estado);
 				managergest.editarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono, cond_estado);
 				getListaConductores().clear();
 				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "conductores?faces-redirect=true";
+				r= "trans_conductores?faces-redirect=true";
 			} else {
 				if (!averiguarConid(cond_cedula)) {
 					managergest.insertarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono);
 					getListaConductores().clear();
 					getListaConductores().addAll(managergest.findAllConductores());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
-					r= "conductores?faces-redirect=true";
+					r= "trans_conductores?faces-redirect=true";
 				}
 			}
 		} catch (Exception e) {
@@ -212,8 +233,9 @@ public class conductorBean implements Serializable {
 			cond_telefono = cond.getCondTelefono();
 			cond_estado = cond.getCondEstado();
 			edicion = true;
+			mostrarcond_id=true;
 			ediciontipo = false;
-			return "nconductor?faces-redirect=true";
+			return "trans_nconductor?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -251,19 +273,19 @@ public class conductorBean implements Serializable {
 	 * metodo para conocer el conductor si esta usado
 	 * 
 	 */
-	public boolean averiguarConid(String vehi_id) {
+	public boolean averiguarConid(String cond_id) {
 		Integer t = 0;
 		boolean r = false;
 		List<TransConductore> cond = managergest.findAllConductores();
 		for (TransConductore y : cond) {
-			if (y.getCondCedula().equals(vehi_id)) {
+			if (y.getCondCedula().equals(cond_id)) {
 				System.out.println("si entra1");
 				t = 1;
 				r = true;
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del producto existe.", null));
+								"El codigo del conductor existe.", null));
 			}
 		}
 		if (t == 0) {
@@ -301,7 +323,7 @@ public class conductorBean implements Serializable {
 		ediciontipo = false;
 		mostrarcond_id= false;
 		edicion = false;
-		return "nconductor?faces-redirect=true";
+		return "trans_nconductor?faces-redirect=true";
 	}
 	
 	/**
@@ -322,6 +344,6 @@ public class conductorBean implements Serializable {
 		edicion = false;
 		getListaConductores().clear();
 		getListaConductores().addAll(managergest.findAllConductores());
-		return "conductores?faces-redirect=true";
+		return "trans_conductores?faces-redirect=true";
 	}
 }

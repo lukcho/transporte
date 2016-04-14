@@ -8,14 +8,14 @@
 
 	<ui:composition template="template.xhtml">
 		<ui:define name="titulo">
-            Conductores
+            Conductores Funcionarios
         </ui:define>
 		<ui:define name="contenido">
 			<h:form>
-				<center><h1>Gesti&oacute;n de Conductores</h1></center>
+				<center><h1>Gesti&oacute;n de Conductores Funcionarios</h1></center>
 				<b:row>
 					<b:column span="1">
-						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{conductorBean.nuevoConductor()}" />
+						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{conductorfunBean.nuevoConductorFun()}" />
 					</b:column>
 					<b:column span="1">
 						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
@@ -25,55 +25,54 @@
 			<br/>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de Conductores" look="primary">
-				<p:dataTable id="tbb" value="#{conductorBean.listaConductores}"
+			<b:panel title="Listado de Conductores Funcionarios" look="primary">
+				<p:dataTable id="tbb" value="#{conductorfunBean.ListaConductoresFunSin()}"
 					reflow="true" var="con" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{conductorBean.cargarConductor(con)}">
+							action="#{conductorfunBean.cargarConductorFun(con)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el conductor"
 								trackMouse="true" />
 						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							action="#{conductorBean.cambiarEstadoCon(con)}">
+							action="#{conductorfunBean.cambiarEstadoConFun(con)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del condutor"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<p:column filterBy="#{con.condCedula}" filterMatchMode="contains"
+					<p:column filterBy="#{con.fcoId}" filterMatchMode="contains"
 						headerText="C&Eacute;DULA" width="70">
-						<h:outputText value="#{con.condCedula}"></h:outputText>
+						<h:outputText value="#{con.fcoId}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{con.condNombre}" filterMatchMode="contains"
-						headerText="NOMBRE" width="70">
-						<h:outputText value="#{con.condNombre}"></h:outputText>
+					<p:column headerText="NOMBRE" width="70">
+						<h:outputText value="#{con.fcoNombres}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{con.condApellido}" filterMatchMode="contains"
+					<p:column filterBy="#{con.fcoGerencia}" filterMatchMode="contains"
 						headerText="Apellido" width="70">
-						<h:outputText value="#{con.condApellido}"></h:outputText>
+						<h:outputText value="#{con.fcoGerencia}"></h:outputText>
 					</p:column>
 					<p:column headerText="TEL&Eacute;FONO" width="60">
-						<h:outputText value="#{con.condTelefono}"></h:outputText>
+						<h:outputText value="#{con.fcoDireccion}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{con.condEstado}" filterMatchMode="contains"
+					<p:column filterBy="#{con.fcoEstado}" filterMatchMode="contains"
 						 headerText="ESTADO"  width="30">
-						<h:outputText value="#{con.condEstado}"></h:outputText>
+						<h:outputText value="#{con.fcoEstado}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>
 		</h:form>
-		<p:confirmDialog header="Confirmación"
-			message="Está seguro de cambiar el estado?" closable="false"
+		<p:confirmDialog header="Confirmaci&oacute;n"
+			message="Est&aacute; seguro de cambiar el estado?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check"
-					action="#{conductorBean.cambiarEstadoCondu()}"
+					action="#{conductorfunBean.cambiarEstadoConduFun()}"
 					oncomplete="PF('ce').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

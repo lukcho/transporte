@@ -108,6 +108,16 @@ public class ManagerSolicitud{
 	public List<TransSolicitud> findAllVehiculosOcu(String placa, Timestamp fecha) {
 		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and o.solFecha = '" +fecha+ "' ", " o.solFecha desc ");
 	}
+	
+	/**
+	 * listar todos los solicitudes
+	 * @param prod_id
+	 * @throws Exception
+	 */	
+	@SuppressWarnings("unchecked") 
+	public List<TransSolicitud> findAllVehiculoConductor() {
+		return mDAO.findAll(TransSolicitud.class);
+	}
 
 	/**
 	 * listar todos los eventos en ordenados
@@ -153,9 +163,9 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion) throws Exception {
+	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
-		sol.setSolIdSolicitante("1");
+		sol.setSolIdSolicitante(usuario);
 		cargafecha();
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
@@ -403,7 +413,7 @@ public class ManagerSolicitud{
 	 */
 	public TransFuncionarioConductor asignarConductorfuncionario(String confun_id) {
 		try {
-			trans_fco = mGes.conductorfuncionarioByID(confun_id);
+			trans_fco = mGes.conductorfunByID(confun_id);
 		} catch (Exception e) {
 			// TODO Auto-generated prodch block
 			e.printStackTrace();

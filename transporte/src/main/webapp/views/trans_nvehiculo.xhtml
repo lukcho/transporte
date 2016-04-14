@@ -21,7 +21,7 @@
 						<h:outputLabel value="N&uacute;mero de Placa:* " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_id}" required="true"
+						<b:inputText value="#{vehiculoBean.vehi_id}" required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
 							requiredMessage="Campo num. placa requerido" maxlength="100"
 							validatorMessage="Num. placa no debe contener espacios ni caracteres especiales con may&uacute;sculas.">
 							<f:validateRegex pattern="^([A-Z]{3}-\d{3,4})$" />

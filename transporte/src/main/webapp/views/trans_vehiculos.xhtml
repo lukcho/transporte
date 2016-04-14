@@ -26,13 +26,13 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
 			<b:panel title="Listado de Veh&iacute;culos" look="primary">
-				<p:dataTable id="tbb" value="#{vehiculoBean.listaVehiculo}"
+				<p:dataTable id="tbb" value="#{vehiculoBean.ListaVehiculosSin()}"
 					reflow="true" var="vehi" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{vehiculoBean.cargarProducto(vehi)}">
+							action="#{vehiculoBean.cargarVehiculo(vehi)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el veh&iacute;culo"
 								trackMouse="true" />
