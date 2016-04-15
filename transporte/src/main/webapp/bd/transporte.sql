@@ -72,7 +72,7 @@ create table TRANS_VEHICULO (
 /*==============================================================*/
 create table TRANS_SOLICITUD (
    SOL_ID               INT4                 not null DEFAULT nextval('seq_trans_solicitud'::regclass),
-   SOL_ID_SOLICITANTE   VARCHAR(20)          null,
+   SOL_ID_SOLICITANTE   VARCHAR(100)          null,
    LUG_ID_ORIGEN        INT4                 null,
    LUG_ID_DESTINO       INT4                 null,
    FCO_ID               VARCHAR(20)          null,

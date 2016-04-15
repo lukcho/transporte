@@ -14,7 +14,7 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Crear Nueva Solicitud" look="primary">
 				<b:row>
 					<b:column span="2">
@@ -42,7 +42,7 @@
 						<b:inputText value="#{solicituduBean.sol_pasajeros}"
 							disabled="#{solicituduBean.edicion}" required="true"
 							requiredMessage="Campo pasajeros requerido" maxlength="10"
-							validatorMessage="Campo pasajeros debe ingresar solo números.">
+							validatorMessage="Campo pasajeros debe ingresar solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
 					</b:column>
@@ -64,9 +64,9 @@
 					</b:column>
 					<b:column span="3">
 						<b:inputTextarea value="#{solicituduBean.sol_motivo}"
-							disabled="#{solicituduBean.edicion}" required="true"
-							requiredMessage="Campo motivo requerido" maxlength="255">
-							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
+							fieldSize="2" rows="2" disabled="#{solicituduBean.edicion}"
+							required="true" requiredMessage="Campo motivo requerido"
+							maxlength="255">
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
@@ -80,18 +80,18 @@
 										disabled="#{solicituduBean.edicion}" styleClass="form-control"
 										requiredMessage="Requerido Origen"
 										value="#{solicituduBean.sol_id_origen}">
-										<f:selectItem itemLabel="Selección Origen" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Origen" itemValue="" />
 										<f:selectItems value="#{solicituduBean.listaOrigen}" />
 										<f:ajax listener="#{solicituduBean.asignarLugarOrigen()}" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini" label="Hora inicio" title="Hora Inicio"
-									disabled="#{solicituduBean.edicion}"
+								<p:calendar id="horaini" disabled="#{solicituduBean.edicion}"
+									minMinute="0" maxMinute="0"
 									value="#{solicituduBean.sol_hora_inicio}" pattern="HH:mm"
-									minMinute="0" maxMinute="0" required="true"
-									requiredMessage="Requerido Hora Inicio" timeOnly="true">
+									required="true" requiredMessage="Requerido Hora Inicio"
+									timeOnly="true">
 								</p:calendar>
 							</f:facet>
 						</b:thumbnail>
@@ -105,7 +105,8 @@
 										disabled="#{solicituduBean.edicion}" styleClass="form-control"
 										requiredMessage="Requerido Destino"
 										value="#{solicituduBean.sol_id_destino}">
-										<f:selectItem itemLabel="Selección Destino" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Destino"
+											itemValue="" />
 										<f:selectItems value="#{solicituduBean.listaDestino}" />
 										<f:ajax listener="#{solicituduBean.asignarLugarDestino()}" />
 									</h:selectOneMenu>
@@ -123,26 +124,28 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="2">
-						<b:selectBooleanCheckbox
-							value="#{solicituduBean.sol_flexibilidad}"
-							disabled="#{solicituduBean.edicion}"
-							caption="Flexibilidad de cambio de hora" />
-					</b:column>
-					<b:column span="3">
+					<b:column span="2" style="margin-bottom:10px">
 						<h:outputLabel value="Funcionario Conductor: " />
+					</b:column>
+					<b:column span="3" style="margin-bottom:10px">
 						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar7" required="true"
-								requiredMessage="Requerido Funcionario"
+							<h:selectOneMenu id="trackseleccionar7"
 								disabled="#{solicituduBean.edicion}" styleClass="form-control"
 								value="#{solicituduBean.sol_fcoid}">
-								<f:selectItem itemLabel="Selección" itemValue="" />
+								<f:selectItem itemLabel="Ninguno"
+									itemValue="" />
 								<f:selectItems
 									value="#{solicituduBean.listaConductorfuncionario}" />
 								<f:ajax
 									listener="#{solicituduBean.asignarConductorFuncionario()}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
+					</b:column>
+					<b:column span="3" style="margin-bottom:10px">
+						<b:selectBooleanCheckbox
+							value="#{solicituduBean.sol_flexibilidad}"
+							disabled="#{solicituduBean.edicion}"
+							caption="Flexibilidad de cambio de hora" />
 					</b:column>
 				</b:row>
 				<b:row>
@@ -173,7 +176,8 @@
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
 							disabled="#{solicituduBean.edicion}"
 							renrendered="#{solicituduBean.guardaredicion}"
-							style="padding:7px;" onclick="PF('gu').show();"
+							style="padding:7px;"
+							actionListener="#{solicituduBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
@@ -186,8 +190,8 @@
 				<br />
 			</b:panel>
 		</h:form>
-		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la informaci&oacute;n?"
+		<p:confirmDialog header="Confirmaci&oacute;n"
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?"
 			closable="false" showEffect="fade" hideEffect="explode"
 			widgetVar="gu">
 			<h:form>

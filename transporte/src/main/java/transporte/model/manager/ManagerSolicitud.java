@@ -16,6 +16,7 @@ public class ManagerSolicitud{
 
 	@EJB
 	private ManagerDAO mDAO;
+	
 	@EJB
 	private ManagerGestion mGes;
 	
@@ -26,7 +27,7 @@ public class ManagerSolicitud{
 	private static TransFuncionarioConductor trans_fco;
 	
 	private  Timestamp fecha_creacion;
-
+	
 	String h="";		
 		
 	public ManagerSolicitud() {

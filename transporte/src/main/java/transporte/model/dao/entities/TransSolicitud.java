@@ -43,7 +43,7 @@ public class TransSolicitud implements Serializable {
 	@Column(name="sol_hora_inicio")
 	private Time solHoraInicio;
 
-	@Column(name="sol_id_solicitante", length=20)
+	@Column(name="sol_id_solicitante", length=100)
 	private String solIdSolicitante;
 
 	@Column(name="sol_motivo", length=255)

@@ -14,7 +14,7 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Crear Nueva Solicitud" look="primary">
 				<b:row>
 					<b:column span="2">
@@ -24,13 +24,13 @@
 						<h:outputLabel value="#{solicitudaBean.sol_usuario_cedula}" />
 					</b:column>
 					<b:column span="1"></b:column>
-					<b:column span="2">
+					<b:column span="1">
 						<h:outputLabel value="Pasajeros:* " />
 					</b:column>
-					<b:column span="3">
-						<b:inputText value="#{solicitudaBean.sol_pasajeros}" disabled="#{solicitudaBean.infomostrar}"
-							required="true" requiredMessage="Campo pasajeros requerido"
-							maxlength="10"
+					<b:column span="4">
+						<b:inputText value="#{solicitudaBean.sol_pasajeros}"
+							disabled="#{solicitudaBean.infomostrar}" required="true"
+							requiredMessage="Campo pasajeros requerido" maxlength="10"
 							validatorMessage="Campo pasajeros debe ingresar solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
@@ -41,21 +41,22 @@
 						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
-						<p:calendar required="true" mindate="#{solicitudaBean.date}"  disabled="#{solicitudaBean.infomostrar}"
+						<p:calendar required="true" mindate="#{solicitudaBean.date}"
+							disabled="#{solicitudaBean.infomostrar}"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
 							value="#{solicitudaBean.fecha}" pattern="yyyy/MM/dd" mask="true">
 							<p:ajax event="dateSelect" render="frm" update="frm messages"></p:ajax>
 						</p:calendar>
 					</b:column>
-					<b:column span="2">
+					<b:column span="1">
 						<h:outputLabel value="Motivo:* " />
 					</b:column>
-					<b:column span="3">
-						<b:inputTextarea value="#{solicitudaBean.sol_motivo}"  disabled="#{solicitudaBean.infomostrar}"
+					<b:column span="4">
+						<b:inputTextarea value="#{solicitudaBean.sol_motivo}"
+							fieldSize="2" rows="2" disabled="#{solicitudaBean.infomostrar}"
 							required="true" requiredMessage="Campo motivo requerido"
-							maxlength="255"
-							validatorMessage="Campo motivo no debe contener espacios ni caracteres especiales.">
-							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
+							maxlength="255">
+							
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
@@ -65,7 +66,8 @@
 							<f:facet name="caption">
 								<h:outputLabel value="Lugar Origen:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar2" required="true"  disabled="#{solicitudaBean.infomostrar}"
+									<h:selectOneMenu id="trackseleccionar2" required="true"
+										disabled="#{solicitudaBean.infomostrar}"
 										styleClass="form-control" requiredMessage="Requerido Origen"
 										value="#{solicitudaBean.sol_id_origen}">
 										<f:selectItem itemLabel="Selecci&oacute;n Origen" itemValue="" />
@@ -75,7 +77,7 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini" minMinute="0" maxMinute="0"  
+								<p:calendar id="horaini" minMinute="0" maxMinute="0"
 									disabled="#{solicitudaBean.horamostrar}"
 									value="#{solicitudaBean.sol_hora_inicio}" pattern="HH:mm"
 									required="true" requiredMessage="Requerido Hora Inicio"
@@ -89,17 +91,19 @@
 							<f:facet name="caption">
 								<h:outputLabel value="Lugar Destino:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar3" required="true"  disabled="#{solicitudaBean.infomostrar}"
+									<h:selectOneMenu id="trackseleccionar3" required="true"
+										disabled="#{solicitudaBean.infomostrar}"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_id_destino}">
-										<f:selectItem itemLabel="Selecci&oacute;n Destino" itemValue="" />
+										<f:selectItem itemLabel="Selecci&oacute;n Destino"
+											itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaDestino}" />
 										<f:ajax listener="#{solicitudaBean.asignarLugarDestino()}" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
-								<p:calendar id="horafin" value="#{solicitudaBean.sol_hora_fin}"  
+								<p:calendar id="horafin" value="#{solicitudaBean.sol_hora_fin}"
 									disabled="#{solicitudaBean.horamostrar}" pattern="HH:mm"
 									required="true" minMinute="0" maxMinute="0"
 									requiredMessage="Requerido Hora Inicio" timeOnly="true">
@@ -109,46 +113,31 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="2">
-						<b:selectBooleanCheckbox
-							value="#{solicitudaBean.sol_flexibilidad}"
-							caption="Flexibilidad de cambio de hora" />
-					</b:column>
-					<b:column span="3">
-						<h:outputLabel value="Funcionario Conductor:* " />
-						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"  disabled="#{solicitudaBean.infomostrar}"
-								value="#{solicitudaBean.sol_fcoid}">
-								<f:selectItem itemLabel="Selecci&oacute;n Funcionario Conductor"
-									itemValue="" />
-								<f:selectItems
-									value="#{solicitudaBean.listaConductorfuncionario}" />
-								<f:ajax
-									listener="#{solicitudaBean.asignarConductorFuncionario()}" />
-							</h:selectOneMenu>
-						</h:panelGroup>
-					</b:column>
-					<b:column span="5" >
-						<b:thumbnail tooltip="Asignar Veh&iacute;culo" tooltip-position="right"  disabled="#{solicitudaBean.infomostrar}"
+				<b:column span="5">
+						<b:thumbnail tooltip="Asignar Veh&iacute;culo"
+							tooltip-position="right" disabled="#{solicitudaBean.infomostrar}"
 							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
 								<h:outputLabel value="Vehículo:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar5" required="true"  disabled="#{solicitudaBean.infomostrar}"
-										requiredMessage="Requerido Veh&iacute;culo" styleClass="form-control"
-										value="#{solicitudaBean.sol_vehi}">
+									<h:selectOneMenu id="trackseleccionar5" required="true"
+										disabled="#{solicitudaBean.infomostrar}"
+										requiredMessage="Requerido Veh&iacute;culo"
+										styleClass="form-control" value="#{solicitudaBean.sol_vehi}">
 										<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
-										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}" render="frm" update="frm messages" />
+										<f:ajax listener="#{solicitudaBean.asignarVehiculo()}"
+											render="frm" update="frm messages" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<h:outputLabel value="Conductor:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar6"  required="true"  disabled="#{solicitudaBean.infomostrar}"
-										requiredMessage="Requerido Conductor"
+									<h:selectOneMenu id="trackseleccionar6"
+										disabled="#{solicitudaBean.infomostrar}"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_conductor}">
-										<f:selectItem itemLabel="Selecci&oacute;n Conductor" itemValue="" />
+										<f:selectItem itemLabel="Ninguno"
+											itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaConductor}" />
 										<f:ajax listener="#{solicitudaBean.asignarConductor()}" />
 									</h:selectOneMenu>
@@ -156,67 +145,82 @@
 							</f:facet>
 						</b:thumbnail>
 					</b:column>
-				</b:row>
-				<br />
-				<b:row>
-					<b:column span="2">
+					<b:column span="3">
+						<h:outputLabel value="Funcionario Conductor:* " />
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"
+								disabled="#{solicitudaBean.infomostrar}"
+								value="#{solicitudaBean.sol_fcoid}">
+								<f:selectItem itemLabel="Ninguno"
+									itemValue="" />
+								<f:selectItems
+									value="#{solicitudaBean.listaConductorfuncionario}" />
+								<f:ajax
+									listener="#{solicitudaBean.asignarConductorFuncionario()}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+						
 						<h:outputLabel value="Estado*"
 							rendered="#{solicitudaBean.edicion}" />
-					</b:column>
-					<b:column span="4">
-						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"   disabled="#{solicitudaBean.infomostrar}"
-							required="true" requiredMessage="Requerido Estado"
+						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
+							disabled="#{solicitudaBean.infomostrar}" required="true"
+							requiredMessage="Requerido Estado"
 							rendered="#{solicitudaBean.edicion}">
 							<f:selectItem itemLabel="Selecci&oacute;n Estado" itemValue="" />
 							<f:selectItems value="#{solicitudaBean.listEstados}" />
 						</b:selectOneMenu>
 					</b:column>
+					<b:column span="2">
+						<b:selectBooleanCheckbox
+							value="#{solicitudaBean.sol_flexibilidad}" disabled="#{solicitudaBean.infomostrar} and #{solicitudaBean.horamostrar}"
+							caption="Flexibilidad de cambio de hora" />
+					</b:column>
+					
 				</b:row>
-				<br />
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
-							<p:growl id="messages" showDetail="true" />
-							<b:panel title="Listado de Veh&iacute;culos" look="primary">
-								<p:dataTable id="tbb"
-									value="#{solicitudaBean.listaVehiOcu}" reflow="true"
-									var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-									<p:column headerText="FECHA" width="70">
-										<h:outputText value="#{sol.solFecha}">
-											<f:convertDateTime pattern="yyyy/MM/dd" />
-										</h:outputText>
-									</p:column>
-									<p:column  headerText="NOMBRE SOLICITANTE"
-										width="70">
-										<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
-									</p:column>
-									<p:column headerText="ORIGEN/DESTINO" width="100">
-										<h:outputText
-											value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
-									</p:column>
-									<p:column headerText="HORA INICIO/FIN" width="100">
-										<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
-										</h:outputText>
-									</p:column>
-									<p:column headerText="CONDUCTOR" width="70">
-										<h:outputText
-											value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
-									</p:column>
-									<p:column headerText="FECHA APROBACI&Oacute;N" width="70">
-										<h:outputText value="#{sol.solFechaAprobacion}">
-											<f:convertDateTime pattern="yyyy/MM/dd" />
-										</h:outputText>
-									</p:column>
-									<p:column headerText="ESTADO" width="70">
-										<h:outputText value="#{sol.solEstado}"></h:outputText>
-									</p:column>
-								</p:dataTable>
-							</b:panel>
+					<p:growl id="messages" showDetail="true" />
+					<b:panel title="Disponibilidad del Veh&iacute;culo" look="primary">
+						<p:dataTable id="tbb" value="#{solicitudaBean.listaVehiOcu}"
+							reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="FECHA" width="70">
+								<h:outputText value="#{sol.solFecha}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="NOMBRE SOLICITANTE" width="70">
+								<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
+							</p:column>
+							<p:column headerText="ORIGEN/DESTINO" width="100">
+								<h:outputText
+									value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
+							</p:column>
+							<p:column headerText="HORA INICIO/FIN" width="100">
+								<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
+								</h:outputText>
+							</p:column>
+							<p:column headerText="CONDUCTOR" width="70">
+								<h:outputText
+									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+							</p:column>
+							<p:column headerText="FECHA APROBACI&Oacute;N" width="70">
+								<h:outputText value="#{sol.solFechaAprobacion}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="ESTADO" width="70">
+								<h:outputText value="#{sol.solEstado}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
 				</h:form>
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							renrendered="#{solicitudaBean.guardaredicion}"
-							style="padding:7px;" onclick="PF('gu').show();"
+							renrendered="#{solicitudaBean.guardaredicion}"  disabled="#{solicitudaBean.infomostrar}"
+							style="padding:7px;"
+							actionListener="#{solicitudaBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
@@ -229,9 +233,10 @@
 				<br />
 			</b:panel>
 		</h:form>
-		<p:confirmDialog header="Confirmación"
-			message="Est&aacute; seguro de guardar la informaci&oacute;n?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="gu">
+		<p:confirmDialog header="Confirmaci&oacute;n"
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{solicitudaBean.crearSolicitud()}"

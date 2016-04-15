@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
 import tranporte.controller.access.SesionBean;
+import transporte.model.dao.entities.Persona;
 import transporte.model.dao.entities.TransSolicitud;
 import transporte.model.dao.entities.TransConductore;
 import transporte.model.dao.entities.TransFuncionarioConductor;
@@ -28,6 +29,7 @@ import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
 import transporte.model.generic.Mensaje;
+import transporte.model.manager.ManagerCarga;
 import transporte.model.manager.ManagerGestion;
 import transporte.model.manager.ManagerSolicitud;
 
@@ -42,6 +44,9 @@ public class solicitudaBean implements Serializable {
 
 	@EJB
 	private ManagerSolicitud managersol;
+	
+	
+	private ManagerCarga mc;
 
 	// SOLICITUD
 	private Integer sol_id;
@@ -96,14 +101,16 @@ public class solicitudaBean implements Serializable {
 	SesionBean ms;
 
 	private String usuario;
+	
+	private Persona per;
 
 	public solicitudaBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		mc = new ManagerCarga();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
-		sol_usuario_cedula = usuario;
 		sol_conductor = "";
 		sol_vehi = "";
 		sol_fcoid = "";
@@ -436,7 +443,6 @@ public class solicitudaBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearSolicitud() {
-		String r = "";
 		try {
 			setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
 			setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
@@ -463,7 +469,7 @@ public class solicitudaBean implements Serializable {
 				asignarLugarOrigen();
 				asignarVehiculo();
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
-						sol_motivo, horainiciotiemp, horafintiemp,
+						sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion, sol_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
@@ -498,10 +504,9 @@ public class solicitudaBean implements Serializable {
 				getListaSolicitudaprorecha().clear();
 				getListaSolicitudaprorecha().addAll(
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
-				r = "trans_solicitudesa?faces-redirect=true";
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
-						pasajeros, sol_motivo, horainiciotiemp, horafintiemp,
+						pasajeros, sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
@@ -536,17 +541,20 @@ public class solicitudaBean implements Serializable {
 				getListaSolicitudaprorecha().clear();
 				getListaSolicitudaprorecha().addAll(
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
-				r = "trans_solicitudesa?faces-redirect=true";
-
 			}
+			return "trans_solicitudesa?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"Error al crear solicitud", null));
+			return  "";
 		}
-		return r;
+	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**
@@ -909,7 +917,7 @@ public class solicitudaBean implements Serializable {
 		fecha = date;
 		// sol_idsolicitante = sol.getSolicitante();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
-		sol_usuario_cedula = usuario;
+		BuscarPersona();
 		sol_id_origen = null;
 		sol_id_destino = null;
 		sol_fcoid = null;
@@ -1024,5 +1032,19 @@ public class solicitudaBean implements Serializable {
 			}
 		}
 		return l1;
+	}
+	
+	public void BuscarPersona()
+	{
+		
+		try {
+			System.out.println(usuario);
+			per = mc.funcionarioByDNI(usuario);
+			sol_usuario_cedula= per.getPerNombres()+" "+per.getPerApellidos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

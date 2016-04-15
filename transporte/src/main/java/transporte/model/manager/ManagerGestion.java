@@ -12,6 +12,7 @@ public class ManagerGestion{
 
 	@EJB
 	private ManagerDAO mDAO;
+	
 
 	String h="";		
 		
