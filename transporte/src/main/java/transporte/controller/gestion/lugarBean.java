@@ -163,21 +163,20 @@ public class lugarBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearLugar() {
-		String r = "";
 		try {
 			if (edicion) {
 				managergest.editarLugar(lug_id, lug_nombre, lug_ciudad, lug_estado);
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "trans_lugares?faces-redirect=true";
 			} else {
 					managergest.insertarLugar(lug_nombre, lug_ciudad);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaLugares().clear();
 					getListaLugares().addAll(managergest.findAllLugares());
-					r= "trans_lugares?faces-redirect=true";
+			
 				}
+			return "trans_lugares?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -187,8 +186,12 @@ public class lugarBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
 							.getMessage(), null));
+			return "";
 		}
-		return r;
+	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**

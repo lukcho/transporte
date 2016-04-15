@@ -58,7 +58,7 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info" style="padding:7px;"
-							onclick="PF('gu').show();"
+							actionListener="#{lugarBean.abrirDialog()}"
 							update="frm messages" >
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"

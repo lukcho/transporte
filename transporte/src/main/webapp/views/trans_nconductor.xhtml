@@ -23,7 +23,7 @@
 					<b:column span="4">
 						<b:inputText value="#{conductorBean.cond_cedula}" required="true" disabled="#{conductorBean.mostrarcond_id}"
 							requiredMessage="Campo cédula requerido" maxlength="100"
-							validatorMessage="C&eacute;dula no debe contener espacios ni caracteres especiales.">
+							validatorMessage="C&eacute;dula s&oacute;lo debe ingresar n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
 					</b:column>
@@ -33,7 +33,7 @@
 					<b:column span="4">
 						<b:inputText value="#{conductorBean.cond_nombre}" required="true"
 							requiredMessage="Campo nombre requerido" maxlength="100"
-							validatorMessage="Nombre no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Nombre no debe contener caracteres especiales.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -47,7 +47,7 @@
 						<b:inputText value="#{conductorBean.cond_apellido}"
 							required="true" requiredMessage="Campo apellido requerido"
 							maxlength="100"
-							validatorMessage="Apellido no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Apellido no debe contener espacios.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -75,7 +75,7 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" onclick="PF('gu').show();"
+							style="padding:7px;" actionListener="#{conductorBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"

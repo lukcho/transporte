@@ -56,7 +56,6 @@ public class conductorBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		usuario = ms.validarSesion("trans_conductores.xhtml");
-		usuario = ms.validarSesion("trans_nconductor.xhtml");
 		cond_cedula = null;
 		cond_estado="A";
 		edicion = false;
@@ -180,24 +179,21 @@ public class conductorBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearConductor() {
-		String r = "";
 		try {
 			if (edicion) {
-				System.out.println(cond_cedula+"....."+cond_nombre+"....."+cond_apellido+"......."+cond_estado);
-				managergest.editarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono, cond_estado);
+				managergest.editarConductor(cond_cedula.trim(), cond_nombre.trim(), cond_apellido.trim(), cond_telefono.trim(), cond_estado);
 				getListaConductores().clear();
 				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "trans_conductores?faces-redirect=true";
 			} else {
 				if (!averiguarConid(cond_cedula)) {
-					managergest.insertarConductor(cond_cedula, cond_nombre, cond_apellido, cond_telefono);
+					managergest.insertarConductor(cond_cedula.trim(), cond_nombre.trim(), cond_apellido.trim(), cond_telefono.trim());
 					getListaConductores().clear();
 					getListaConductores().addAll(managergest.findAllConductores());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
-					r= "trans_conductores?faces-redirect=true";
 				}
 			}
+			return "trans_conductores?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -207,8 +203,12 @@ public class conductorBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
 							.getMessage(), null));
+			return "";
 		}
-		return r;
+	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**

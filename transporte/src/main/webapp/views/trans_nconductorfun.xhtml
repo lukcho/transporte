@@ -22,18 +22,18 @@
 					</b:column>
 					<b:column span="4">
 						<b:inputText value="#{conductorfunBean.condf_cedula}" required="true" disabled="#{conductorfunBean.mostrarcondf_id}"
-							requiredMessage="Campo cédula requerido" maxlength="100"
-							validatorMessage="C&eacute;dula no debe contener espacios ni caracteres especiales.">
+							requiredMessage="Campo cédula requerido" maxlength="10"
+							validatorMessage="Verificar campo c&eacute;dula solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre y Apellido:* " />
 					</b:column>
 					<b:column span="4">
 						<b:inputText value="#{conductorfunBean.condf_nombre}" required="true"
 							requiredMessage="Campo nombre requerido" maxlength="100"
-							validatorMessage="Nombre no debe contener caracteres especiales.">
+							validatorMessage="Verificar campo nombre y apellido solo letras.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -47,7 +47,7 @@
 						<b:inputText value="#{conductorfunBean.condf_gerencia}"
 							required="true" requiredMessage="Campo gerencia requerido"
 							maxlength="100"
-							validatorMessage="Gerencia no debe contener caracteres especiales.">
+							validatorMessage="Verificar campo gerencia.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -57,7 +57,7 @@
 					<b:column span="4">
 						<b:inputText value="#{conductorfunBean.condf_direccion}"
 							required="true" requiredMessage="Campo direcci&oacute;n requerido"
-							validatorMessage="Direcci&oacute;n no debe contener n&uacute;meros.">
+							validatorMessage="Verificar campo direcci&oacute;n.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -74,7 +74,7 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" onclick="PF('gu').show();"
+							style="padding:7px;" actionListener="#{conductorfunBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"

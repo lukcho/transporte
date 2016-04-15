@@ -170,8 +170,6 @@ public class ManagerSolicitud{
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
 		sol.setTransFuncionarioConductor(trans_fco);
-		asignarvehiculo("Ninguno");
-		asignarConductor("Ninguno");
 		sol.setTransVehiculo(trans_vehi);
 		sol.setTransConductore(trans_con);
 		sol.setSolFechaCreacion(fecha_creacion);

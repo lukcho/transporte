@@ -37,16 +37,16 @@ public class conductorfunBean implements Serializable {
 	private String condf_gerencia;
 	private String condf_direccion;
 	private String condf_estado;
-	
+
 	private TransFuncionarioConductor condf;
 
-	//mostrar
+	// mostrar
 	private boolean mostrarcondf_id;
 	private boolean edicion;
 	private boolean ediciontipo;
-	
+
 	private List<TransFuncionarioConductor> listaConductoresFun;
-	
+
 	@Inject
 	SesionBean ms;
 	private String usuario;
@@ -58,15 +58,15 @@ public class conductorfunBean implements Serializable {
 	public void ini() {
 		usuario = ms.validarSesion("trans_conductoresfun.xhtml");
 		condf_cedula = null;
-		condf_estado="A";
-		condf_direccion="";
-		condf_gerencia="";
+		condf_estado = "A";
+		condf_direccion = "";
+		condf_gerencia = "";
 		edicion = false;
 		ediciontipo = false;
 		mostrarcondf_id = false;
 		listaConductoresFun = managergest.findAllConductoresFuncionarios();
 	}
-	
+
 	public ManagerGestion getManagergest() {
 		return managergest;
 	}
@@ -139,15 +139,16 @@ public class conductorfunBean implements Serializable {
 			List<TransFuncionarioConductor> listaConductoresFun) {
 		this.listaConductoresFun = listaConductoresFun;
 	}
-	
-	//metodo para listar los conductores
-	public List<TransFuncionarioConductor> ListaConductoresFunSin(){			
-		List<TransFuncionarioConductor> a = managergest.findAllConductoresFuncionarios();
-		List<TransFuncionarioConductor> l1 = new ArrayList<TransFuncionarioConductor>();			
-		for (TransFuncionarioConductor t : a ){								
-				if(!t.getFcoId().equals("Ninguno")){
-						l1.add(t);
-			}		
+
+	// metodo para listar los conductores
+	public List<TransFuncionarioConductor> ListaConductoresFunSin() {
+		List<TransFuncionarioConductor> a = managergest
+				.findAllConductoresFuncionarios();
+		List<TransFuncionarioConductor> l1 = new ArrayList<TransFuncionarioConductor>();
+		for (TransFuncionarioConductor t : a) {
+			if (!t.getFcoId().equals("Ninguno")) {
+				l1.add(t);
+			}
 		}
 		return l1;
 	}
@@ -167,7 +168,6 @@ public class conductorfunBean implements Serializable {
 	public void setEdiciontipo(boolean ediciontipo) {
 		this.ediciontipo = ediciontipo;
 	}
-	
 
 	/**
 	 * accion para invocar el manager y crear conductor o editar el conductor
@@ -184,23 +184,25 @@ public class conductorfunBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearConductorFun() {
-		String r = "";
 		try {
 			if (edicion) {
-				managergest.editarConductorFun(condf_cedula, condf_nombre, condf_gerencia, condf_direccion, condf_estado);
+				managergest.editarConductorFun(condf_cedula, condf_nombre,
+						condf_gerencia, condf_direccion, condf_estado);
 				getListaConductoresFun().clear();
-				getListaConductoresFun().addAll(managergest.findAllConductoresFuncionarios());
+				getListaConductoresFun().addAll(
+						managergest.findAllConductoresFuncionarios());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "trans_conductoresfun?faces-redirect=true";
 			} else {
 				if (!averiguarConFunId(condf_cedula)) {
-					managergest.insertarConductorFun(condf_cedula, condf_nombre, condf_gerencia, condf_direccion);
+					managergest.insertarConductorFun(condf_cedula,
+							condf_nombre, condf_gerencia, condf_direccion);
 					getListaConductoresFun().clear();
-					getListaConductoresFun().addAll(managergest.findAllConductoresFuncionarios());
+					getListaConductoresFun().addAll(
+							managergest.findAllConductoresFuncionarios());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
-					r= "trans_conductoresfun?faces-redirect=true";
 				}
 			}
+			return "trans_conductoresfun?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -210,8 +212,12 @@ public class conductorfunBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
 							.getMessage(), null));
+			return "";
 		}
-		return r;
+	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**
@@ -230,13 +236,13 @@ public class conductorfunBean implements Serializable {
 	 */
 	public String cargarConductorFun(TransFuncionarioConductor condf) {
 		try {
-			condf_cedula=condf.getFcoId();
+			condf_cedula = condf.getFcoId();
 			condf_nombre = condf.getFcoNombres();
 			condf_direccion = condf.getFcoDireccion();
 			condf_gerencia = condf.getFcoGerencia();
 			condf_estado = condf.getFcoEstado();
 			edicion = true;
-			mostrarcondf_id=true;
+			mostrarcondf_id = true;
 			ediciontipo = false;
 			return "trans_nconductorfun?faces-redirect=true";
 		} catch (Exception e) {
@@ -255,10 +261,13 @@ public class conductorfunBean implements Serializable {
 	public String cambiarEstadoConduFun() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoConductorFun(getCondf().getFcoId())));
+			context.addMessage(
+					null,
+					new FacesMessage("INFORMACION", managergest
+							.cambioEstadoConductorFun(getCondf().getFcoId())));
 			getListaConductoresFun().clear();
-			getListaConductoresFun().addAll(managergest.findAllConductoresFuncionarios());
+			getListaConductoresFun().addAll(
+					managergest.findAllConductoresFuncionarios());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -271,7 +280,7 @@ public class conductorfunBean implements Serializable {
 		System.out.println("holi");
 
 	}
-	
+
 	/**
 	 * metodo para conocer el conductor si esta usado
 	 * 
@@ -288,7 +297,8 @@ public class conductorfunBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del conductor funcionario existe.", null));
+								"El codigo del conductor funcionario existe.",
+								null));
 			}
 		}
 		if (t == 0) {
@@ -296,7 +306,7 @@ public class conductorfunBean implements Serializable {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Lista de estados
 	 * 
@@ -311,24 +321,24 @@ public class conductorfunBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
-	
+
 	/**
 	 * Redirecciona a la pagina de creacion de conductores
 	 * 
 	 * @return
 	 */
 	public String nuevoConductorFun() {
-		condf_cedula= null;
+		condf_cedula = null;
 		condf_nombre = null;
 		condf_gerencia = null;
 		condf_direccion = null;
 		condf_estado = "A";
 		ediciontipo = false;
-		mostrarcondf_id= false;
+		mostrarcondf_id = false;
 		edicion = false;
 		return "trans_nconductorfun?faces-redirect=true";
 	}
-	
+
 	/**
 	 * limpia la informacion de horario
 	 * 
@@ -337,16 +347,17 @@ public class conductorfunBean implements Serializable {
 	 */
 	public String volverConductorFun() throws Exception {
 		// limpiar datos
-		condf_cedula= null;
+		condf_cedula = null;
 		condf_nombre = null;
 		condf_gerencia = null;
 		condf_direccion = null;
 		condf_estado = "A";
 		ediciontipo = false;
-		mostrarcondf_id= false;
+		mostrarcondf_id = false;
 		edicion = false;
 		getListaConductoresFun().clear();
-		getListaConductoresFun().addAll(managergest.findAllConductoresFuncionarios());
+		getListaConductoresFun().addAll(
+				managergest.findAllConductoresFuncionarios());
 		return "trans_conductoresfun?faces-redirect=true";
 	}
 }

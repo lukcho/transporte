@@ -210,7 +210,6 @@ public class vehiculoBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearVehiculo() {
-		String r = "";
 		try {
 			if (edicion) {
 				Integer capa = Integer.parseInt(vehi_capacidad);
@@ -218,7 +217,6 @@ public class vehiculoBean implements Serializable {
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				getListaVehiculo().clear();
 				getListaVehiculo().addAll(managergest.findAllVehiculos());
-				r= "trans_vehiculos?faces-redirect=true";
 			} else {
 				if (!averiguarVehiid(vehi_id)) {
 					Integer capa = Integer.parseInt(vehi_capacidad);
@@ -226,9 +224,9 @@ public class vehiculoBean implements Serializable {
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaVehiculo().clear();
 					getListaVehiculo().addAll(managergest.findAllVehiculos());
-					r= "trans_vehiculos?faces-redirect=true";
 				}
 			}
+			return "trans_vehiculos?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -238,8 +236,12 @@ public class vehiculoBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
 							.getMessage(), null));
+			return "";
 		}
-		return r;
+	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**

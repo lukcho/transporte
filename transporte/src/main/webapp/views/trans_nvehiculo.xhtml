@@ -23,7 +23,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_id}" required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
 							requiredMessage="Campo num. placa requerido" maxlength="100"
-							validatorMessage="Num. placa no debe contener espacios ni caracteres especiales con may&uacute;sculas.">
+							validatorMessage="Num. placa con error. Ejemplo. ABC-123">
 							<f:validateRegex pattern="^([A-Z]{3}-\d{3,4})$" />
 						</b:inputText>
 					</b:column>
@@ -33,7 +33,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_nombre}" required="true"
 							requiredMessage="Campo nombre requerido" maxlength="100"
-							validatorMessage="Nombre no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Vertificar nombre el veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -45,7 +45,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_marca}" required="true"
 							requiredMessage="Campo marca requerido" maxlength="100"
-							validatorMessage="Campo marca no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Vertificar marca del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -55,7 +55,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_modelo}" required="true"
 							requiredMessage="Campo modelo requerido" maxlength="100"
-							validatorMessage="Campo modelo no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Vertificar modelo del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -67,7 +67,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_tipo}" required="true"
 							requiredMessage="Campo tipo requerido" maxlength="100"
-							validatorMessage="Campo tipo no debe contener espacios ni caracteres especiales.">
+							validatorMessage="Vertificar tipo del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</b:inputText>
 					</b:column>
@@ -77,7 +77,7 @@
 					<b:column span="4">
 						<b:inputText value="#{vehiculoBean.vehi_capacidad}" required="true"
 							requiredMessage="Campo capacidad requerido" maxlength="100"
-							validatorMessage="Campo capacidad no debe contener espacios ni caracteres especiales o letras.">
+							validatorMessage="Vertificar capacidad del veh&iacute;culo solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
 						</b:inputText>
 					</b:column>
@@ -110,11 +110,9 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" onclick="PF('gu').show();"
+							style="padding:7px;" actionListener="#{vehiculoBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
-					</b:column>
-					<b:column span="5">
 						<b:commandButton value="Volver"
 							action="#{vehiculoBean.volverVehiculo()}" update="frm"
 							look="info" process="@this">

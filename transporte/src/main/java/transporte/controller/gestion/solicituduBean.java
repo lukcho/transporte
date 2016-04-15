@@ -501,10 +501,22 @@ public class solicituduBean implements Serializable {
 			sol_usuario_cedula = sol.getSolIdSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			if (sol.getTransFuncionarioConductor()==null)
+				sol_fcoid = "";
+			else
+				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			if (sol.getTransVehiculo()==null)
+				sol_vehi = "";
+			else
 			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			if (sol.getTransConductore()==null){
+				sol_conductor = "";
+				sol_conductornombre="";
+			}
+			else{
 			sol_conductor = sol.getTransConductore().getCondCedula();
 			sol_conductornombre = sol.getTransConductore().getCondNombre()+" "+sol.getTransConductore().getCondApellido();
+			}
 			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
@@ -740,6 +752,7 @@ public class solicituduBean implements Serializable {
 		sol_fcoid = null;
 		sol_vehi = null;
 		sol_conductor = null;
+		sol_conductornombre=null;
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;
@@ -755,6 +768,7 @@ public class solicituduBean implements Serializable {
 		sol_hora_fin = null;
 		horainiciotiemp = null;
 		horafintiemp = null;
+		
 		getListaSolicitudDesc().clear();
 		getListaSolicitudDesc().addAll(
 				managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
@@ -771,7 +785,7 @@ public class solicituduBean implements Serializable {
 		sol_usuario_cedula = usuario;
 		sol_id = null;
 		date = new Date();
-		fecha = null;
+		fecha = date;
 		// sol_idsolicitante = sol.getSolicitante();
 		sol_id_origen = null;
 		sol_id_destino = null;
@@ -794,7 +808,6 @@ public class solicituduBean implements Serializable {
 		horainiciotiemp = null;
 		horafintiemp = null;
 		edicion = false;
-		date = new Date();
 		return "trans_nsolicitudu?faces-redirect=true";
 	}
 

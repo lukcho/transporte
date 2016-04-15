@@ -72,6 +72,7 @@ public class solicitudaBean implements Serializable {
 
 	// mmostrar
 	private boolean edicion;
+	private boolean infomostrar;
 	private boolean ediciontipo;
 	private boolean guardaredicion;
 
@@ -103,9 +104,9 @@ public class solicitudaBean implements Serializable {
 	public void ini() {
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
 		sol_usuario_cedula = usuario;
-		sol_conductor = "Ninguno";
-		sol_vehi = "Ninguno";
-		sol_fcoid = "Ninguno";
+		sol_conductor = "";
+		sol_vehi = "";
+		sol_fcoid = "";
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -113,6 +114,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_pasajeros = null;
 		edicion = false;
+		infomostrar=false;
 		horamostrar = false;
 		ediciontipo = false;
 		guardaredicion = true;
@@ -402,6 +404,14 @@ public class solicitudaBean implements Serializable {
 		this.edicion = edicion;
 	}
 
+	public boolean isInfomostrar() {
+		return infomostrar;
+	}
+
+	public void setInfomostrar(boolean infomostrar) {
+		this.infomostrar = infomostrar;
+	}
+
 	public boolean isEdiciontipo() {
 		return ediciontipo;
 	}
@@ -440,8 +450,12 @@ public class solicitudaBean implements Serializable {
 				context.addMessage(null, new FacesMessage("Error..!!!",
 						"Verifique su horario "));
 			} else if (edicion) {
-				if (sol_fcoid.equals(null)) {
-					sol_fcoid = "Ninguno";
+				if (sol_fcoid==null) {
+					sol_fcoid = "";
+				}
+				if (sol_conductor==null)
+				{
+					sol_conductor="";
 				}
 				asignarConductor();
 				asignarConductorFuncionario();
@@ -471,6 +485,7 @@ public class solicitudaBean implements Serializable {
 				sol_observacion = null;
 				sol_estado = "P";
 				edicion = true;
+				infomostrar=false;
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
@@ -508,6 +523,7 @@ public class solicitudaBean implements Serializable {
 				sol_observacion = null;
 				sol_estado = "P";
 				edicion = true;
+				infomostrar=false;
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
@@ -570,9 +586,20 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_cedula = sol.getSolIdSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			if (sol.getTransFuncionarioConductor()==null)
+				sol_fcoid = "";
+			else
+				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			if (sol.getTransVehiculo()==null)
+				sol_vehi = "";
+			else
 			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			if (sol.getTransConductore()==null){
+				sol_conductor = "";
+			}
+			else{
 			sol_conductor = sol.getTransConductore().getCondCedula();
+			}
 			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
@@ -586,7 +613,11 @@ public class solicitudaBean implements Serializable {
 				horamostrar = false;
 			} else
 				horamostrar = true;
-
+			if(sol.getSolEstado().equals("P")){
+				infomostrar=false;
+			}else{
+				infomostrar=true;
+			}
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
@@ -851,6 +882,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_observacion = null;
 		sol_estado = "P";
+		infomostrar=false;
 		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
@@ -874,7 +906,7 @@ public class solicitudaBean implements Serializable {
 	public String nuevoSolicitud() {
 		sol_id = null;
 		date = new Date();
-		fecha = null;
+		fecha = date;
 		// sol_idsolicitante = sol.getSolicitante();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
 		sol_usuario_cedula = usuario;
@@ -892,6 +924,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_observacion = null;
 		sol_estado = "P";
+		infomostrar=false;
 		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
