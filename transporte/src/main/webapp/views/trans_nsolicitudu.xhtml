@@ -22,7 +22,8 @@
 							rendered="#{solicituduBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<h:outputLabel value="#{solicituduBean.sol_estado}"
+						<h:outputLabel
+							value="#{solicituduBean.sol_estado} : #{solicituduBean.sol_estadonombre}"
 							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
 						</h:outputLabel>
 					</b:column>
@@ -56,7 +57,7 @@
 							disabled="#{solicituduBean.edicion}" label="Hora Fin"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
 							value="#{solicituduBean.fecha}" pattern="yyyy/MM/dd" mask="true">
-							<p:ajax event="dateSelect" update="frm messages"></p:ajax>
+<!-- 							<p:ajax event="dateSelect" update="frm messages"></p:ajax> -->
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
@@ -87,12 +88,16 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini" disabled="#{solicituduBean.edicion}"
-									minMinute="0" maxMinute="0"
-									value="#{solicituduBean.sol_hora_inicio}" pattern="HH:mm"
-									required="true" requiredMessage="Requerido Hora Inicio"
-									timeOnly="true">
-								</p:calendar>
+								<h:panelGroup>
+									<h:selectOneMenu id="trackseleccionar4" required="true"
+										disabled="#{solicituduBean.edicion}" styleClass="form-control"
+										requiredMessage="Requerido Hora Inicio"
+										value="#{solicituduBean.sol_hora_inicio}">
+										<f:selectItem itemLabel="Selecci&oacute;n Hora Inicio"
+											itemValue="" />
+										<f:selectItems value="#{solicituduBean.listHoras}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
 							</f:facet>
 						</b:thumbnail>
 					</b:column>
@@ -113,12 +118,16 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
-								<p:calendar id="horafin" value="#{solicituduBean.sol_hora_fin}"
-									disabled="#{solicituduBean.edicion}" label="Escoger hora"
-									pattern="HH:mm" required="true" title="Hora Inicio"
-									minMinute="0" maxMinute="0"
-									requiredMessage="Requerido Hora Inicio" timeOnly="true">
-								</p:calendar>
+								<h:panelGroup>
+									<h:selectOneMenu id="trackseleccionar5" required="true"
+										disabled="#{solicituduBean.edicion}" styleClass="form-control"
+										requiredMessage="Requerido Hora Destino"
+										value="#{solicituduBean.sol_hora_fin}">
+										<f:selectItem itemLabel="Selecci&oacute;n Hora Destino"
+											itemValue="" />
+										<f:selectItems value="#{solicituduBean.listHoras}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
 							</f:facet>
 						</b:thumbnail>
 					</b:column>
@@ -129,11 +138,10 @@
 					</b:column>
 					<b:column span="3" style="margin-bottom:10px">
 						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar7"
+							<h:selectOneMenu id="trackseleccionar9"
 								disabled="#{solicituduBean.edicion}" styleClass="form-control"
 								value="#{solicituduBean.sol_fcoid}">
-								<f:selectItem itemLabel="Ninguno"
-									itemValue="" />
+								<f:selectItem itemLabel="Ninguno" itemValue="" />
 								<f:selectItems
 									value="#{solicituduBean.listaConductorfuncionario}" />
 								<f:ajax
@@ -165,9 +173,25 @@
 							rendered="#{solicituduBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<h:outputLabel value="#{solicituduBean.sol_conductornombre}"
+						<h:outputLabel value="#{solicituduBean.sol_conductornombre} "
 							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
 						</h:outputLabel>
+						<h:outputLabel
+							value="#{solicituduBean.sol_conductornombrefuncionario} "
+							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+						</h:outputLabel>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Observaciones: "
+							rendered="#{solicituduBean.edicion}" />
+					</b:column>
+					<b:column span="8">
+						<b:inputTextarea value="#{solicituduBean.sol_observacion}"
+							rendered="#{solicituduBean.edicion}" fieldSize="2" rows="2"
+							disabled="#{solicituduBean.edicion}" maxlength="255">
+						</b:inputTextarea>
 					</b:column>
 				</b:row>
 				<br />

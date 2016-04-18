@@ -36,16 +36,17 @@ public class conductorBean implements Serializable {
 	private String cond_apellido;
 	private String cond_telefono;
 	private String cond_estado;
-	
+	private String cond_estadonombre;
+
 	private TransConductore cond;
 
-	//mostrar
+	// mostrar
 	private boolean mostrarcond_id;
 	private boolean edicion;
 	private boolean ediciontipo;
-	
+
 	private List<TransConductore> listaConductores;
-	
+
 	@Inject
 	SesionBean ms;
 	private String usuario;
@@ -57,13 +58,14 @@ public class conductorBean implements Serializable {
 	public void ini() {
 		usuario = ms.validarSesion("trans_conductores.xhtml");
 		cond_cedula = null;
-		cond_estado="A";
+		cond_estado = "A";
+		cond_estadonombre = "";
 		edicion = false;
 		ediciontipo = false;
 		mostrarcond_id = false;
 		listaConductores = managergest.findAllConductores();
 	}
-	
+
 	public ManagerGestion getManagergest() {
 		return managergest;
 	}
@@ -111,6 +113,14 @@ public class conductorBean implements Serializable {
 	public void setCond_estado(String cond_estado) {
 		this.cond_estado = cond_estado;
 	}
+	
+	public String getCond_estadonombre() {
+		return cond_estadonombre;
+	}
+
+	public void setCond_estadonombre(String cond_estadonombre) {
+		this.cond_estadonombre = cond_estadonombre;
+	}
 
 	public TransConductore getCond() {
 		return cond;
@@ -147,15 +157,15 @@ public class conductorBean implements Serializable {
 	public List<TransConductore> getListaConductores() {
 		return listaConductores;
 	}
-	
-	//metodo para listar los conductores
-	public List<TransConductore> ListaConductoresSin(){			
+
+	// metodo para listar los conductores
+	public List<TransConductore> ListaConductoresSin() {
 		List<TransConductore> a = managergest.findAllConductores();
-		List<TransConductore> l1 = new ArrayList<TransConductore>();			
-		for (TransConductore t : a ){								
-				if(!t.getCondCedula().equals("Ninguno")){
-						l1.add(t);
-			}		
+		List<TransConductore> l1 = new ArrayList<TransConductore>();
+		for (TransConductore t : a) {
+			if (!t.getCondCedula().equals("Ninguno")) {
+				l1.add(t);
+			}
 		}
 		return l1;
 	}
@@ -181,15 +191,20 @@ public class conductorBean implements Serializable {
 	public String crearConductor() {
 		try {
 			if (edicion) {
-				managergest.editarConductor(cond_cedula.trim(), cond_nombre.trim(), cond_apellido.trim(), cond_telefono.trim(), cond_estado);
+				managergest.editarConductor(cond_cedula.trim(),
+						cond_nombre.trim(), cond_apellido.trim(),
+						cond_telefono.trim(), cond_estado);
 				getListaConductores().clear();
 				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			} else {
 				if (!averiguarConid(cond_cedula)) {
-					managergest.insertarConductor(cond_cedula.trim(), cond_nombre.trim(), cond_apellido.trim(), cond_telefono.trim());
+					managergest.insertarConductor(cond_cedula.trim(),
+							cond_nombre.trim(), cond_apellido.trim(),
+							cond_telefono.trim());
 					getListaConductores().clear();
-					getListaConductores().addAll(managergest.findAllConductores());
+					getListaConductores().addAll(
+							managergest.findAllConductores());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 				}
 			}
@@ -206,8 +221,8 @@ public class conductorBean implements Serializable {
 			return "";
 		}
 	}
-	
-	public void abrirDialog(){
+
+	public void abrirDialog() {
 		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
@@ -227,13 +242,13 @@ public class conductorBean implements Serializable {
 	 */
 	public String cargarConductor(TransConductore cond) {
 		try {
-			cond_cedula=cond.getCondCedula();
+			cond_cedula = cond.getCondCedula();
 			cond_nombre = cond.getCondNombre();
 			cond_apellido = cond.getCondApellido();
 			cond_telefono = cond.getCondTelefono();
 			cond_estado = cond.getCondEstado();
 			edicion = true;
-			mostrarcond_id=true;
+			mostrarcond_id = true;
 			ediciontipo = false;
 			return "trans_nconductor?faces-redirect=true";
 		} catch (Exception e) {
@@ -252,8 +267,10 @@ public class conductorBean implements Serializable {
 	public String cambiarEstadoCondu() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoConductor(getCond().getCondCedula())));
+			context.addMessage(
+					null,
+					new FacesMessage("INFORMACION", managergest
+							.cambioEstadoConductor(getCond().getCondCedula())));
 			getListaConductores().clear();
 			getListaConductores().addAll(managergest.findAllConductores());
 		} catch (Exception e) {
@@ -268,7 +285,7 @@ public class conductorBean implements Serializable {
 		System.out.println("holi");
 
 	}
-	
+
 	/**
 	 * metodo para conocer el conductor si esta usado
 	 * 
@@ -293,7 +310,7 @@ public class conductorBean implements Serializable {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Lista de estados
 	 * 
@@ -308,24 +325,24 @@ public class conductorBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
-	
+
 	/**
 	 * Redirecciona a la pagina de creacion de conductores
 	 * 
 	 * @return
 	 */
 	public String nuevoConductor() {
-		cond_cedula= null;
+		cond_cedula = null;
 		cond_nombre = null;
 		cond_apellido = null;
 		cond_telefono = null;
 		cond_estado = "A";
 		ediciontipo = false;
-		mostrarcond_id= false;
+		mostrarcond_id = false;
 		edicion = false;
 		return "trans_nconductor?faces-redirect=true";
 	}
-	
+
 	/**
 	 * limpia la informacion de horario
 	 * 
@@ -334,16 +351,17 @@ public class conductorBean implements Serializable {
 	 */
 	public String volverConductor() throws Exception {
 		// limpiar datos
-		cond_cedula= null;
+		cond_cedula = null;
 		cond_nombre = null;
 		cond_apellido = null;
 		cond_telefono = null;
 		cond_estado = "A";
 		ediciontipo = false;
-		mostrarcond_id= false;
+		mostrarcond_id = false;
 		edicion = false;
 		getListaConductores().clear();
 		getListaConductores().addAll(managergest.findAllConductores());
 		return "trans_conductores?faces-redirect=true";
 	}
+
 }

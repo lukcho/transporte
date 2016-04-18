@@ -165,12 +165,12 @@ public class lugarBean implements Serializable {
 	public String crearLugar() {
 		try {
 			if (edicion) {
-				managergest.editarLugar(lug_id, lug_nombre, lug_ciudad, lug_estado);
+				managergest.editarLugar(lug_id, lug_nombre.trim(), lug_ciudad.trim(), lug_estado.trim());
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			} else {
-					managergest.insertarLugar(lug_nombre, lug_ciudad);
+					managergest.insertarLugar(lug_nombre.trim(), lug_ciudad.trim());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaLugares().clear();
 					getListaLugares().addAll(managergest.findAllLugares());

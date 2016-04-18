@@ -56,7 +56,7 @@
 							fieldSize="2" rows="2" disabled="#{solicitudaBean.infomostrar}"
 							required="true" requiredMessage="Campo motivo requerido"
 							maxlength="255">
-							
+
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
@@ -77,12 +77,16 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Inicio:* " />
-								<p:calendar id="horaini" minMinute="0" maxMinute="0"
-									disabled="#{solicitudaBean.horamostrar}"
-									value="#{solicitudaBean.sol_hora_inicio}" pattern="HH:mm"
-									required="true" requiredMessage="Requerido Hora Inicio"
-									timeOnly="true">
-								</p:calendar>
+								<h:panelGroup>
+									<h:selectOneMenu id="trackseleccionar4" required="true"
+										disabled="#{solicitudaBean.horamostrar}" styleClass="form-control"
+										requiredMessage="Requerido Hora Inicio"
+										value="#{solicitudaBean.sol_hora_inicio}">
+										<f:selectItem itemLabel="Selecci&oacute;n Hora Inicio"
+											itemValue="" />
+										<f:selectItems value="#{solicitudaBean.listHoras}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
 							</f:facet>
 						</b:thumbnail>
 					</b:column>
@@ -103,24 +107,29 @@
 								</h:panelGroup>
 								<br />
 								<h:outputLabel value="Hora Destino:* " />
-								<p:calendar id="horafin" value="#{solicitudaBean.sol_hora_fin}"
-									disabled="#{solicitudaBean.horamostrar}" pattern="HH:mm"
-									required="true" minMinute="0" maxMinute="0"
-									requiredMessage="Requerido Hora Inicio" timeOnly="true">
-								</p:calendar>
+								<h:panelGroup>
+									<h:selectOneMenu id="trackseleccionar5" required="true"
+										disabled="#{solicitudaBean.horamostrar}" styleClass="form-control"
+										requiredMessage="Requerido Hora Destino"
+										value="#{solicitudaBean.sol_hora_fin}">
+										<f:selectItem itemLabel="Selecci&oacute;n Hora Destino"
+											itemValue="" />
+										<f:selectItems value="#{solicitudaBean.listHoras}" />
+									</h:selectOneMenu>
+								</h:panelGroup>
 							</f:facet>
 						</b:thumbnail>
 					</b:column>
 				</b:row>
 				<b:row>
-				<b:column span="5">
+					<b:column span="5">
 						<b:thumbnail tooltip="Asignar Veh&iacute;culo"
 							tooltip-position="right" disabled="#{solicitudaBean.infomostrar}"
 							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
 								<h:outputLabel value="Vehículo:* " />
 								<h:panelGroup>
-									<h:selectOneMenu id="trackseleccionar5" required="true"
+									<h:selectOneMenu id="trackseleccionar7" required="true"
 										disabled="#{solicitudaBean.infomostrar}"
 										requiredMessage="Requerido Veh&iacute;culo"
 										styleClass="form-control" value="#{solicitudaBean.sol_vehi}">
@@ -136,8 +145,7 @@
 										disabled="#{solicitudaBean.infomostrar}"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_conductor}">
-										<f:selectItem itemLabel="Ninguno"
-											itemValue="" />
+										<f:selectItem itemLabel="Ninguno" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaConductor}" />
 										<f:ajax listener="#{solicitudaBean.asignarConductor()}" />
 									</h:selectOneMenu>
@@ -148,18 +156,17 @@
 					<b:column span="3">
 						<h:outputLabel value="Funcionario Conductor:* " />
 						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar7" styleClass="form-control"
+							<h:selectOneMenu id="trackseleccionar21" styleClass="form-control"
 								disabled="#{solicitudaBean.infomostrar}"
 								value="#{solicitudaBean.sol_fcoid}">
-								<f:selectItem itemLabel="Ninguno"
-									itemValue="" />
+								<f:selectItem itemLabel="Ninguno" itemValue="" />
 								<f:selectItems
 									value="#{solicitudaBean.listaConductorfuncionario}" />
 								<f:ajax
 									listener="#{solicitudaBean.asignarConductorFuncionario()}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
-						
+
 						<h:outputLabel value="Estado*"
 							rendered="#{solicitudaBean.edicion}" />
 						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
@@ -172,13 +179,27 @@
 					</b:column>
 					<b:column span="2">
 						<b:selectBooleanCheckbox
-							value="#{solicitudaBean.sol_flexibilidad}" disabled="#{solicitudaBean.infomostrar} and #{solicitudaBean.horamostrar}"
+							value="#{solicitudaBean.sol_flexibilidad}"
+							disabled="#{solicitudaBean.infomostrar} and #{solicitudaBean.horamostrar}"
 							caption="Flexibilidad de cambio de hora" />
 					</b:column>
-					
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Observaciones:* "
+							rendered="#{solicitudaBean.edicion}" />
+					</b:column>
+					<b:column span="8">
+						<b:inputTextarea value="#{solicitudaBean.sol_observacion}"
+							rendered="#{solicitudaBean.edicion}" fieldSize="2" rows="2"
+							disabled="#{solicitudaBean.infomostrar}" required="true"
+							requiredMessage="Campo Observaci&oacute;n requerido"
+							maxlength="255">
+
+						</b:inputTextarea>
+					</b:column>
 				</b:row>
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
-					<p:growl id="messages" showDetail="true" />
 					<b:panel title="Disponibilidad del Veh&iacute;culo" look="primary">
 						<p:dataTable id="tbb" value="#{solicitudaBean.listaVehiOcu}"
 							reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
@@ -218,8 +239,8 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							renrendered="#{solicitudaBean.guardaredicion}"  disabled="#{solicitudaBean.infomostrar}"
-							style="padding:7px;"
+							renrendered="#{solicitudaBean.guardaredicion}"
+							disabled="#{solicitudaBean.infomostrar}" style="padding:7px;"
 							actionListener="#{solicitudaBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;

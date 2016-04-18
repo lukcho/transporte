@@ -213,14 +213,15 @@ public class vehiculoBean implements Serializable {
 		try {
 			if (edicion) {
 				Integer capa = Integer.parseInt(vehi_capacidad);
-				managergest.editarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, capa, vehi_estado, vehi_estado_funcional);
+				managergest.editarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), 
+						vehi_tipo.trim(), capa, vehi_estado, vehi_estado_funcional);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				getListaVehiculo().clear();
 				getListaVehiculo().addAll(managergest.findAllVehiculos());
 			} else {
 				if (!averiguarVehiid(vehi_id)) {
 					Integer capa = Integer.parseInt(vehi_capacidad);
-					managergest.insertarVehiculo(vehi_id, vehi_nombre, vehi_marca, vehi_modelo, vehi_tipo, capa);
+					managergest.insertarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), vehi_tipo.trim(), capa);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaVehiculo().clear();
 					getListaVehiculo().addAll(managergest.findAllVehiculos());

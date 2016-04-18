@@ -16,10 +16,10 @@
 				<h1>Solicitudes</h1>
 			</center>
 			<b:row>
-				<b:column span="1">
-					<b:commandButton value="Nuevo" iconAwesome="file-o"
-						action="#{solicitudaBean.nuevoSolicitud()}" />
-				</b:column>
+<!-- 				<b:column span="1"> -->
+<!-- 					<b:commandButton value="Nuevo" iconAwesome="file-o" -->
+<!-- 						action="#{solicitudaBean.nuevoSolicitud()}" /> -->
+<!-- 				</b:column> -->
 				<b:column span="1">
 					<b:commandButton value="Volver" iconAwesome="angle-left"
 						action="index?faces-redirect=true" />
@@ -117,10 +117,10 @@
 							var="sol1" rows="8" emptyMessage="Sin Datos" paginator="true"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 							<p:column headerText="OPCIONES" width="50">
-								<p:commandButton id="btnE" icon="ui-icon-pencil"
-									action="#{solicitudaBean.cargarSolicitud(sol1)}">
+								<p:commandButton id="btnE" icon="ui-icon-search"
+									action="#{solicitudaBean.cargarSolicitudvalidada(sol1)}">
 									<p:tooltip id="toolTipTrack1" for="btnE"
-										value="Bot&oacute;n para modificar la soliciud"
+										value="Bot&oacute;n para observar la soliciud"
 										trackMouse="true" />
 								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;

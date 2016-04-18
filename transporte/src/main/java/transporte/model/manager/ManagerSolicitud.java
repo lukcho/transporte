@@ -164,7 +164,7 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion) throws Exception {
+	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		sol.setSolIdSolicitante(usuario);
 		cargafecha();

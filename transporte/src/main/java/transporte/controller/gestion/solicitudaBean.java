@@ -54,11 +54,12 @@ public class solicitudaBean implements Serializable {
 	private Timestamp sol_fecha_aprobacion;
 	private String sol_pasajeros;
 	private String sol_motivo;
-	private Date sol_hora_inicio;
-	private Date sol_hora_fin;
+	private String sol_hora_inicio;
+	private String sol_hora_fin;
 	private boolean sol_flexibilidad;
 	private String sol_observacion;
 	private String sol_estado;
+	private String sol_estadonombre;
 	private Integer sol_id_origen;
 	private Integer sol_id_destino;
 	private String sol_fcoid;
@@ -113,6 +114,7 @@ public class solicitudaBean implements Serializable {
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
 		sol_conductor = "";
 		sol_vehi = "";
+		sol_estadonombre = "";
 		sol_fcoid = "";
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
@@ -136,6 +138,14 @@ public class solicitudaBean implements Serializable {
 		;
 	}
 
+	public String getSol_estadonombre() {
+		return sol_estadonombre;
+	}
+
+	public void setSol_estadonombre(String sol_estadonombre) {
+		this.sol_estadonombre = sol_estadonombre;
+	}
+	
 	public Date getFi() {
 		return fi;
 	}
@@ -310,23 +320,19 @@ public class solicitudaBean implements Serializable {
 		this.sol_motivo = sol_motivo;
 	}
 
-	public Date getSol_hora_inicio() {
+	public String getSol_hora_inicio() {
 		return sol_hora_inicio;
 	}
 
-	public void setSol_hora_inicio(Date sol_hora_inicio) {
+	public void setSol_hora_inicio(String sol_hora_inicio) {
 		this.sol_hora_inicio = sol_hora_inicio;
 	}
 
-	public Date getSol_hora_fin() {
+	public String getSol_hora_fin() {
 		return sol_hora_fin;
 	}
 
-	public void setSol_hora_fin(Date sol_hora_fin) {
-		this.sol_hora_fin = sol_hora_fin;
-	}
-
-	public void setSol_hora_fin(Time sol_hora_fin) {
+	public void setSol_hora_fin(String sol_hora_fin) {
 		this.sol_hora_fin = sol_hora_fin;
 	}
 
@@ -444,33 +450,26 @@ public class solicitudaBean implements Serializable {
 	 */
 	public String crearSolicitud() {
 		try {
-			setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
-			setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
+//			setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
+//			setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
-			System.out.println(sol_flexibilidad + "" + sol_estado);
-
-			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..!!!",
-						"Verifique su horario "));
-			} else if (edicion) {
-				if (sol_fcoid==null) {
-					sol_fcoid = "";
-				}
-				if (sol_conductor==null)
-				{
-					sol_conductor="";
-				}
-				asignarConductor();
-				asignarConductorFuncionario();
+			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+			java.sql.Time hora_inicio = new java.sql.Time(formatter.parse(sol_hora_inicio).getTime());
+			java.sql.Time hora_fin = new java.sql.Time(formatter.parse(sol_hora_fin).getTime());
+//			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+//				FacesContext context = FacesContext.getCurrentInstance();
+//				context.addMessage(null, new FacesMessage("Error..!!!",
+//						"Verifique su horario "));
+//			}else 
+			if (edicion){
 				asignarLugarDestino();
 				asignarLugarOrigen();
 				asignarVehiculo();
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
-						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion, sol_estado);
+						sol_motivo.trim(), hora_inicio, hora_fin,
+						sol_flexibilidad, sol_observacion.trim(), sol_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				sol_usuario_cedula = usuario;
@@ -504,10 +503,11 @@ public class solicitudaBean implements Serializable {
 				getListaSolicitudaprorecha().clear();
 				getListaSolicitudaprorecha().addAll(
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
+				
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
-						pasajeros, sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion);
+						pasajeros, sol_motivo.trim(), hora_inicio, hora_fin,
+						sol_flexibilidad);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -543,6 +543,7 @@ public class solicitudaBean implements Serializable {
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
 			}
 			return "trans_solicitudesa?faces-redirect=true";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -554,7 +555,16 @@ public class solicitudaBean implements Serializable {
 	}
 	
 	public void abrirDialog(){
-		RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		System.out.println("sol funcionario: "+sol_fcoid+" sol conduct: "+sol_conductor);
+		if((sol_fcoid==null && sol_conductor==null) || (sol_fcoid!=null && sol_conductor!=null))
+		{
+			System.out.println("entra aca");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Debe seleccionar por lo menos un conductor o funcionario",
+					" "));
+		}else{
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}
 	}
 
 	/**
@@ -612,23 +622,27 @@ public class solicitudaBean implements Serializable {
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
 			sol_motivo = sol.getSolMotivo();
-			sol_hora_inicio = sol.getSolHoraInicio();
-			sol_hora_fin = sol.getSolHoraFin();
+			sol_hora_inicio = sol.getSolHoraInicio().toString();
+			sol_hora_fin = sol.getSolHoraFin().toString();
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
+			System.out.println(sol_flexibilidad);
 			if (sol_flexibilidad == true) {
 				horamostrar = false;
 			} else
 				horamostrar = true;
-			if(sol.getSolEstado().equals("P")){
-				infomostrar=false;
-			}else{
-				infomostrar=true;
-			}
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
+			if (sol.getSolEstado().equals("P"))
+				sol_estadonombre = "Pendiente";
+			else if (sol.getSolEstado().equals("N"))
+				sol_estadonombre = "Anulado";
+			else if (sol.getSolEstado().equals("A"))
+				sol_estadonombre = "Aprobado";
+			else if (sol.getSolEstado().equals("R"))
+				sol_estadonombre = "Rechazado";
 			r = "trans_nsolicituda?faces-redirect=true";
 			return r;
 		} catch (Exception e) {
@@ -638,6 +652,78 @@ public class solicitudaBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String cargarSolicitudvalidada(TransSolicitud sol) {
+		String r = "";
+		try {
+			sol_id = sol.getSolId();
+			// sol_idsolicitante = sol.getSolicitante();
+			sol_usuario_cedula = sol.getSolIdSolicitante();
+			sol_id_origen = sol.getTransLugare2().getLugId();
+			sol_id_destino = sol.getTransLugare1().getLugId();
+			if (sol.getTransFuncionarioConductor()==null)
+				sol_fcoid = "";
+			else
+				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			if (sol.getTransVehiculo()==null)
+				sol_vehi = "";
+			else
+			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			if (sol.getTransConductore()==null){
+				sol_conductor = "";
+			}
+			else{
+			sol_conductor = sol.getTransConductore().getCondCedula();
+			}
+			fecha = sol.getSolFecha();
+			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
+			sol_pasajeros = sol.getSolPasajeros().toString();
+			sol_motivo = sol.getSolMotivo();
+			sol_hora_inicio = sol.getSolHoraInicio().toString();
+			sol_hora_fin = sol.getSolHoraFin().toString();
+			sol_flexibilidad = sol.getSolFlexibilidad();
+			sol_observacion = sol.getSolObservacion();
+			sol_estado = sol.getSolEstado();
+			System.out.println(sol_flexibilidad);
+			if (sol.getSolEstado().equals("P")) {
+				infomostrar = false;
+			} else {
+				infomostrar = true;
+			}
+			horamostrar=true;
+			edicion = true;
+			ediciontipo = false;
+			guardaredicion = false;
+			if (sol.getSolEstado().equals("P"))
+				sol_estadonombre = "Pendiente";
+			else if (sol.getSolEstado().equals("N"))
+				sol_estadonombre = "Anulado";
+			else if (sol.getSolEstado().equals("A"))
+				sol_estadonombre = "Aprobado";
+			else if (sol.getSolEstado().equals("R"))
+				sol_estadonombre = "Rechazado";
+			r = "trans_nsolicituda?faces-redirect=true";
+			return r;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	/**
 	 * activar y desactivar estado Solicitud
 	 * 
@@ -1045,6 +1131,34 @@ public class solicitudaBean implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
+	
+	/**
+	 * Lista de horas
+	 * 
+	 * @return lista de items de horas
+	 */
+	public List<SelectItem> getlistHoras() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.hora_5, Funciones.hora_5));
+		lista.add(new SelectItem(Funciones.hora_6, Funciones.hora_6));
+		lista.add(new SelectItem(Funciones.hora_7, Funciones.hora_7));
+		lista.add(new SelectItem(Funciones.hora_8, Funciones.hora_8));
+		lista.add(new SelectItem(Funciones.hora_9, Funciones.hora_9));
+		lista.add(new SelectItem(Funciones.hora_10, Funciones.hora_10));
+		lista.add(new SelectItem(Funciones.hora_11, Funciones.hora_11));
+		lista.add(new SelectItem(Funciones.hora_12, Funciones.hora_12));
+		lista.add(new SelectItem(Funciones.hora_13, Funciones.hora_13));
+		lista.add(new SelectItem(Funciones.hora_14, Funciones.hora_14));
+		lista.add(new SelectItem(Funciones.hora_15, Funciones.hora_15));
+		lista.add(new SelectItem(Funciones.hora_16, Funciones.hora_16));
+		lista.add(new SelectItem(Funciones.hora_17, Funciones.hora_17));
+		lista.add(new SelectItem(Funciones.hora_18, Funciones.hora_18));
+		lista.add(new SelectItem(Funciones.hora_19, Funciones.hora_19));
+		lista.add(new SelectItem(Funciones.hora_20, Funciones.hora_20));
+		lista.add(new SelectItem(Funciones.hora_21, Funciones.hora_21));
+		lista.add(new SelectItem(Funciones.hora_22, Funciones.hora_22));
+		return lista;
+	}
+
 }

@@ -309,4 +309,24 @@ public class Funciones {
 		else
 			return false;
 	}
+	
+	
+	public static String hora_5 = "05:00:00";
+	public static String hora_6 = "06:00:00";
+	public static String hora_7 = "07:00:00";
+	public static String hora_8 = "08:00:00";
+	public static String hora_9 = "09:00:00";
+	public static String hora_10 = "10:00:00";
+	public static String hora_11 = "11:00:00";
+	public static String hora_12 = "12:00:00";
+	public static String hora_13 = "13:00:00";
+	public static String hora_14 = "14:00:00";
+	public static String hora_15 = "15:00:00";
+	public static String hora_16 = "16:00:00";
+	public static String hora_17 = "17:00:00";
+	public static String hora_18 = "18:00:00";
+	public static String hora_19 = "19:00:00";
+	public static String hora_20 = "20:00:00";
+	public static String hora_21 = "21:00:00";
+	public static String hora_22 = "22:00:00";
 }

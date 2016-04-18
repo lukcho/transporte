@@ -186,16 +186,16 @@ public class conductorfunBean implements Serializable {
 	public String crearConductorFun() {
 		try {
 			if (edicion) {
-				managergest.editarConductorFun(condf_cedula, condf_nombre,
-						condf_gerencia, condf_direccion, condf_estado);
+				managergest.editarConductorFun(condf_cedula.trim(), condf_nombre.trim(),
+						condf_gerencia.trim(), condf_direccion.trim(), condf_estado);
 				getListaConductoresFun().clear();
 				getListaConductoresFun().addAll(
 						managergest.findAllConductoresFuncionarios());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			} else {
 				if (!averiguarConFunId(condf_cedula)) {
-					managergest.insertarConductorFun(condf_cedula,
-							condf_nombre, condf_gerencia, condf_direccion);
+					managergest.insertarConductorFun(condf_cedula.trim(),
+							condf_nombre.trim(), condf_gerencia.trim(), condf_direccion.trim());
 					getListaConductoresFun().clear();
 					getListaConductoresFun().addAll(
 							managergest.findAllConductoresFuncionarios());
