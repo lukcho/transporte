@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -400,21 +401,19 @@ public class solicituduBean implements Serializable {
 	 */
 	public String crearSolicitud() {
 		try {
-		//	setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
-		//	setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
+			// setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
+			// setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
 			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-			java.sql.Time hora_inicio = new java.sql.Time(formatter.parse(sol_hora_inicio).getTime());
-			java.sql.Time hora_fin = new java.sql.Time(formatter.parse(sol_hora_fin).getTime());
-//			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
-//				FacesContext context = FacesContext.getCurrentInstance();
-//				context.addMessage(null, new FacesMessage("Error..!!!",
-//						"Verifique su horario "));
+			horainiciotiemp = new java.sql.Time(formatter
+					.parse(sol_hora_inicio).getTime());
+			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
+					.getTime());
 			if (edicion) {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
-						sol_motivo.trim(), hora_inicio, hora_fin,
+						sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion.trim(), sol_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
@@ -447,8 +446,8 @@ public class solicituduBean implements Serializable {
 								.findAllSolicitudesOrdenados(sol_usuario_cedula));
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
-						pasajeros, sol_motivo.trim(), hora_inicio,
-						hora_fin, sol_flexibilidad);
+						pasajeros, sol_motivo.trim(), horainiciotiemp,
+						horafintiemp, sol_flexibilidad);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -479,6 +478,7 @@ public class solicituduBean implements Serializable {
 						.addAll(managersol
 								.findAllSolicitudesOrdenados(sol_usuario_cedula));
 			}
+
 			return "trans_solicitudesu?faces-redirect=true";
 
 		} catch (Exception e) {
@@ -492,7 +492,22 @@ public class solicituduBean implements Serializable {
 	}
 
 	public void abrirDialog() {
-		RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		try {
+			horainiciotiemp = new java.sql.Time(formatter
+					.parse(sol_hora_inicio).getTime());
+			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
+					.getTime());
+			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Error..Verifique su horario.",
+						""));
+			}else
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -607,8 +622,6 @@ public class solicituduBean implements Serializable {
 	public void cambiarEstadoSoli(TransSolicitud soli) {
 		setSoli(soli);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
-
 	}
 
 	/**
@@ -622,7 +635,6 @@ public class solicituduBean implements Serializable {
 				.findAllSolicitudesOrdenados(sol_usuario_cedula);
 		for (TransSolicitud y : soli) {
 			if (y.getSolId().equals(soli_id)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
 				FacesContext.getCurrentInstance().addMessage(
@@ -652,7 +664,7 @@ public class solicituduBean implements Serializable {
 						+ Funciones.valorEstadoRechazado));
 		return lista;
 	}
-	
+
 	/**
 	 * Lista de horas
 	 * 

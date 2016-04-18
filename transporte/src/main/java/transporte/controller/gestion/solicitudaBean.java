@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,8 +45,7 @@ public class solicitudaBean implements Serializable {
 
 	@EJB
 	private ManagerSolicitud managersol;
-	
-	
+
 	private ManagerCarga mc;
 
 	// SOLICITUD
@@ -102,7 +102,7 @@ public class solicitudaBean implements Serializable {
 	SesionBean ms;
 
 	private String usuario;
-	
+
 	private Persona per;
 
 	public solicitudaBean() {
@@ -123,7 +123,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_pasajeros = null;
 		edicion = false;
-		infomostrar=false;
+		infomostrar = false;
 		horamostrar = false;
 		ediciontipo = false;
 		guardaredicion = true;
@@ -145,7 +145,7 @@ public class solicitudaBean implements Serializable {
 	public void setSol_estadonombre(String sol_estadonombre) {
 		this.sol_estadonombre = sol_estadonombre;
 	}
-	
+
 	public Date getFi() {
 		return fi;
 	}
@@ -450,31 +450,25 @@ public class solicitudaBean implements Serializable {
 	 */
 	public String crearSolicitud() {
 		try {
-//			setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
-//			setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
 			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-			java.sql.Time hora_inicio = new java.sql.Time(formatter.parse(sol_hora_inicio).getTime());
-			java.sql.Time hora_fin = new java.sql.Time(formatter.parse(sol_hora_fin).getTime());
-//			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
-//				FacesContext context = FacesContext.getCurrentInstance();
-//				context.addMessage(null, new FacesMessage("Error..!!!",
-//						"Verifique su horario "));
-//			}else 
-			if (edicion){
+			horainiciotiemp = new java.sql.Time(formatter.parse(
+					sol_hora_inicio).getTime());
+			horafintiemp= new java.sql.Time(formatter.parse(
+					sol_hora_fin).getTime());
+			if (edicion) {
 				asignarLugarDestino();
 				asignarLugarOrigen();
 				asignarVehiculo();
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
-						sol_motivo.trim(), hora_inicio, hora_fin,
+						sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion.trim(), sol_estado);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				sol_usuario_cedula = usuario;
 				date = new Date();
-				// sol_idsolicitante = sol.getSolicitante();
 				sol_id_origen = null;
 				sol_id_destino = null;
 				sol_fcoid = null;
@@ -490,7 +484,7 @@ public class solicitudaBean implements Serializable {
 				sol_observacion = null;
 				sol_estado = "P";
 				edicion = true;
-				infomostrar=false;
+				infomostrar = false;
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
@@ -503,10 +497,10 @@ public class solicitudaBean implements Serializable {
 				getListaSolicitudaprorecha().clear();
 				getListaSolicitudaprorecha().addAll(
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
-				
+
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
-						pasajeros, sol_motivo.trim(), hora_inicio, hora_fin,
+						pasajeros, sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
@@ -528,7 +522,7 @@ public class solicitudaBean implements Serializable {
 				sol_observacion = null;
 				sol_estado = "P";
 				edicion = true;
-				infomostrar=false;
+				infomostrar = false;
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
@@ -543,27 +537,40 @@ public class solicitudaBean implements Serializable {
 						managersol.findAllSolicitudesOrdenadosaaprorecha());
 			}
 			return "trans_solicitudesa?faces-redirect=true";
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"Error al crear solicitud", null));
-			return  "";
+			return "";
 		}
 	}
-	
-	public void abrirDialog(){
-		System.out.println("sol funcionario: "+sol_fcoid+" sol conduct: "+sol_conductor);
-		if((sol_fcoid==null && sol_conductor==null) || (sol_fcoid!=null && sol_conductor!=null))
-		{
-			System.out.println("entra aca");
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Debe seleccionar por lo menos un conductor o funcionario",
-					" "));
-		}else{
-			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+
+	public void abrirDialog() {
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		try {
+			horainiciotiemp = new java.sql.Time(formatter.parse(
+					sol_hora_inicio).getTime());
+			horafintiemp= new java.sql.Time(formatter.parse(
+					sol_hora_fin).getTime());
+			if ((sol_fcoid == null && sol_conductor == null)
+					|| (sol_fcoid != null && sol_conductor != null)) {
+				System.out.println("entra aca");
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"Debe seleccionar por lo menos un conductor o funcionario",
+						" "));
+			}else if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Error..!!! verifique su horario",""));
+			} else {
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -604,19 +611,18 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_cedula = sol.getSolIdSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			if (sol.getTransFuncionarioConductor()==null)
+			if (sol.getTransFuncionarioConductor() == null)
 				sol_fcoid = "";
 			else
 				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
-			if (sol.getTransVehiculo()==null)
+			if (sol.getTransVehiculo() == null)
 				sol_vehi = "";
 			else
-			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
-			if (sol.getTransConductore()==null){
+				sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			if (sol.getTransConductore() == null) {
 				sol_conductor = "";
-			}
-			else{
-			sol_conductor = sol.getTransConductore().getCondCedula();
+			} else {
+				sol_conductor = sol.getTransConductore().getCondCedula();
 			}
 			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
@@ -674,19 +680,18 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_cedula = sol.getSolIdSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			if (sol.getTransFuncionarioConductor()==null)
+			if (sol.getTransFuncionarioConductor() == null)
 				sol_fcoid = "";
 			else
 				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
-			if (sol.getTransVehiculo()==null)
+			if (sol.getTransVehiculo() == null)
 				sol_vehi = "";
 			else
-			sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
-			if (sol.getTransConductore()==null){
+				sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
+			if (sol.getTransConductore() == null) {
 				sol_conductor = "";
-			}
-			else{
-			sol_conductor = sol.getTransConductore().getCondCedula();
+			} else {
+				sol_conductor = sol.getTransConductore().getCondCedula();
 			}
 			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
@@ -703,7 +708,7 @@ public class solicitudaBean implements Serializable {
 			} else {
 				infomostrar = true;
 			}
-			horamostrar=true;
+			horamostrar = true;
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
@@ -723,7 +728,7 @@ public class solicitudaBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * activar y desactivar estado Solicitud
 	 * 
@@ -807,9 +812,9 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaOrigen() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
-			if(!t.getLugEstado().equals("I")){
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
-					+ t.getLugCiudad()));
+			if (!t.getLugEstado().equals("I")) {
+				listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()
+						+ " - " + t.getLugCiudad()));
 			}
 		}
 
@@ -823,9 +828,9 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaDestino() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransLugare t : managergest.findAllLugares()) {
-			if(!t.getLugEstado().equals("I")){
-			listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre() + " - "
-					+ t.getLugCiudad()));
+			if (!t.getLugEstado().equals("I")) {
+				listadoSI.add(new SelectItem(t.getLugId(), t.getLugNombre()
+						+ " - " + t.getLugCiudad()));
 			}
 		}
 
@@ -839,9 +844,9 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaConductor() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransConductore t : managergest.findAllConductores()) {
-			if(!t.getCondEstado().equals("I")){
-			listadoSI.add(new SelectItem(t.getCondCedula(), t.getCondNombre()
-					+ " " + t.getCondApellido()));
+			if (!t.getCondEstado().equals("I")) {
+				listadoSI.add(new SelectItem(t.getCondCedula(), t
+						.getCondNombre() + " " + t.getCondApellido()));
 			}
 		}
 
@@ -856,9 +861,9 @@ public class solicitudaBean implements Serializable {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransFuncionarioConductor t : managersol
 				.findAllConductFuncionarios()) {
-			if(!t.getFcoEstado().equals("I")){
-			listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres() + " "
-					+ t.getFcoGerencia()));
+			if (!t.getFcoEstado().equals("I")) {
+				listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
+						+ " " + t.getFcoGerencia()));
 			}
 		}
 
@@ -872,9 +877,9 @@ public class solicitudaBean implements Serializable {
 	public List<SelectItem> getListaVehiculo() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		for (TransVehiculo t : managergest.findAllVehiculos()) {
-			if(!t.getVehiEstado().equals("I")){
-			listadoSI.add(new SelectItem(t.getVehiIdplaca(), t.getVehiIdplaca()
-					+ " " + t.getVehiNombre()));
+			if (!t.getVehiEstado().equals("I")) {
+				listadoSI.add(new SelectItem(t.getVehiIdplaca(), t
+						.getVehiIdplaca() + " " + t.getVehiNombre()));
 			}
 		}
 		return listadoSI;
@@ -976,7 +981,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_observacion = null;
 		sol_estado = "P";
-		infomostrar=false;
+		infomostrar = false;
 		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
@@ -1018,7 +1023,7 @@ public class solicitudaBean implements Serializable {
 		sol_flexibilidad = false;
 		sol_observacion = null;
 		sol_estado = "P";
-		infomostrar=false;
+		infomostrar = false;
 		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
@@ -1119,20 +1124,20 @@ public class solicitudaBean implements Serializable {
 		}
 		return l1;
 	}
-	
-	public void BuscarPersona()
-	{
-		
+
+	public void BuscarPersona() {
+
 		try {
 			System.out.println(usuario);
 			per = mc.funcionarioByDNI(usuario);
-			sol_usuario_cedula= per.getPerNombres()+" "+per.getPerApellidos();
+			sol_usuario_cedula = per.getPerNombres() + " "
+					+ per.getPerApellidos();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Lista de horas
 	 * 
