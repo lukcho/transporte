@@ -750,9 +750,9 @@ public class solicituduBean implements Serializable {
 		for (TransFuncionarioConductor t : managersol
 				.findAllConductFuncionarios()) {
 			if (!t.getFcoEstado().equals("I")) {
-
+					if(per.getPerGerencia().equals(t.getFcoGerencia()))
 				listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
-						+ " " + t.getFcoGerencia()));
+						+ " - " + t.getFcoGerencia()));
 			}
 		}
 

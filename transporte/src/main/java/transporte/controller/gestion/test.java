@@ -1,6 +1,8 @@
 package transporte.controller.gestion;
 
-import transporte.model.dao.entities.Persona;
+import java.util.List;
+
+import transporte.model.dao.entities.PersonaFuncionario;
 import transporte.model.manager.ManagerCarga;
 
 public class test {
@@ -9,8 +11,8 @@ public class test {
 		// TODO Auto-generated method stub
 		ManagerCarga mg = new ManagerCarga();
 		try {
-			Persona per = mg.funcionarioByDNI("aquina");
-			System.out.println(per.getPerNombres());
+			List<PersonaFuncionario> pret = mg.funcionarioByGerencia("GERENCIA DE TECNOLOGÍAS");
+			System.out.println(pret.size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -34,9 +34,11 @@ create table TRANS_CONDUCTORES (
 /*==============================================================*/
 create table TRANS_FUNCIONARIO_CONDUCTOR (
    FCO_ID               VARCHAR(20)          not null,
-   FCO_NOMBRES          VARCHAR(100)         null,
-   FCO_GERENCIA         VARCHAR(200)         null,
-   FCO_DIRECCION        VARCHAR(200)         null,
+   FCO_NOMBRES          VARCHAR(255)         null,
+   FCO_GERENCIA         VARCHAR(255)         null,
+   FCO_DIRECCION        VARCHAR(255)         null,
+   FCO_TELEFONO         VARCHAR(20)          null,
+   FCO_CORREO           VARCHAR(255)         null,
    FCO_ESTADO           CHAR(1)              null,
    constraint PK_TRANS_FUNCIONARIO_CONDUCTOR primary key (FCO_ID)
 );

@@ -2,7 +2,7 @@ package transporte.model.dao.entities;
 
 import java.util.Date;
 
-public class Persona {
+public class PersonaFuncionario {
 	
 	private String perDNI;
 	private String perTipoDNI;
@@ -22,13 +22,13 @@ public class Persona {
 	private String cargo;
 	private String jefeInmediato;
 	
-	public Persona() {}
+	public PersonaFuncionario() {}
 	
-	public Persona(String perDNI){
+	public PersonaFuncionario(String perDNI){
 		this.perDNI = perDNI;
 	}
 	
-	public Persona(String perDNI, String perTipoDNI, String perNombres,
+	public PersonaFuncionario(String perDNI, String perTipoDNI, String perNombres,
 			String perApellidos, String perTelefono, String perCelular,
 			String perCorreo, String perPais, Date perFechaNacimiento,
 			String cargo, String jefeInmediato, String pergerencia,

@@ -275,12 +275,14 @@ public class ManagerGestion{
 		 * @param pro_estado_fun
 		 * @throws Exception
 		 */
-		public void insertarConductorFun(String conf_cedid,String conf_nombre, String conf_gerencia, String conf_direccion) throws Exception {
+		public void insertarConductorFun(PersonaFuncionario per) throws Exception {
 			TransFuncionarioConductor conf = new TransFuncionarioConductor();
-			conf.setFcoId(conf_cedid);
-			conf.setFcoNombres(conf_nombre);
-			conf.setFcoGerencia(conf_gerencia);
-			conf.setFcoDireccion(conf_direccion);
+			conf.setFcoId(per.getPerDNI());
+			conf.setFcoNombres(per.getPerNombres()+" "+per.getPerApellidos());
+			conf.setFcoGerencia(per.getPerGerencia());
+			conf.setFcoDireccion(per.getPerDireccion());
+			conf.setFcoTelefono(per.getPerTelefono());
+			conf.setFcoCorreo(per.getPerCorreo());
 			conf.setFcoEstado("A");
 			mDAO.insertar(conf);		
 		}
@@ -298,12 +300,11 @@ public class ManagerGestion{
 		 * @param pro_estado_fun
 		 * @throws Exception
 		 */	
-		public void editarConductorFun(String conf_cedid,String conf_nombre, String conf_gerencia, String conf_direccion, String conf_estado) throws Exception {
-			TransFuncionarioConductor conf =  this.conductorfunByID(conf_cedid);
-			conf.setFcoNombres(conf_nombre);
-			conf.setFcoGerencia(conf_gerencia);
-			conf.setFcoDireccion(conf_direccion);
-			conf.setFcoEstado(conf_estado);
+		public void editarConductorFun(String cedula,String correo, String telefono,  String Estado) throws Exception {
+			TransFuncionarioConductor conf =  this.conductorfunByID(cedula);
+			conf.setFcoCorreo(correo);
+			conf.setFcoTelefono(telefono);
+			conf.setFcoEstado(Estado);
 			mDAO.actualizar(conf);	
 		}
 		

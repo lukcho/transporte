@@ -17,52 +17,113 @@
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Registro de Conductores Funcionarios" look="primary">
 				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="C&eacute;dula:* " />
+					<b:column span="3">
+						<h:outputLabel rendered="#{conductorfunBean.ocultarbusqueda}"
+							value="Buscar Funcionario Conductor: " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorfunBean.condf_cedula}" required="true" disabled="#{conductorfunBean.mostrarcondf_id}"
-							requiredMessage="Campo cédula requerido" maxlength="10"
-							validatorMessage="Verificar campo c&eacute;dula solo n&uacute;meros.">
-							<f:validateRegex pattern="[0-9]+" />
-						</b:inputText>
-					</b:column>
-					<b:column span="2">
-						<h:outputLabel value="Nombre y Apellido:* " />
-					</b:column>
-					<b:column span="4">
-						<b:inputText value="#{conductorfunBean.condf_nombre}" required="true"
-							requiredMessage="Campo nombre requerido" maxlength="100"
-							validatorMessage="Verificar campo nombre y apellido solo letras.">
-							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						<h:panelGroup>
+							<p:selectOneMenu id="trackseleccionar5" required="true"
+								rendered="#{conductorfunBean.ocultarbusqueda}"
+								requiredMessage="Requerido Origen"
+								value="#{conductorfunBean.condf_cedula}" filter="true"
+								filterMatchMode="contains">
+								<f:selectItems
+									value="#{conductorfunBean.listafuncionariodebase}" var="f"
+									itemLabel="#{f.perDNI} - #{f.perNombres} #{f.perApellidos}"
+									itemValue="#{f.perDNI}" />
+								<p:ajax listener="#{conductorfunBean.asignarFuncionario()}"
+									update="dni nombres gerencia correo telefono direccion" />
+							</p:selectOneMenu>
+						</h:panelGroup>
 					</b:column>
 				</b:row>
 				<br />
+				<br />
+				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Gerencia:* " />
+						<h:outputLabel value="C&eacute;dula: " />
 					</b:column>
-					<b:column span="4">
-						<b:inputText value="#{conductorfunBean.condf_gerencia}"
-							required="true" requiredMessage="Campo gerencia requerido"
-							maxlength="100"
-							validatorMessage="Verificar campo gerencia.">
-							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					<b:column span="3">
+						<b:inputText id="dni" value="#{conductorfunBean.perfun.perDNI}"
+							disabled="true" rendered="#{conductorfunBean.ediciontipo}" />
+						<b:inputText id="dni1" value="#{conductorfunBean.condf_cedula}"
+							disabled="true" rendered="#{conductorfunBean.edicion}" />
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Nombre y Apellido: " />
+					</b:column>
+					<b:column span="5">
+						<b:inputText id="nombres"
+							rendered="#{conductorfunBean.ediciontipo}"
+							value="#{conductorfunBean.perfun.perNombres} #{conductorfunBean.perfun.perApellidos}"
+							disabled="true" />
+						<b:inputText id="nombres1"
+							value="#{conductorfunBean.condf_nombre}" disabled="true"
+							rendered="#{conductorfunBean.edicion}" />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Gerencia: " />
+					</b:column>
+					<b:column span="3">
+						<b:inputText id="gerencia"
+							rendered="#{conductorfunBean.ediciontipo}"
+							value="#{conductorfunBean.perfun.perGerencia}" disabled="true" />
+						<b:inputText id="gerencia1"
+							value="#{conductorfunBean.condf_gerencia}" disabled="true"
+							rendered="#{conductorfunBean.edicion}" />
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Direcci&oacute;n: " />
+					</b:column>
+					<b:column span="5">
+						<b:inputText id="direccion"
+							rendered="#{conductorfunBean.ediciontipo}"
+							value="#{conductorfunBean.perfun.perDireccion}" disabled="true" />
+						<b:inputText id="direccion1"
+							value="#{conductorfunBean.condf_direccion}" disabled="true"
+							rendered="#{conductorfunBean.edicion}" />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Correo: " />
+					</b:column>
+					<b:column span="3">
+						<b:inputText id="correo"
+							rendered="#{conductorfunBean.ediciontipo}"
+							value="#{conductorfunBean.perfun.perCorreo}"
+							disabled="#{conductorfunBean.ediciontipo}"/>
+						<b:inputText id="correo1" value="#{conductorfunBean.condf_correo}" required="true"
+							requiredMessage="Campo correo requerido" validatorMessage="Campo correo no tiene el formato correcto."
+							disabled="false" rendered="#{conductorfunBean.edicion}">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 						</b:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Direcci&oacute;n:* " />
-					</b:column>
-					<b:column span="4">
-						<b:inputText value="#{conductorfunBean.condf_direccion}"
-							required="true" requiredMessage="Campo direcci&oacute;n requerido"
-							validatorMessage="Verificar campo direcci&oacute;n.">
-							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						<h:outputLabel value="Tel&eacute;fono: " />
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Estado*" rendered="#{conductorfunBean.edicion}" />
+						<b:inputText id="telefono"
+							rendered="#{conductorfunBean.ediciontipo}"
+							value="#{conductorfunBean.perfun.perTelefono}"
+							disabled="#{conductorfunBean.ediciontipo}" />
+						<b:inputText id="telefono1" required="true"
+							requiredMessage="Campo tel&eacute;fono requerido" validatorMessage="Campo tel&eacute;fono solo n&uacute;meros."
+							value="#{conductorfunBean.condf_telefono}" disabled="false"
+							rendered="#{conductorfunBean.edicion}">
+							<f:validateRegex pattern="[0-9]+" />
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Estado*"
+							rendered="#{conductorfunBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<b:selectOneMenu value="#{conductorfunBean.condf_estado}"
@@ -74,12 +135,13 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" actionListener="#{conductorfunBean.abrirDialog()}"
+							style="padding:7px;"
+							actionListener="#{conductorfunBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
 							action="#{conductorfunBean.volverConductorFun()}" update="frm"
-							look="info" process="@this" >
+							look="info" process="@this">
 						</b:commandButton>&nbsp;&nbsp;&nbsp;
 					</b:column>
 				</b:row>
@@ -88,8 +150,9 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmaci&oacute;n"
-			message="Est&aacute; seguro de guardar la informaci&oacute;n?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check"
