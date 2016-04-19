@@ -112,10 +112,10 @@ public class solicitudaBean implements Serializable {
 	public void ini() {
 		mc = new ManagerCarga();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
-		sol_conductor = "";
+		sol_conductor = "Ninguno";
 		sol_vehi = "";
 		sol_estadonombre = "";
-		sol_fcoid = "";
+		sol_fcoid = "Ninguno";
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -454,26 +454,27 @@ public class solicitudaBean implements Serializable {
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
 			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-			horainiciotiemp = new java.sql.Time(formatter.parse(
-					sol_hora_inicio).getTime());
-			horafintiemp= new java.sql.Time(formatter.parse(
-					sol_hora_fin).getTime());
+			horainiciotiemp = new java.sql.Time(formatter
+					.parse(sol_hora_inicio).getTime());
+			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
+					.getTime());
 			if (edicion) {
 				asignarLugarDestino();
 				asignarLugarOrigen();
 				asignarVehiculo();
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion.trim(), sol_estado);
+						sol_flexibilidad, sol_observacion.trim(), sol_estado,
+						sol_fcoid, sol_conductor);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				sol_usuario_cedula = usuario;
 				date = new Date();
 				sol_id_origen = null;
 				sol_id_destino = null;
-				sol_fcoid = null;
+				sol_fcoid = "Ninguno";
 				sol_vehi = null;
-				sol_conductor = null;
+				sol_conductor = "Ninguno";
 				sol_fecha = null;
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
@@ -500,8 +501,8 @@ public class solicitudaBean implements Serializable {
 
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
-						pasajeros, sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad);
+						pasajeros, sol_motivo.trim(), horainiciotiemp,
+						horafintiemp, sol_flexibilidad, sol_fcoid);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -509,9 +510,9 @@ public class solicitudaBean implements Serializable {
 				sol_usuario_cedula = usuario;
 				sol_id_origen = null;
 				sol_id_destino = null;
-				sol_fcoid = null;
+				sol_fcoid = "Ninguno";
 				sol_vehi = null;
-				sol_conductor = null;
+				sol_conductor = "Ninguno";
 				sol_fecha = null;
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
@@ -551,20 +552,28 @@ public class solicitudaBean implements Serializable {
 	public void abrirDialog() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {
-			horainiciotiemp = new java.sql.Time(formatter.parse(
-					sol_hora_inicio).getTime());
-			horafintiemp= new java.sql.Time(formatter.parse(
-					sol_hora_fin).getTime());
-			if ((sol_fcoid == null && sol_conductor == null)
-					|| (sol_fcoid != null && sol_conductor != null)) {
-				System.out.println("entra aca");
+			horainiciotiemp = new java.sql.Time(formatter
+					.parse(sol_hora_inicio).getTime());
+			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
+					.getTime());
+			System.out.println(sol_fcoid + " ghfghgfhfhg  " + sol_conductor);
+			if (sol_fcoid.equals("Ninguno") && sol_conductor.equals("Ninguno")) {
+				System.out.println("entra aca1");
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(
-						"Debe seleccionar por lo menos un conductor o funcionario",
-						" "));
-			}else if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+						"Debe seleccionar un conductor o funcionario", " "));
+			} else if (!sol_fcoid.equals("Ninguno") && !sol_conductor.equals("Ninguno")) {
+				System.out.println("entra aca2");
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..!!! verifique su horario",""));
+				context.addMessage(
+						null,
+						new FacesMessage(
+								"Debe seleccionar solo un conductor o funcionario",
+								" "));
+			} else if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"Error..!!! verifique su horario", ""));
 			} else {
 				RequestContext.getCurrentInstance().execute("PF('gu').show();");
 			}
@@ -612,7 +621,7 @@ public class solicitudaBean implements Serializable {
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			if (sol.getTransFuncionarioConductor() == null)
-				sol_fcoid = "";
+				sol_fcoid = "Ninguno";
 			else
 				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			if (sol.getTransVehiculo() == null)
@@ -620,7 +629,7 @@ public class solicitudaBean implements Serializable {
 			else
 				sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
 			if (sol.getTransConductore() == null) {
-				sol_conductor = "";
+				sol_conductor = "Ninguno";
 			} else {
 				sol_conductor = sol.getTransConductore().getCondCedula();
 			}
@@ -681,7 +690,7 @@ public class solicitudaBean implements Serializable {
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			if (sol.getTransFuncionarioConductor() == null)
-				sol_fcoid = "";
+				sol_fcoid = "Ninguno";
 			else
 				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			if (sol.getTransVehiculo() == null)
@@ -689,7 +698,7 @@ public class solicitudaBean implements Serializable {
 			else
 				sol_vehi = sol.getTransVehiculo().getVehiIdplaca();
 			if (sol.getTransConductore() == null) {
-				sol_conductor = "";
+				sol_conductor = "Ninguno";
 			} else {
 				sol_conductor = sol.getTransConductore().getCondCedula();
 			}
@@ -843,6 +852,7 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaConductor() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem("Ninguno", "Ninguno"));
 		for (TransConductore t : managergest.findAllConductores()) {
 			if (!t.getCondEstado().equals("I")) {
 				listadoSI.add(new SelectItem(t.getCondCedula(), t
@@ -859,12 +869,13 @@ public class solicitudaBean implements Serializable {
 	 */
 	public List<SelectItem> getListaConductorfuncionario() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem("Ninguno", "Ninguno"));
 		for (TransFuncionarioConductor t : managersol
 				.findAllConductFuncionarios()) {
 			if (!t.getFcoEstado().equals("I")) {
-				if(per.getPerGerencia().equals(t.getFcoGerencia()))
-				listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
-						+ " - " + t.getFcoGerencia()));
+				if (per.getPerGerencia().equals(t.getFcoGerencia()))
+					listadoSI.add(new SelectItem(t.getFcoId(), t
+							.getFcoNombres() + " - " + t.getFcoGerencia()));
 			}
 		}
 
@@ -891,16 +902,11 @@ public class solicitudaBean implements Serializable {
 	 * 
 	 */
 	public String asignarConductor() {
-		managersol.asignarConductor(sol_conductor);
-		return "";
-	}
-
-	/**
-	 * metodo para asignar el condutorfuncionario a solicitud
-	 * 
-	 */
-	public String asignarConductorFuncionario() {
-		managersol.asignarConductorfuncionario(sol_fcoid);
+		System.out.println("conductor: " + sol_conductor);
+		if (sol_conductor == null)
+			sol_conductor = "";
+		else
+			managersol.asignarConductor(sol_conductor);
 		return "";
 	}
 
@@ -970,9 +976,9 @@ public class solicitudaBean implements Serializable {
 		sol_usuario_cedula = usuario;
 		sol_id_origen = null;
 		sol_id_destino = null;
-		sol_fcoid = null;
+		sol_fcoid = "Ninguno";
 		sol_vehi = null;
-		sol_conductor = null;
+		sol_conductor = "Ninguno";
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;
@@ -1012,9 +1018,9 @@ public class solicitudaBean implements Serializable {
 		BuscarPersona();
 		sol_id_origen = null;
 		sol_id_destino = null;
-		sol_fcoid = null;
+		sol_fcoid = "Ninguno";
 		sol_vehi = null;
-		sol_conductor = null;
+		sol_conductor = "Ninguno";
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;

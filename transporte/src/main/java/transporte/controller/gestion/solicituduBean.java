@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -414,7 +415,7 @@ public class solicituduBean implements Serializable {
 			if (edicion) {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion.trim(), sol_estado);
+						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				date = new Date();
@@ -447,7 +448,7 @@ public class solicituduBean implements Serializable {
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
-						horafintiemp, sol_flexibilidad);
+						horafintiemp, sol_flexibilidad, sol_fcoid);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -500,10 +501,10 @@ public class solicituduBean implements Serializable {
 					.getTime());
 			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..Verifique su horario.",
-						""));
-			}else
-			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+				context.addMessage(null, new FacesMessage(
+						"Error..Verifique su horario.", ""));
+			} else
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -565,9 +566,7 @@ public class solicituduBean implements Serializable {
 			} else {
 				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 				sol_conductornombrefuncionario = sol
-						.getTransFuncionarioConductor().getFcoNombres()
-						+ " "
-						+ sol.getTransFuncionarioConductor().getFcoGerencia();
+						.getTransFuncionarioConductor().getFcoNombres();
 			}
 			fecha = sol.getSolFecha();
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
@@ -747,12 +746,13 @@ public class solicituduBean implements Serializable {
 	 */
 	public List<SelectItem> getListaConductorfuncionario() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem("Ninguno", "Ninguno"));
 		for (TransFuncionarioConductor t : managersol
 				.findAllConductFuncionarios()) {
 			if (!t.getFcoEstado().equals("I")) {
-					if(per.getPerGerencia().equals(t.getFcoGerencia()))
-				listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()
-						+ " - " + t.getFcoGerencia()));
+				if (per.getPerGerencia().equals(t.getFcoGerencia()))
+					listadoSI.add(new SelectItem(t.getFcoId(), t
+							.getFcoNombres() + " - " + t.getFcoGerencia()));
 			}
 		}
 
@@ -778,18 +778,16 @@ public class solicituduBean implements Serializable {
 	 * metodo para asignar el condutor a solicitud
 	 * 
 	 */
-	public String asignarConductor() {
+	public void asignarConductor() {
 		managersol.asignarConductor(sol_conductor);
-		return "";
 	}
 
 	/**
 	 * metodo para asignar el condutorfuncionario a solicitud
 	 * 
 	 */
-	public String asignarConductorFuncionario() {
+	public void asignarConductorFuncionario() {
 		managersol.asignarConductorfuncionario(sol_fcoid);
-		return "";
 	}
 
 	/**
@@ -872,7 +870,7 @@ public class solicituduBean implements Serializable {
 		BuscarPersona();
 		sol_id = null;
 		date = new Date();
-		fecha = date;
+		fecha = addDays(date,1);
 		// sol_idsolicitante = sol.getSolicitante();
 		sol_id_origen = null;
 		sol_id_destino = null;
@@ -929,6 +927,14 @@ public class solicituduBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static Date addDays(Date date, int days) {
+		days=1;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, days); // minus number would decrement the days
+		return cal.getTime();
 	}
 
 }

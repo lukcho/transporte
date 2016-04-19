@@ -164,13 +164,14 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad) throws Exception {
+	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_fcoid) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		sol.setSolIdSolicitante(usuario);
 		cargafecha();
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
-		sol.setTransFuncionarioConductor(trans_fco);
+		if(!sol_fcoid.equals("Ninguno"))
+			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
 		sol.setTransVehiculo(trans_vehi);
 		sol.setTransConductore(trans_con);
 		sol.setSolFechaCreacion(fecha_creacion);
@@ -209,13 +210,17 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion, String sol_estado) throws Exception {
+	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion, String sol_estado,String sol_fcoid,String sol_cond) throws Exception {
 		TransSolicitud sol =  this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
-		sol.setTransFuncionarioConductor(trans_fco);
+		if(!sol_fcoid.equals("Ninguno"))
+			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
+		else
+			sol.setTransFuncionarioConductor(null);
+		if(!sol_cond.equals("Ninguno"))
+			sol.setTransConductore(mGes.conductorByID(sol_cond));
 		sol.setTransVehiculo(trans_vehi);
-		sol.setTransConductore(trans_con);
 		sol.setSolFecha(sol_fecha);
 		sol.setSolPasajeros(sol_pasajeros);
 		sol.setSolMotivo(sol_motivo);
@@ -412,7 +417,10 @@ public class ManagerSolicitud{
 	 */
 	public TransFuncionarioConductor asignarConductorfuncionario(String confun_id) {
 		try {
-			trans_fco = mGes.conductorfunByID(confun_id);
+			if(!confun_id.isEmpty())
+				trans_fco = mGes.conductorfunByID(confun_id);
+			else
+				trans_fco = null;
 		} catch (Exception e) {
 			// TODO Auto-generated prodch block
 			e.printStackTrace();

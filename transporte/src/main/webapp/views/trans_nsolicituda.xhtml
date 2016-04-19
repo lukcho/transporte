@@ -79,7 +79,8 @@
 								<h:outputLabel value="Hora Inicio:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar4" required="true"
-										disabled="#{solicitudaBean.horamostrar}" styleClass="form-control"
+										disabled="#{solicitudaBean.horamostrar}"
+										styleClass="form-control"
 										requiredMessage="Requerido Hora Inicio"
 										value="#{solicitudaBean.sol_hora_inicio}">
 										<f:selectItem itemLabel="Selecci&oacute;n Hora Inicio"
@@ -109,7 +110,8 @@
 								<h:outputLabel value="Hora Destino:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
-										disabled="#{solicitudaBean.horamostrar}" styleClass="form-control"
+										disabled="#{solicitudaBean.horamostrar}"
+										styleClass="form-control"
 										requiredMessage="Requerido Hora Destino"
 										value="#{solicitudaBean.sol_hora_fin}">
 										<f:selectItem itemLabel="Selecci&oacute;n Hora Destino"
@@ -145,9 +147,7 @@
 										disabled="#{solicitudaBean.infomostrar}"
 										styleClass="form-control"
 										value="#{solicitudaBean.sol_conductor}">
-										<f:selectItem itemLabel="Ninguno" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaConductor}" />
-										<f:ajax listener="#{solicitudaBean.asignarConductor()}" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 							</f:facet>
@@ -156,14 +156,12 @@
 					<b:column span="3">
 						<h:outputLabel value="Funcionario Conductor:* " />
 						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar21" styleClass="form-control"
+							<h:selectOneMenu id="trackseleccionar21"
+								styleClass="form-control"
 								disabled="#{solicitudaBean.infomostrar}"
 								value="#{solicitudaBean.sol_fcoid}">
-								<f:selectItem itemLabel="Ninguno" itemValue="" />
 								<f:selectItems
 									value="#{solicitudaBean.listaConductorfuncionario}" />
-								<f:ajax
-									listener="#{solicitudaBean.asignarConductorFuncionario()}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
 
@@ -179,8 +177,7 @@
 					</b:column>
 					<b:column span="2">
 						<b:selectBooleanCheckbox
-							value="#{solicitudaBean.sol_flexibilidad}"
-							disabled="true"
+							value="#{solicitudaBean.sol_flexibilidad}" disabled="true"
 							caption="Flexibilidad de cambio de hora" />
 					</b:column>
 				</b:row>

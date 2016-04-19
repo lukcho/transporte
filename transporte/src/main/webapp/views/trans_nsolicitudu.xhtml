@@ -53,11 +53,11 @@
 						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
-						<p:calendar required="true" mindate="#{solicituduBean.date}"
+						<p:calendar required="true" mindate="#{solicituduBean.fecha}"
 							disabled="#{solicituduBean.edicion}" label="Hora Fin"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
 							value="#{solicituduBean.fecha}" pattern="yyyy/MM/dd" mask="true">
-<!-- 							<p:ajax event="dateSelect" update="frm messages"></p:ajax> -->
+							<!-- 							<p:ajax event="dateSelect" update="frm messages"></p:ajax> -->
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
@@ -141,11 +141,8 @@
 							<h:selectOneMenu id="trackseleccionar9"
 								disabled="#{solicituduBean.edicion}" styleClass="form-control"
 								value="#{solicituduBean.sol_fcoid}">
-								<f:selectItem itemLabel="Ninguno" itemValue="" />
 								<f:selectItems
 									value="#{solicituduBean.listaConductorfuncionario}" />
-								<f:ajax
-									listener="#{solicituduBean.asignarConductorFuncionario()}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
 					</b:column>
@@ -157,41 +154,50 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Veh&iacute;culo Asignado: "
-							rendered="#{solicituduBean.edicion}" />
-					</b:column>
-					<b:column span="4">
-						<h:outputLabel value="#{solicituduBean.sol_vehi}"
-							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
-						</h:outputLabel>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Conductor Asignado: "
-							rendered="#{solicituduBean.edicion}" />
-					</b:column>
-					<b:column span="4">
-						<h:outputLabel value="#{solicituduBean.sol_conductornombre} "
-							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
-						</h:outputLabel>
-						<h:outputLabel
-							value="#{solicituduBean.sol_conductornombrefuncionario} "
-							style="color: #317eac;" rendered="#{solicituduBean.edicion}">
-						</h:outputLabel>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Observaciones: "
-							rendered="#{solicituduBean.edicion}" />
-					</b:column>
-					<b:column span="8">
-						<b:inputTextarea value="#{solicituduBean.sol_observacion}"
-							rendered="#{solicituduBean.edicion}" fieldSize="2" rows="2"
-							disabled="#{solicituduBean.edicion}" maxlength="255">
-						</b:inputTextarea>
+					<b:column span="10" style="margin-bottom:10px">
+						<b:thumbnail tooltip="Respuesta"
+							rendered="#{solicituduBean.edicion}">
+							<f:facet name="caption">
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Veh&iacute;culo Asignado: "
+											rendered="#{solicituduBean.edicion}" />
+									</b:column>
+									<b:column span="4">
+										<h:outputLabel value="#{solicituduBean.sol_vehi}"
+											style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+										</h:outputLabel>
+									</b:column>
+								</b:row>
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Conductor Asignado: "
+											rendered="#{solicituduBean.edicion}" />
+									</b:column>
+									<b:column span="4">
+										<h:outputLabel value="#{solicituduBean.sol_conductornombre} "
+											style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+										</h:outputLabel>
+										<h:outputLabel
+											value="#{solicituduBean.sol_conductornombrefuncionario} "
+											style="color: #317eac;" rendered="#{solicituduBean.edicion}">
+										</h:outputLabel>
+									</b:column>
+								</b:row>
+								<b:row>
+									<b:column span="3">
+										<h:outputLabel value="Observaciones: "
+											rendered="#{solicituduBean.edicion}" />
+									</b:column>
+									<b:column span="8">
+										<b:inputTextarea value="#{solicituduBean.sol_observacion}"
+											rendered="#{solicituduBean.edicion}" fieldSize="2" rows="2"
+											disabled="#{solicituduBean.edicion}" maxlength="255">
+										</b:inputTextarea>
+									</b:column>
+								</b:row>
+							</f:facet>
+						</b:thumbnail>
 					</b:column>
 				</b:row>
 				<br />

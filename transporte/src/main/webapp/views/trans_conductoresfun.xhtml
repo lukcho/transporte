@@ -30,7 +30,7 @@
 					reflow="true" var="con" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="OPCIONES" width="50">
+					<p:column headerText="OPCIONES" width="40">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
 							action="#{conductorfunBean.cargarConductorFun(con)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
@@ -46,25 +46,25 @@
 						</p:commandButton>
 					</p:column>
 					<p:column filterBy="#{con.fcoId}" filterMatchMode="contains"
-						headerText="C&Eacute;DULA" width="60">
+						headerText="C&Eacute;DULA" width="50">
 						<h:outputText value="#{con.fcoId}"></h:outputText>
 					</p:column>
-					<p:column headerText="NOMBRE" width="70">
+					<p:column filterBy="#{con.fcoNombres}" filterMatchMode="contains" 
+					headerText="NOMBRE" width="70">
 						<h:outputText value="#{con.fcoNombres}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.fcoGerencia}" filterMatchMode="contains"
 						headerText="GERENCIA" width="70">
 						<h:outputText value="#{con.fcoGerencia}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{con.fcoDireccion}" filterMatchMode="contains"
-						headerText="DIRECCI&Oacute;N" width="70">
+					<p:column headerText="DIRECCI&Oacute;N" width="70">
 						<h:outputText value="#{con.fcoDireccion}"></h:outputText>
 					</p:column>
 					<p:column headerText="TEL&Eacute;FONO" width="30">
 						<h:outputText value="#{con.fcoTelefono}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.fcoEstado}" filterMatchMode="contains"
-						 headerText="ESTADO"  width="30">
+						 headerText="ESTADO"  width="40">
 						<h:outputText value="#{con.fcoEstado}"></h:outputText>
 					</p:column>
 				</p:dataTable>
