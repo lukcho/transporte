@@ -457,7 +457,7 @@ public class solicituduBean implements Serializable {
 				
 				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
-						+"Estimado(a) Administrador: "+Funciones.utf8Sting("Luis Germán")+" "+Funciones.utf8Sting("Correa Real")+",<br/>"
+						+"Estimado(a) Administrador. <br/>"
 						+"Le notificamos que posee una solitud de Transporte Pendiente.<br/><br/>"
 					//	+"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
 						+"Nombre del Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+"<br/>"

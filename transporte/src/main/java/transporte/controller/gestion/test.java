@@ -14,9 +14,9 @@ public class test {
 		// TODO Auto-generated method stub
 		ManagerCarga mg = new ManagerCarga();
 		try {
-	//		List<PersonaFuncionario> pret = mg.funcionarioByGerencia("GERENCIA DE TECNOLOGÍAS");
+			List<PersonaFuncionario> pret = mg.funcionarioByGerencia("GERENCIA DE TECNOLOGÍAS");
 			System.out.println(a.consultaSQL("SELECT max(o.solId) FROM trans_solicitud"));
-			
+			System.out.println(pret);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
