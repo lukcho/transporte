@@ -46,17 +46,16 @@ public class lugarBean implements Serializable {
 	
 	private List<TransLugare> listaLugares;
 
+	private String usuario;
+
 	@Inject
 	SesionBean ms;
-	private String usuario;
 	
 	public lugarBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		usuario = ms.validarSesion("trans_lugares.xhtml");
-		usuario = ms.validarSesion("trans_nlugar.xhtml");
 		lug_id = null;
 		lug_estado="A";
 		lug_nombre="";
@@ -65,6 +64,11 @@ public class lugarBean implements Serializable {
 		ediciontipo = false;
 		mostrarlug_id = false;
 		listaLugares = managergest.findAllLugares();
+		usuario = ms.validarSesion("trans_lugares.xhtml");
+	}
+	
+	public String getUsuario() {
+		return usuario;
 	}
 	
 	public Integer getLug_id() {

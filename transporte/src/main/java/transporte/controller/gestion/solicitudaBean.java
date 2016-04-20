@@ -101,10 +101,10 @@ public class solicitudaBean implements Serializable {
 	// flexibilidad cambio hora
 	private boolean horamostrar;
 
+	private String usuario;
+	
 	@Inject
 	SesionBean ms;
-
-	private String usuario;
 
 	private Persona per;
 
@@ -114,8 +114,6 @@ public class solicitudaBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		mc = new ManagerCarga();
-		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
-		usuario = ms.validarSesion("trans_reportesvehicond.xhtml");
 		sol_conductor = "Ninguno";
 		sol_vehi = "";
 		sol_correo="";
@@ -141,6 +139,11 @@ public class solicitudaBean implements Serializable {
 		listaVehiculoCond = managersol.findAllVehiculosfechacond(sol_vehi,
 				new Timestamp(fi.getTime()), new Timestamp(ff.getTime()));
 		listareporte = new ArrayList<TransSolicitud>();
+		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+	}
+	
+	public String getUsuario() {
+		return usuario;
 	}
 
 	public List<TransSolicitud> getListareporte() {
@@ -1101,8 +1104,7 @@ public class solicitudaBean implements Serializable {
 		sol_id = null;
 		date = new Date();
 		fecha = date;
-		// sol_idsolicitante = sol.getSolicitante();
-		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+//		sol_idsolicitante = sol.getSolicitante();
 		BuscarPersona();
 		sol_id_origen = null;
 		sol_id_destino = null;

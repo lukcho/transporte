@@ -59,10 +59,12 @@ public class conductorfunBean implements Serializable {
 	private List<PersonaFuncionario> listafuncionariodebase;
 
 	private HashMap<String, PersonaFuncionario> hashpersonfun;
+	
+	private String usuario;
+
 
 	@Inject
 	SesionBean ms;
-	private String usuario;
 
 	private Persona per;
 	private PersonaFuncionario perfun;
@@ -87,6 +89,10 @@ public class conductorfunBean implements Serializable {
 		listaConductoresFun = managergest.findAllConductoresFuncionarios();
 		hashpersonfun = new HashMap<String, PersonaFuncionario>();
 
+	}
+	
+	public String getUsuario() {
+		return usuario;
 	}
 
 	public String getCondf_correo() {

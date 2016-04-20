@@ -50,9 +50,10 @@ public class vehiculoBean implements Serializable {
 	
 	private List<TransVehiculo> listaVehiculo;
 	
+	private String usuario;
+	
 	@Inject
 	SesionBean ms;
-	private String usuario;
 
 	public vehiculoBean() {
 	}
@@ -68,6 +69,10 @@ public class vehiculoBean implements Serializable {
 		ediciontipo = false;
 		mostrarvehi_id = false;
 		listaVehiculo = managergest.findAllVehiculos();
+	}
+	
+	public String getUsuario() {
+		return usuario;
 	}
 	
 	public String getVehi_id() {

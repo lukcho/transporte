@@ -47,18 +47,17 @@ public class conductorBean implements Serializable {
 	private boolean ediciontipo;
 
 	private List<TransConductore> listaConductores;
+	
+	private String usuario;
 
 	@Inject
 	SesionBean ms;
-	private String usuario;
-
+	
 	public conductorBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		usuario = ms.validarSesion("trans_conductores.xhtml");
-		usuario = ms.validarSesion("trans_nconductor.xhtml");
 		cond_cedula = null;
 		cond_estado = "A";
 		cond_estadonombre = "";
@@ -66,7 +65,12 @@ public class conductorBean implements Serializable {
 		edicion = false;
 		ediciontipo = false;
 		mostrarcond_id = false;
+		usuario = ms.validarSesion("trans_conductores.xhtml");
 		listaConductores = managergest.findAllConductores();
+	}
+	
+	public String getUsuario() {
+		return usuario;
 	}
 
 	public String getCond_correo() {

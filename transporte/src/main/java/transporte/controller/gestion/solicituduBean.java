@@ -107,7 +107,6 @@ public class solicituduBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		mc = new ManagerCarga();
-		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -124,8 +123,13 @@ public class solicituduBean implements Serializable {
 		guardaredicion = true;
 		sol_conductornombre = "";
 		sol_conductornombrefuncionario = "";
+		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
 	}
 
+	public String getUsuario() {
+		return usuario;
+	}
+	
 	public String getSol_estadonombre() {
 		return sol_estadonombre;
 	}
@@ -847,7 +851,6 @@ public class solicituduBean implements Serializable {
 	 */
 	public String volverSolicitud() throws Exception {
 		// limpiar datos
-		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
 		sol_usuario_cedula = usuario;
 		sol_id = null;
 		date = new Date();
@@ -888,7 +891,6 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoSolicitud() {
-		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
 		BuscarPersona();
 		sol_id = null;
 		date = new Date();
