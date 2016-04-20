@@ -34,13 +34,13 @@ public class Mail {
 		MimeMultipart multiParte = new MimeMultipart();
 		multiParte.addBodyPart(texto);
 
-		//InternetAddress ccArr[] = new InternetAddress[1];
-		//ccArr[0] = new InternetAddress("lcorrea@yachay.gob.ec");
+		// InternetAddress ccArr[] = new InternetAddress[1];
+		// ccArr[0] = new InternetAddress("lcorrea@yachay.gob.ec");
 
 		Session session = Session.getInstance(props, authenticator);
 		MimeMessage msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(origen));
-	//	msg.setRecipients(Message.RecipientType.CC, ccArr);
+		// msg.setRecipients(Message.RecipientType.CC, ccArr);
 		msg.addRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(destinatario));
 		msg.setSubject(asunto);
