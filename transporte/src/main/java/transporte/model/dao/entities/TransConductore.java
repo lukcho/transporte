@@ -22,6 +22,9 @@ public class TransConductore implements Serializable {
 	@Column(name="cond_apellido", length=100)
 	private String condApellido;
 
+	@Column(name="cond_correo", length=255)
+	private String condCorreo;
+
 	@Column(name="cond_estado", columnDefinition="bpchar", length=1)
 	private String condEstado;
 
@@ -33,7 +36,7 @@ public class TransConductore implements Serializable {
 
 	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transConductore")
-	private List<TransSolicitud> TransSolicituds;
+	private List<TransSolicitud> transSolicituds;
 
 	public TransConductore() {
 	}
@@ -52,6 +55,14 @@ public class TransConductore implements Serializable {
 
 	public void setCondApellido(String condApellido) {
 		this.condApellido = condApellido;
+	}
+
+	public String getCondCorreo() {
+		return this.condCorreo;
+	}
+
+	public void setCondCorreo(String condCorreo) {
+		this.condCorreo = condCorreo;
 	}
 
 	public String getCondEstado() {
@@ -79,25 +90,25 @@ public class TransConductore implements Serializable {
 	}
 
 	public List<TransSolicitud> getTransSolicituds() {
-		return this.TransSolicituds;
+		return this.transSolicituds;
 	}
 
-	public void setTransSolicituds(List<TransSolicitud> TransSolicituds) {
-		this.TransSolicituds = TransSolicituds;
+	public void setTransSolicituds(List<TransSolicitud> transSolicituds) {
+		this.transSolicituds = transSolicituds;
 	}
 
-	public TransSolicitud addTransSolicitud(TransSolicitud TransSolicitud) {
-		getTransSolicituds().add(TransSolicitud);
-		TransSolicitud.setTransConductore(this);
+	public TransSolicitud addTransSolicitud(TransSolicitud transSolicitud) {
+		getTransSolicituds().add(transSolicitud);
+		transSolicitud.setTransConductore(this);
 
-		return TransSolicitud;
+		return transSolicitud;
 	}
 
-	public TransSolicitud removeTransSolicitud(TransSolicitud TransSolicitud) {
-		getTransSolicituds().remove(TransSolicitud);
-		TransSolicitud.setTransConductore(null);
+	public TransSolicitud removeTransSolicitud(TransSolicitud transSolicitud) {
+		getTransSolicituds().remove(transSolicitud);
+		transSolicitud.setTransConductore(null);
 
-		return TransSolicitud;
+		return transSolicitud;
 	}
 
 }

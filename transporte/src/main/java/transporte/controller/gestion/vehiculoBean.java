@@ -216,23 +216,45 @@ public class vehiculoBean implements Serializable {
 				managergest.editarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), 
 						vehi_tipo.trim(), capa, vehi_estado, vehi_estado_funcional);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				vehi_id= null;
+				vehi_nombre = null;
+				vehi_marca = null;
+				vehi_modelo = null;
+				vehi_tipo = null;
+				vehi_capacidad = null;
+				vehi_estado = "A";
+				vehi_estado_funcional = "A";
+				ediciontipo = false;
+				mostrarvehi_id= false;
+				edicion = false;
+				verhorario=false;
 				getListaVehiculo().clear();
 				getListaVehiculo().addAll(managergest.findAllVehiculos());
 			} else {
-				if (!averiguarVehiid(vehi_id)) {
 					Integer capa = Integer.parseInt(vehi_capacidad);
 					managergest.insertarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), vehi_tipo.trim(), capa);
 					Mensaje.crearMensajeINFO("Registrado - Creado");
+					vehi_id= null;
+					vehi_nombre = null;
+					vehi_marca = null;
+					vehi_modelo = null;
+					vehi_tipo = null;
+					vehi_capacidad = null;
+					vehi_estado = "A";
+					vehi_estado_funcional = "A";
+					ediciontipo = false;
+					mostrarvehi_id= false;
+					edicion = false;
+					verhorario=false;
 					getListaVehiculo().clear();
 					getListaVehiculo().addAll(managergest.findAllVehiculos());
-				}
 			}
 			return "trans_vehiculos?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehiculo", null));
+							"Error al crear vehículo", null));
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
@@ -242,7 +264,13 @@ public class vehiculoBean implements Serializable {
 	}
 	
 	public void abrirDialog(){
-		RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		if(edicion == true)
+		{
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}else
+		if (!averiguarVehiid(vehi_id)) {
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}
 	}
 
 	/**
@@ -322,7 +350,7 @@ public class vehiculoBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del Veh&iacute;culo existe.", null));
+								"El codigo del Vehículo existe.", null));
 			}
 		}
 		if (t == 0) {

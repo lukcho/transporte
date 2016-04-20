@@ -30,6 +30,7 @@ import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
+import transporte.model.generic.Mail;
 import transporte.model.generic.Mensaje;
 import transporte.model.manager.ManagerCarga;
 import transporte.model.manager.ManagerGestion;
@@ -48,7 +49,7 @@ public class solicituduBean implements Serializable {
 	private ManagerSolicitud managersol;
 
 	private ManagerCarga mc;
-
+		
 	// SOLICITUD
 	private Integer sol_id;
 	private Timestamp sol_fecha;
@@ -69,6 +70,7 @@ public class solicituduBean implements Serializable {
 	private String sol_conductor;
 	private String sol_conductornombre;
 	private String sol_usuario_cedula;
+	private String sol_correo;
 
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
@@ -112,6 +114,7 @@ public class solicituduBean implements Serializable {
 		sol_estado = "P";
 		sol_estadonombre = "";
 		sol_conductor = "Ninguno";
+		sol_correo ="";
 		sol_vehi = "Ninguno";
 		sol_fcoid = "Ninguno";
 		sol_flexibilidad = false;
@@ -415,7 +418,7 @@ public class solicituduBean implements Serializable {
 			if (edicion) {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor);
+						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor,sol_correo);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				date = new Date();
@@ -438,6 +441,7 @@ public class solicituduBean implements Serializable {
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
+				sol_correo="";
 				horainiciotiemp = null;
 				horafintiemp = null;
 				guardaredicion = false;
@@ -448,8 +452,25 @@ public class solicituduBean implements Serializable {
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
-						horafintiemp, sol_flexibilidad, sol_fcoid);
+						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
+				
+				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+"Estimado(a) Administrador: "+Funciones.utf8Sting("Luis Germán")+" "+Funciones.utf8Sting("Correa Real")+",<br/>"
+						+"Le notificamos que posee una solitud de Transporte Pendiente.<br/><br/>"
+					//	+"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
+						+"Nombre del Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+"<br/>"
+						+"Correo del Solicitante: "+Funciones.utf8Sting(sol_correo)+"<br/>"
+						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
+						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
+						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
+						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+				
+				Mail.generateAndSendEmail("lcorrea@yachay.gob.ec","Petición de Vehículo", mensaje);
+				//Libero objetos
+				mensaje=null;
 				sol_id = null;
 				date = new Date();
 				sol_id_origen = null;
@@ -473,6 +494,7 @@ public class solicituduBean implements Serializable {
 				sol_hora_fin = null;
 				horainiciotiemp = null;
 				horafintiemp = null;
+				sol_correo="";
 				guardaredicion = false;
 				getListaSolicitudDesc().clear();
 				getListaSolicitudDesc()
@@ -577,6 +599,7 @@ public class solicituduBean implements Serializable {
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
+			sol_correo = sol.getSolCorreo();
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
@@ -751,8 +774,7 @@ public class solicituduBean implements Serializable {
 				.findAllConductFuncionarios()) {
 			if (!t.getFcoEstado().equals("I")) {
 				if (per.getPerGerencia().equals(t.getFcoGerencia()))
-					listadoSI.add(new SelectItem(t.getFcoId(), t
-							.getFcoNombres() + " - " + t.getFcoGerencia()));
+					listadoSI.add(new SelectItem(t.getFcoId(), t.getFcoNombres()));
 			}
 		}
 
@@ -844,6 +866,7 @@ public class solicituduBean implements Serializable {
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_flexibilidad = false;
+		sol_correo="";
 		sol_observacion = null;
 		sol_estado = "P";
 		sol_estadonombre = "";
@@ -853,7 +876,6 @@ public class solicituduBean implements Serializable {
 		sol_hora_fin = null;
 		horainiciotiemp = null;
 		horafintiemp = null;
-
 		getListaSolicitudDesc().clear();
 		getListaSolicitudDesc().addAll(
 				managersol.findAllSolicitudesOrdenados(sol_usuario_cedula));
@@ -922,6 +944,7 @@ public class solicituduBean implements Serializable {
 			per = mc.funcionarioByDNI(usuario);
 			sol_usuario_cedula = per.getPerNombres() + " "
 					+ per.getPerApellidos();
+			sol_correo = per.getPerCorreo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

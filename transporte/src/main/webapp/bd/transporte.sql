@@ -25,6 +25,7 @@ create table TRANS_CONDUCTORES (
    COND_NOMBRE          VARCHAR(100)         null,
    COND_APELLIDO        VARCHAR(100)         null,
    COND_TELEFONO        VARCHAR(10)          null,
+   COND_CORREO          VARCHAR(255)         null,
    COND_ESTADO          CHAR(1)              null,
    constraint PK_TRANS_CONDUCTORES primary key (COND_CEDULA)
 );
@@ -90,6 +91,7 @@ create table TRANS_SOLICITUD (
    SOL_FLEXIBILIDAD     BOOL                 null,
    SOL_OBSERVACION      VARCHAR(255)         null,
    SOL_ESTADO           CHAR(1)              null,
+   SOL_CORREO           VARCHAR(255)         null,
    constraint PK_TRAN_SOLICITUD primary key (SOL_ID)
 );
 

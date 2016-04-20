@@ -169,12 +169,19 @@ public class lugarBean implements Serializable {
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				lug_id=null;
+				lug_nombre=null;
+				lug_ciudad=null;
+				lug_estado="A";
 			} else {
 					managergest.insertarLugar(lug_nombre.trim(), lug_ciudad.trim());
 					Mensaje.crearMensajeINFO("Registrado - Creado");
 					getListaLugares().clear();
 					getListaLugares().addAll(managergest.findAllLugares());
-			
+					lug_id=null;
+					lug_nombre=null;
+					lug_ciudad=null;
+					lug_estado="A";
 				}
 			return "trans_lugares?faces-redirect=true";
 		} catch (Exception e) {
@@ -296,6 +303,10 @@ public class lugarBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoLugar() {
+		lug_id=null;
+		lug_nombre=null;
+		lug_ciudad=null;
+		lug_estado="A";
 		verhorario = false;
 		mostrarlug_id = false;
 		edicion = false;

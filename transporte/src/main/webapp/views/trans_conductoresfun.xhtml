@@ -60,11 +60,14 @@
 					<p:column headerText="DIRECCI&Oacute;N" width="70">
 						<h:outputText value="#{con.fcoDireccion}"></h:outputText>
 					</p:column>
-					<p:column headerText="TEL&Eacute;FONO" width="30">
+					<p:column headerText="CORREO" width="60">
+						<h:outputText value="#{con.fcoCorreo}"></h:outputText>
+					</p:column>
+					<p:column headerText="TEL&Eacute;FONO" width="40">
 						<h:outputText value="#{con.fcoTelefono}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{con.fcoEstado}" filterMatchMode="contains"
-						 headerText="ESTADO"  width="40">
+						 headerText="ESTADO"  width="50">
 						<h:outputText value="#{con.fcoEstado}"></h:outputText>
 					</p:column>
 				</p:dataTable>

@@ -37,6 +37,7 @@ public class conductorBean implements Serializable {
 	private String cond_telefono;
 	private String cond_estado;
 	private String cond_estadonombre;
+	private String cond_correo;
 
 	private TransConductore cond;
 
@@ -57,13 +58,23 @@ public class conductorBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		usuario = ms.validarSesion("trans_conductores.xhtml");
+		usuario = ms.validarSesion("trans_nconductor.xhtml");
 		cond_cedula = null;
 		cond_estado = "A";
 		cond_estadonombre = "";
+		cond_correo = "";
 		edicion = false;
 		ediciontipo = false;
 		mostrarcond_id = false;
 		listaConductores = managergest.findAllConductores();
+	}
+
+	public String getCond_correo() {
+		return cond_correo;
+	}
+
+	public void setCond_correo(String cond_correo) {
+		this.cond_correo = cond_correo;
 	}
 
 	public ManagerGestion getManagergest() {
@@ -113,7 +124,7 @@ public class conductorBean implements Serializable {
 	public void setCond_estado(String cond_estado) {
 		this.cond_estado = cond_estado;
 	}
-	
+
 	public String getCond_estadonombre() {
 		return cond_estadonombre;
 	}
@@ -193,20 +204,18 @@ public class conductorBean implements Serializable {
 			if (edicion) {
 				managergest.editarConductor(cond_cedula.trim(),
 						cond_nombre.trim(), cond_apellido.trim(),
-						cond_telefono.trim(), cond_estado);
+						cond_telefono.trim(), cond_correo.trim(), cond_estado);
 				getListaConductores().clear();
 				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			} else {
-				if (!averiguarConid(cond_cedula)) {
-					managergest.insertarConductor(cond_cedula.trim(),
-							cond_nombre.trim(), cond_apellido.trim(),
-							cond_telefono.trim());
-					getListaConductores().clear();
-					getListaConductores().addAll(
-							managergest.findAllConductores());
-					Mensaje.crearMensajeINFO("Registrado - Creado");
-				}
+
+				managergest.insertarConductor(cond_cedula.trim(),
+						cond_nombre.trim(), cond_apellido.trim(),
+						cond_telefono.trim(), cond_correo.trim());
+				getListaConductores().clear();
+				getListaConductores().addAll(managergest.findAllConductores());
+				Mensaje.crearMensajeINFO("Registrado - Creado");
 			}
 			return "trans_conductores?faces-redirect=true";
 		} catch (Exception e) {
@@ -223,7 +232,14 @@ public class conductorBean implements Serializable {
 	}
 
 	public void abrirDialog() {
-		RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		if(edicion == true)
+		{
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}else
+		if (!averiguarConid(cond_cedula)) {
+			if (!averiguarCorr(cond_correo))
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}
 	}
 
 	/**
@@ -247,6 +263,7 @@ public class conductorBean implements Serializable {
 			cond_apellido = cond.getCondApellido();
 			cond_telefono = cond.getCondTelefono();
 			cond_estado = cond.getCondEstado();
+			cond_correo = cond.getCondCorreo();
 			edicion = true;
 			mostrarcond_id = true;
 			ediciontipo = false;
@@ -302,7 +319,32 @@ public class conductorBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del conductor existe.", null));
+								"La cédula del conductor existe.", null));
+			}
+		}
+		if (t == 0) {
+			r = false;
+		}
+		return r;
+	}
+
+	/**
+	 * metodo para conocer el correo si esta usado
+	 * 
+	 */
+	public boolean averiguarCorr(String cond_correo) {
+		Integer t = 0;
+		boolean r = false;
+		List<TransConductore> cond = managergest.findAllConductores();
+		for (TransConductore y : cond) {
+			if (y.getCondCorreo().equals(cond_correo)) {
+				System.out.println("si entra1");
+				t = 1;
+				r = true;
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"El correo del conductor existe.", null));
 			}
 		}
 		if (t == 0) {
@@ -334,6 +376,7 @@ public class conductorBean implements Serializable {
 	public String nuevoConductor() {
 		cond_cedula = null;
 		cond_nombre = null;
+		cond_correo = null;
 		cond_apellido = null;
 		cond_telefono = null;
 		cond_estado = "A";
@@ -354,6 +397,7 @@ public class conductorBean implements Serializable {
 		cond_cedula = null;
 		cond_nombre = null;
 		cond_apellido = null;
+		cond_correo = null;
 		cond_telefono = null;
 		cond_estado = "A";
 		ediciontipo = false;

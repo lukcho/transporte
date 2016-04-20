@@ -172,12 +172,13 @@ public class ManagerGestion{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarConductor(String con_cedid,String con_nombre, String con_apellido, String con_telefono) throws Exception {
+	public void insertarConductor(String con_cedid,String con_nombre, String con_apellido, String con_telefono,String con_correo) throws Exception {
 		TransConductore con = new TransConductore();
 		con.setCondCedula(con_cedid);
 		con.setCondNombre(con_nombre);
 		con.setCondApellido(con_apellido);
 		con.setCondTelefono(con_telefono);
+		con.setCondCorreo(con_correo);
 		con.setCondEstado("A");
 		mDAO.insertar(con);		
 	}
@@ -195,12 +196,13 @@ public class ManagerGestion{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarConductor(String con_cedid,String con_nombre, String con_apellido, String con_telefono,String con_estado) throws Exception {
+	public void editarConductor(String con_cedid,String con_nombre, String con_apellido, String con_telefono,String con_correo,String con_estado) throws Exception {
 		TransConductore con =  this.conductorByID(con_cedid);
 //		con.setCondCedula(con_cedid);
 		con.setCondNombre(con_nombre);
 		con.setCondApellido(con_apellido);
 		con.setCondTelefono(con_telefono);
+		con.setCondCorreo(con_correo);
 		con.setCondEstado(con_estado);
 		mDAO.actualizar(con);	
 	}
@@ -259,7 +261,12 @@ public class ManagerGestion{
 		 * @throws Exception
 		 */
 		public TransFuncionarioConductor conductorfunByID(String conf_id) throws Exception {
-			return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, conf_id);
+			if(conf_id == "Ninguno"){
+				
+			}
+			else{
+			}
+				return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, conf_id);
 		}
 		
 		/**

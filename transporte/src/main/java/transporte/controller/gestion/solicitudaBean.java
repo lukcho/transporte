@@ -29,6 +29,7 @@ import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
+import transporte.model.generic.Mail;
 import transporte.model.generic.Mensaje;
 import transporte.model.manager.ManagerCarga;
 import transporte.model.manager.ManagerGestion;
@@ -66,6 +67,7 @@ public class solicitudaBean implements Serializable {
 	private String sol_vehi;
 	private String sol_conductor;
 	private String sol_usuario_cedula;
+	private String sol_correo;
 
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
@@ -85,6 +87,7 @@ public class solicitudaBean implements Serializable {
 	private List<TransSolicitud> listaSolicitudespend;
 	private List<TransSolicitud> listaSolicitudaprorecha;
 	private List<TransSolicitud> listaVehiculoCond;
+	private List<TransSolicitud> listareporte;
 
 	// fechas
 	private Date date;
@@ -112,8 +115,10 @@ public class solicitudaBean implements Serializable {
 	public void ini() {
 		mc = new ManagerCarga();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+		usuario = ms.validarSesion("trans_reportesvehicond.xhtml");
 		sol_conductor = "Ninguno";
 		sol_vehi = "";
+		sol_correo="";
 		sol_estadonombre = "";
 		sol_fcoid = "Ninguno";
 		sol_hora_inicio = null;
@@ -135,7 +140,15 @@ public class solicitudaBean implements Serializable {
 				.findAllSolicitudesOrdenadosaaprorecha();
 		listaVehiculoCond = managersol.findAllVehiculosfechacond(sol_vehi,
 				new Timestamp(fi.getTime()), new Timestamp(ff.getTime()));
-		;
+		listareporte = new ArrayList<TransSolicitud>();
+	}
+
+	public List<TransSolicitud> getListareporte() {
+		return listareporte;
+	}
+
+	public void setListareporte(List<TransSolicitud> listareporte) {
+		this.listareporte = listareporte;
 	}
 
 	public String getSol_estadonombre() {
@@ -450,6 +463,7 @@ public class solicitudaBean implements Serializable {
 	 */
 	public String crearSolicitud() {
 		try {
+			String mensaje="";
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
@@ -465,13 +479,59 @@ public class solicitudaBean implements Serializable {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo.trim(), horainiciotiemp, horafintiemp,
 						sol_flexibilidad, sol_observacion.trim(), sol_estado,
-						sol_fcoid, sol_conductor);
+						sol_fcoid, sol_conductor,sol_correo);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				if (sol_estado.equals("P"))
+					sol_estadonombre = "Pendiente";
+				else if (sol_estado.equals("N"))
+					sol_estadonombre = "Anulado";
+				else if (sol_estado.equals("A"))
+					sol_estadonombre = "Aprobado";
+				else if (sol_estado.equals("R"))
+					sol_estadonombre = "Rechazado";
+				if(sol_fcoid.equals("Ninguno"))
+				{
+				mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+",<br/>"
+						+"Le notificamos que su solitud de Transporte fue: "+Funciones.utf8Sting(sol_estadonombre)+", <br/><br/>"
+						+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
+						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
+						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
+						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
+						+"Nombre del Conductor: "+Funciones.utf8Sting(managergest.conductorByID(sol_conductor).getCondNombre())+" "+Funciones.utf8Sting(managergest.conductorByID(sol_conductor).getCondApellido())+"<br/>"
+						+"Correo del Conductor: "+Funciones.utf8Sting(managergest.conductorByID(sol_conductor).getCondCorreo())+"<br/>"
+						+"Número de teléfono: "+Funciones.utf8Sting(managergest.conductorByID(sol_conductor).getCondTelefono())+"<br/>"
+						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
+						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
+						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+				}
+				else{
+				 mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+",<br/>"
+						+"Le notificamos que su solitud de Transporte fue: "+Funciones.utf8Sting(sol_estadonombre)+", <br/><br/>"
+						+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
+						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
+						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
+						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
+						+"Nombre del Conductor Funcionario: "+Funciones.utf8Sting(managergest.conductorfunByID(sol_fcoid).getFcoNombres())+"<br/>"
+						+"Correo del Conductor Funcionario: "+Funciones.utf8Sting(managergest.conductorfunByID(sol_fcoid).getFcoCorreo())+"<br/>"
+						+"Número de teléfono: "+Funciones.utf8Sting(managergest.conductorfunByID(sol_fcoid).getFcoTelefono())+"<br/>"
+						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
+						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
+						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+				}
+				System.out.println(sol_correo);
+				Mail.generateAndSendEmail(sol_correo,"Respuesta de Vehículo", mensaje);
 				sol_id = null;
 				sol_usuario_cedula = usuario;
 				date = new Date();
 				sol_id_origen = null;
 				sol_id_destino = null;
+				sol_estadonombre="Pendiente";
 				sol_fcoid = "Ninguno";
 				sol_vehi = null;
 				sol_conductor = "Ninguno";
@@ -485,7 +545,9 @@ public class solicitudaBean implements Serializable {
 				sol_observacion = null;
 				sol_estado = "P";
 				edicion = true;
+				mensaje="";
 				infomostrar = false;
+				sol_correo="";
 				ediciontipo = false;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
@@ -502,7 +564,7 @@ public class solicitudaBean implements Serializable {
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
-						horafintiemp, sol_flexibilidad, sol_fcoid);
+						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -522,6 +584,7 @@ public class solicitudaBean implements Serializable {
 				sol_flexibilidad = false;
 				sol_observacion = null;
 				sol_estado = "P";
+				sol_correo="";
 				edicion = true;
 				infomostrar = false;
 				ediciontipo = false;
@@ -562,7 +625,8 @@ public class solicitudaBean implements Serializable {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(
 						"Debe seleccionar un conductor o funcionario", " "));
-			} else if (!sol_fcoid.equals("Ninguno") && !sol_conductor.equals("Ninguno")) {
+			} else if (!sol_fcoid.equals("Ninguno")
+					&& !sol_conductor.equals("Ninguno")) {
 				System.out.println("entra aca2");
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(
@@ -642,6 +706,7 @@ public class solicitudaBean implements Serializable {
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
+			sol_correo = sol.getSolCorreo();
 			System.out.println(sol_flexibilidad);
 			if (sol_flexibilidad == true) {
 				horamostrar = false;
@@ -711,6 +776,7 @@ public class solicitudaBean implements Serializable {
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
+			sol_correo= sol.getSolCorreo();
 			System.out.println(sol_flexibilidad);
 			if (sol.getSolEstado().equals("P")) {
 				infomostrar = false;
@@ -891,7 +957,10 @@ public class solicitudaBean implements Serializable {
 		for (TransVehiculo t : managergest.findAllVehiculos()) {
 			if (!t.getVehiEstado().equals("I")) {
 				listadoSI.add(new SelectItem(t.getVehiIdplaca(), t
-						.getVehiIdplaca() + " " + t.getVehiNombre()));
+						.getVehiIdplaca()
+						+ " - "
+						+ t.getVehiNombre()
+						+ " Capacidad: " + t.getVehiCapacidad()));
 			}
 		}
 		return listadoSI;
@@ -933,7 +1002,20 @@ public class solicitudaBean implements Serializable {
 	 * 
 	 */
 	public String asignarVehiculo() {
-		managersol.asignarvehiculo(sol_vehi);
+		TransVehiculo ve;
+		try {
+			ve = managergest.vehiculoByID(sol_vehi);
+			if(Integer.parseInt(sol_pasajeros) <= ve.getVehiCapacidad())
+				managersol.asignarvehiculo(sol_vehi);
+			else{
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null,new FacesMessage("El número pasajeros exceden la capacidad del vehículo"," "));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		return "";
 	}
 
@@ -941,24 +1023,29 @@ public class solicitudaBean implements Serializable {
 	 * metodo para reporte del vehiculo
 	 * 
 	 */
-	public String reporteVehiculoConductor() {
-		String r = "";
-		System.out.println("Si entraaaaaaa");
+	public void reporteVehiculoConductor() {
 		if (sol_vehi == null) {
 			System.out.println("Es null");
-			getListavehiculoconductbuscar().clear();
-			getListavehiculoconductbuscar().addAll(
-					managersol.findAllVehiculoConductor());
-			r = "";
+			System.out.println("fi: " + new Timestamp(fi.getTime()));
+			System.out.println("ff: " + new Timestamp(ff.getTime()));
+			getListareporte().clear();
+			getListareporte().addAll(
+					managersol.findAllVehiculosfecha(
+							new Timestamp(fi.getTime()),
+							new Timestamp(ff.getTime())));
+			getListareporte().size();
 		} else {
 			System.out.println("No es null");
-			getListavehiculoconductbuscar().clear();
-			getListavehiculoconductbuscar().addAll(
+			System.out.println("fi: " + new Timestamp(fi.getTime()));
+			System.out.println("ff: " + new Timestamp(ff.getTime()));
+			getListareporte().clear();
+			getListareporte().addAll(
 					managersol.findAllVehiculosfechacond(sol_vehi,
 							new Timestamp(fi.getTime()),
 							new Timestamp(ff.getTime())));
+			getListareporte().size();
+
 		}
-		return r;
 	}
 
 	/**
@@ -989,6 +1076,7 @@ public class solicitudaBean implements Serializable {
 		sol_observacion = null;
 		sol_estado = "P";
 		infomostrar = false;
+		sol_correo="";
 		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
@@ -1027,6 +1115,7 @@ public class solicitudaBean implements Serializable {
 		sol_motivo = null;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
+		sol_correo="";
 		sol_flexibilidad = false;
 		sol_observacion = null;
 		sol_estado = "P";
@@ -1038,6 +1127,7 @@ public class solicitudaBean implements Serializable {
 		horainiciotiemp = null;
 		horafintiemp = null;
 		edicion = false;
+		sol_correo="";
 		date = new Date();
 		return "trans_nsolicituda?faces-redirect=true";
 	}
@@ -1109,29 +1199,6 @@ public class solicitudaBean implements Serializable {
 		return l1;
 	}
 
-	/**
-	 * metodo para listar reporte vahiculo conductor
-	 * 
-	 * @return
-	 */
-	public List<TransSolicitud> getListavehiculoconductbuscar() {
-		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
-		if (sol_vehi == null) {
-			System.out.println("Es null");
-			List<TransSolicitud> a = managersol.findAllVehiculoConductor();
-			for (TransSolicitud t : a)
-				l1.add(t);
-		} else {
-			List<TransSolicitud> a = managersol.findAllVehiculosfechacond(
-					sol_vehi, new Timestamp(fi.getTime()),
-					new Timestamp(ff.getTime()));
-			for (TransSolicitud t : a) {
-				l1.add(t);
-			}
-		}
-		return l1;
-	}
-
 	public void BuscarPersona() {
 
 		try {
@@ -1171,6 +1238,18 @@ public class solicitudaBean implements Serializable {
 		lista.add(new SelectItem(Funciones.hora_21, Funciones.hora_21));
 		lista.add(new SelectItem(Funciones.hora_22, Funciones.hora_22));
 		return lista;
+	}
+
+	/**
+	 * limpia la informacion de horario
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String volver() throws Exception {
+		// limpiar datos
+		getListareporte().clear();
+		return "index?faces-redirect=true";
 	}
 
 }

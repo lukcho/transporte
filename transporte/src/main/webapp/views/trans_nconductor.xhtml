@@ -38,7 +38,6 @@
 						</b:inputText>
 					</b:column>
 				</b:row>
-				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Apellido:* " />
@@ -60,6 +59,18 @@
 							maxlength="10"
 							validatorMessage="Tel&eacute;fono solo debe tener números.">
 							<f:validateRegex pattern="[0-9]+" />
+						</b:inputText>
+					</b:column>
+					</b:row>
+					<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Correo* : " />
+					</b:column>
+					<b:column span="4">
+						<b:inputText id="correo1" value="#{conductorBean.cond_correo}" required="true"
+							requiredMessage="Campo correo requerido" validatorMessage="Campo correo no tiene el formato correcto.">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 						</b:inputText>
 					</b:column>
 					<b:column span="2">

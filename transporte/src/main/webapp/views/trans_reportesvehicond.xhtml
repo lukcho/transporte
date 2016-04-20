@@ -26,7 +26,6 @@
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Inicio" id="fechai"
 							value="#{solicitudaBean.fi}" pattern="yyyy/MM/dd" mask="true">
-							<p:ajax event="dateSelect"></p:ajax>
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
@@ -36,7 +35,6 @@
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Fin" id="fechaf"
 							value="#{solicitudaBean.ff}" pattern="yyyy/MM/dd" mask="true">
-							<p:ajax event="dateSelect"></p:ajax>
 						</p:calendar>
 					</p:column>
 				</b:row>
@@ -50,20 +48,27 @@
 								value="#{solicitudaBean.sol_vehi}">
 								<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
 								<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
-								<f:ajax listener="#{solicitudaBean.reporteVehiculoConductor}"
-									render="frm" />
 							</h:selectOneMenu>
 						</h:panelGroup>
 					</b:column>
 				</b:row>
+				<b:row>
+					<b:column span="5">
+				<p:commandButton value="Generar" icon="ui-icon-check" styleClass="btn btn-info" 	style="padding:7px;"
+					actionListener="#{solicitudaBean.reporteVehiculoConductor}" update="frm:tbb" />&nbsp;&nbsp;&nbsp;
+					<b:commandButton value="Volver"
+							action="#{solicitudaBean.volver()}" update="frm"
+							look="info" process="@this">
+						</b:commandButton>
+				</b:column>
+				
+				</b:row>
 			</b:panel>
 
-			<h:form id="frm">
-				<p:growl id="messages" showDetail="true" />
 				<b:panel title="Listado de Conductor por Veh&iacute;culos "
 					look="primary">
 					<p:dataTable id="tbb"
-						value="#{solicitudaBean.listavehiculoconductbuscar}" reflow="true"
+						value="#{solicitudaBean.listareporte}" reflow="true"
 						var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 						<p:column headerText="FECHA" width="70">
@@ -80,15 +85,15 @@
 							<h:outputText
 								value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 						</p:column>
+						<p:column filterBy="#{sol.transFuncionarioConductor.fcoNombres}"
+							filterMatchMode="contains" headerText="CONDUCTOR FUNCIONARIO"
+							width="70">
+							<h:outputText value="#{sol.transFuncionarioConductor.fcoNombres}"></h:outputText>
+						</p:column>
 						<p:column filterBy="#{sol.solIdSolicitante}"
 							filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
 							width="70">
 							<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
-						</p:column>
-						<p:column filterBy="#{sol.transFuncionarioConductor.fcoNombres}"
-							filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
-							width="70">
-							<h:outputText value="#{sol.transFuncionarioConductor.fcoNombres}"></h:outputText>
 						</p:column>
 						<p:column headerText="ORIGEN/DESTINO" width="100">
 							<h:outputText
@@ -117,7 +122,6 @@
 							pageOnly="true" />
 					</h:commandButton>&nbsp;&nbsp;&nbsp;
 				</b:panel>
-			</h:form>
 		</h:form>
 		<br />
 	</ui:define>

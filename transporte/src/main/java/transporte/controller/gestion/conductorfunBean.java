@@ -74,7 +74,7 @@ public class conductorfunBean implements Serializable {
 	public void ini() {
 		mangcar = new ManagerCarga();
 		usuario = ms.validarSesion("trans_conductoresfun.xhtml");
-		condf_cedula = null;
+ 		condf_cedula = null;
 		condf_estado = "A";
 		condf_direccion = "";
 		condf_telefono = "";
@@ -415,6 +415,7 @@ public class conductorfunBean implements Serializable {
 			ocultarbusqueda = true;
 			edicion = false;
 			ediciontipo = true;
+			BuscarPersona();
 			System.out.println(usuario);
 			per = mangcar.funcionarioByDNI(usuario);
 			listafuncionariodebase = mangcar.funcionarioByGerencia(per
@@ -467,4 +468,15 @@ public class conductorfunBean implements Serializable {
 	public void asignarFuncionario() {
 		perfun = hashpersonfun.get(getCondf_cedula());
 	}
+	
+	public void BuscarPersona() {
+		try {
+			per = mangcar.funcionarioByDNI(usuario);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 }

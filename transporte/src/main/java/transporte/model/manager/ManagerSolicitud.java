@@ -63,7 +63,7 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllSolicitudesOrdenadosaaprorecha() {
-		return mDAO.findWhere(TransSolicitud.class, " o.solEstado not like 'P' ", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado not like 'P' ", " o.solFecha desc, o.solHoraInicio desc ");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllSolicitudesOrdenadosapend() {
-		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc, o.solHoraInicio desc ");
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllSolicitudesOrdenadosapendiente() {
-		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, " o.solEstado = 'P'", " o.solFecha desc , o.solHoraInicio desc");
 	}
 	
 	/**
@@ -96,9 +96,9 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllSolicitudesOrdenados(String sol_idsolicitante) {
-		return mDAO.findWhere(TransSolicitud.class, " o.solIdSolicitante = '"+sol_idsolicitante+"' ", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, " o.solIdSolicitante = '"+sol_idsolicitante+"' ", " o.solFecha desc , o.solHoraInicio desc ");
 	}
-	
+
 	/**
 	 * listar todos los vehiculos con solicitud
 	 * 
@@ -107,7 +107,7 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllVehiculosOcu(String placa, Timestamp fecha) {
-		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and o.solFecha = '" +fecha+ "' ", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and o.solFecha = '" +fecha+ "' ", " o.solFecha desc , o.solHoraInicio desc");
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllVehiculosDisponibles() {
-		return mDAO.findWhere(TransSolicitud.class, "1=1", "o.solFecha desc");
+		return mDAO.findWhere(TransSolicitud.class, "1=1", "o.solFecha desc, o.solHoraInicio desc");
 	}
 
 	/**
@@ -148,7 +148,18 @@ public class ManagerSolicitud{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findAllVehiculosfechacond(String placa, Timestamp fechai,Timestamp fechaf) {
-		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and  o.solFecha between '" +fechai+ "' and  '" +fechaf+ "'", " o.solFecha desc ");
+		return mDAO.findWhere(TransSolicitud.class, "o.transVehiculo.vehiIdplaca = '"+placa+"' and  o.solFecha between '" +fechai+ "' and  '" +fechaf+ "'", " o.solFecha desc , o.solHoraInicio desc");
+	}
+	
+	/**
+	 * listar todos los vehiculos con en la fecha 
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllVehiculosfecha(Timestamp fechai,Timestamp fechaf) {
+		return mDAO.findWhere(TransSolicitud.class, "  o.solFecha between '" +fechai+ "' and  '" +fechaf+ "'", " o.solFecha desc , o.solHoraInicio desc");
 	}
 	
 	/**
@@ -164,7 +175,7 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_fcoid) throws Exception {
+	public void insertarSolicitud(Timestamp sol_fecha,String usuario ,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_fcoid,String correo) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		sol.setSolIdSolicitante(usuario);
 		cargafecha();
@@ -182,6 +193,7 @@ public class ManagerSolicitud{
 		sol.setSolHoraFin(sol_hora_fin);
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolEstado("P");
+		sol.setSolCorreo(correo);
 		mDAO.insertar(sol);		
 	}
 	
@@ -210,7 +222,7 @@ public class ManagerSolicitud{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion, String sol_estado,String sol_fcoid,String sol_cond) throws Exception {
+	public void editarSolicitud(Integer sol_id,Timestamp sol_fecha,Integer sol_pasajeros,String sol_motivo, Time sol_hora_inicio,Time  sol_hora_fin,boolean sol_flexibilidad, String sol_observacion, String sol_estado,String sol_fcoid,String sol_cond,String sol_correo) throws Exception {
 		TransSolicitud sol =  this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
@@ -232,6 +244,7 @@ public class ManagerSolicitud{
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolObservacion(sol_observacion);
 		sol.setSolEstado(sol_estado);
+		sol.setSolCorreo(sol_correo);
 		mDAO.actualizar(sol);	
 	}
 
@@ -437,4 +450,6 @@ public class ManagerSolicitud{
 	public List<TransFuncionarioConductor> findAllConductFuncionarios() {
 		return mDAO.findAll(TransFuncionarioConductor.class);
 	}
+	
+	
 }

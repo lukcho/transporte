@@ -22,6 +22,9 @@ public class TransSolicitud implements Serializable {
 	@Column(name="sol_id")
 	private Integer solId;
 
+	@Column(name="sol_correo", length=255)
+	private String solCorreo;
+
 	@Column(name="sol_estado", columnDefinition="bpchar", length=1)
 	private String solEstado;
 
@@ -89,6 +92,14 @@ public class TransSolicitud implements Serializable {
 
 	public void setSolId(Integer solId) {
 		this.solId = solId;
+	}
+
+	public String getSolCorreo() {
+		return this.solCorreo;
+	}
+
+	public void setSolCorreo(String solCorreo) {
+		this.solCorreo = solCorreo;
 	}
 
 	public String getSolEstado() {
