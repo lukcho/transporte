@@ -467,6 +467,7 @@ public class solicitudaBean implements Serializable {
 	public String crearSolicitud() {
 		try {
 			String mensaje="";
+			String mensajeconductor="";
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
@@ -509,6 +510,23 @@ public class solicitudaBean implements Serializable {
 						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
 						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
 						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+				
+				mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+"Estimado(a) "+managergest.conductorByID(sol_conductor).getCondNombre()+" "+Funciones.utf8Sting(managergest.conductorByID(sol_conductor).getCondApellido())+"<br/>"
+						+"Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
+						+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
+						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
+						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
+						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
+						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
+						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
+						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+						
+						Mail.generateAndSendEmail(sol_correo,"Respuesta de Vehículo", mensaje);
+						Mail.generateAndSendEmail(managergest.conductorByID(sol_conductor).getCondCorreo(),"Solicitud de Vehículo", mensajeconductor);
+				
 				}
 				else{
 				 mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -526,9 +544,28 @@ public class solicitudaBean implements Serializable {
 						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
 						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
 						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+			 			
+				 mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+"Estimado(a) "+Funciones.utf8Sting(managergest.conductorfunByID(sol_fcoid).getFcoNombres())+"<br/>"
+						+"Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
+						+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
+						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
+						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
+						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
+						+"Vehículo con Placas: "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiIdplaca())+" - "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiNombre())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiMarca())+" "+Funciones.utf8Sting(managergest.vehiculoByID(sol_vehi).getVehiModelo())+"<br/><br/>"
+						+"Observaciónes: "+Funciones.utf8Sting(sol_observacion)+"<br/>"						
+						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+				 
+				 
+				 		Mail.generateAndSendEmail(sol_correo,"Respuesta de Vehículo", mensaje);
+			 			Mail.generateAndSendEmail(managergest.conductorfunByID(sol_fcoid).getFcoCorreo(),"Solicitud de Vehículo", mensajeconductor);
+
 				}
 				System.out.println(sol_correo);
-				Mail.generateAndSendEmail(sol_correo,"Respuesta de Vehículo", mensaje);
+				
+				
 				sol_id = null;
 				sol_usuario_cedula = usuario;
 				date = new Date();
@@ -549,6 +586,7 @@ public class solicitudaBean implements Serializable {
 				sol_estado = "P";
 				edicion = true;
 				mensaje="";
+				mensajeconductor="";
 				infomostrar = false;
 				sol_correo="";
 				ediciontipo = false;
