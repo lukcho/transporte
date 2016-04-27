@@ -41,11 +41,8 @@
 						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
-						<p:calendar required="true" mindate="#{solicitudaBean.date}"
-							disabled="#{solicitudaBean.infomostrar}"
-							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
+						<p:calendar disabled="true"
 							value="#{solicitudaBean.fecha}" pattern="yyyy/MM/dd" mask="true">
-							<p:ajax event="dateSelect" render="frm" update="frm messages"></p:ajax>
 						</p:calendar>
 					</b:column>
 					<b:column span="1">
@@ -86,6 +83,8 @@
 										<f:selectItem itemLabel="Selecci&oacute;n Hora Inicio"
 											itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listHoras}" />
+										<f:ajax listener="#{solicitudaBean.asignarHoraFin()}"
+											render="trackseleccionar5" />
 									</h:selectOneMenu>
 								</h:panelGroup>
 							</f:facet>
@@ -107,14 +106,20 @@
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<br />
-								<h:outputLabel value="Hora Destino:* " />
+								<p:selectBooleanCheckbox
+									value="#{solicitudaBean.sol_regresorigen}"
+									disabled="#{solicitudaBean.edicion}" 
+									caption="Regreso al lugar de Origen?" update="trackseleccionar5">
+									<p:ajax event="change" listener="#{solicitudaBean.regresoOrigen()}" update="trackseleccionar5"/>
+									</p:selectBooleanCheckbox>
+								<h:outputLabel value="Hora Regreso:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
-										disabled="#{solicitudaBean.horamostrar}"
+										disabled="#{solicitudaBean.verregresorigen}"
 										styleClass="form-control"
 										requiredMessage="Requerido Hora Destino"
 										value="#{solicitudaBean.sol_hora_fin}">
-										<f:selectItem itemLabel="Selecci&oacute;n Hora Destino"
+										<f:selectItem itemLabel="Selecci&oacute;n Hora Regreso"
 											itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listHoras}" />
 									</h:selectOneMenu>
@@ -168,7 +173,7 @@
 						<h:outputLabel value="Estado*"
 							rendered="#{solicitudaBean.edicion}" />
 						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
-							disabled="#{solicitudaBean.infomostrar}" required="true"
+							disabled="false" required="true"
 							requiredMessage="Requerido Estado"
 							rendered="#{solicitudaBean.edicion}">
 							<f:selectItem itemLabel="Selecci&oacute;n Estado" itemValue="" />
@@ -192,7 +197,6 @@
 							disabled="#{solicitudaBean.infomostrar}" required="true"
 							requiredMessage="Campo Observaci&oacute;n requerido"
 							maxlength="255">
-
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
@@ -237,7 +241,7 @@
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
 							renrendered="#{solicitudaBean.guardaredicion}"
-							disabled="#{solicitudaBean.infomostrar}" style="padding:7px;"
+							disabled="false" style="padding:7px;"
 							actionListener="#{solicitudaBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;

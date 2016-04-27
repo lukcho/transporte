@@ -71,6 +71,7 @@ public class solicituduBean implements Serializable {
 	private String sol_conductornombre;
 	private String sol_usuario_cedula;
 	private String sol_correo;
+	private boolean sol_regresorigen;
 
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
@@ -85,6 +86,8 @@ public class solicituduBean implements Serializable {
 	private boolean edicion;
 	private boolean ediciontipo;
 	private boolean guardaredicion;
+	
+	private boolean verregresorigen;
 
 	private List<TransSolicitud> listaSolicitudes;
 
@@ -116,14 +119,24 @@ public class solicituduBean implements Serializable {
 		sol_correo ="";
 		sol_vehi = "Ninguno";
 		sol_fcoid = "Ninguno";
-		sol_flexibilidad = false;
+		sol_flexibilidad = true;
 		sol_pasajeros = null;
 		edicion = false;
 		ediciontipo = false;
 		guardaredicion = true;
+		sol_regresorigen=false;
+		verregresorigen=true;
 		sol_conductornombre = "";
 		sol_conductornombrefuncionario = "";
 		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
+	}
+	
+	public boolean isVerregresorigen() {
+		return verregresorigen;
+	}
+
+	public void setVerregresorigen(boolean verregresorigen) {
+		this.verregresorigen = verregresorigen;
 	}
 
 	public String getUsuario() {
@@ -391,6 +404,14 @@ public class solicituduBean implements Serializable {
 	public void setEdiciontipo(boolean ediciontipo) {
 		this.ediciontipo = ediciontipo;
 	}
+	
+	public boolean isSol_regresorigen() {
+		return sol_regresorigen;
+	}
+
+	public void setSol_regresorigen(boolean sol_regresorigen) {
+		this.sol_regresorigen = sol_regresorigen;
+	}
 
 	// SOLICITUDES
 	/**
@@ -409,8 +430,6 @@ public class solicituduBean implements Serializable {
 	 */
 	public String crearSolicitud() {
 		try {
-			// setHorainiciotiemp((this.fechaAtiempo(sol_hora_inicio)));
-			// setHorafintiemp((this.fechaAtiempo(sol_hora_fin)));
 			sol_fecha = new Timestamp(fecha.getTime());
 			Integer pasajeros;
 			pasajeros = Integer.parseInt(sol_pasajeros);
@@ -422,7 +441,7 @@ public class solicituduBean implements Serializable {
 			if (edicion) {
 				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
 						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor,sol_correo);
+						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor,sol_correo, sol_regresorigen);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				date = new Date();
@@ -431,13 +450,14 @@ public class solicituduBean implements Serializable {
 				sol_fcoid = "";
 				sol_vehi = "";
 				sol_conductor = "";
+				sol_regresorigen = false;
 				sol_fecha = null;
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
 				sol_motivo = null;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
-				sol_flexibilidad = false;
+				sol_flexibilidad = true;
 				sol_observacion = null;
 				sol_estado = "P";
 				sol_estadonombre = "";
@@ -456,7 +476,7 @@ public class solicituduBean implements Serializable {
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
-						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo);
+						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo, sol_regresorigen);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				
 				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -469,8 +489,9 @@ public class solicituduBean implements Serializable {
 						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
 						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
 						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
-						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/>"
-						+"<br/>Atentamente,<br/>Sistema de gesti&oacute;n de Transportes Yachay.</body></html>";
+						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/><br/>"
+				    	+"Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos.<br/>"
+						+"<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
 				
 				Mail.generateAndSendEmail("lcorrea@yachay.gob.ec","Petición de Vehículo", mensaje);
 				//Libero objetos
@@ -482,13 +503,14 @@ public class solicituduBean implements Serializable {
 				sol_fcoid = "";
 				sol_vehi = "";
 				sol_conductor = "";
+				sol_regresorigen=false;
 				sol_fecha = null;
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
 				sol_motivo = null;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
-				sol_flexibilidad = false;
+				sol_flexibilidad = true;
 				sol_observacion = null;
 				sol_estado = "P";
 				sol_estadonombre = "";
@@ -525,7 +547,7 @@ public class solicituduBean implements Serializable {
 					.parse(sol_hora_inicio).getTime());
 			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
 					.getTime());
-			if (horafintiemp.getTime() <= horainiciotiemp.getTime()) {
+			if (horafintiemp.getTime() < horainiciotiemp.getTime()) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(
 						"Error..Verifique su horario.", ""));
@@ -604,6 +626,7 @@ public class solicituduBean implements Serializable {
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
 			sol_correo = sol.getSolCorreo();
+			sol_regresorigen=sol.getSolRegresorigen();
 			edicion = true;
 			ediciontipo = false;
 			guardaredicion = false;
@@ -842,6 +865,15 @@ public class solicituduBean implements Serializable {
 		managersol.asignarvehiculo(sol_vehi);
 		return "";
 	}
+	
+	/**
+	 * metodo para asignar el lugarorigen a solicitud
+	 * 
+	 */
+	public String asignarHoraFin() {
+		sol_hora_fin = sol_hora_inicio;
+		return "";
+	}
 
 	/**
 	 * limpia la informacion de horario
@@ -864,11 +896,12 @@ public class solicituduBean implements Serializable {
 		sol_conductornombrefuncionario = "";
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
+		sol_regresorigen = false;
 		sol_pasajeros = null;
 		sol_motivo = null;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
-		sol_flexibilidad = false;
+		sol_flexibilidad = true;
 		sol_correo="";
 		sol_observacion = null;
 		sol_estado = "P";
@@ -905,13 +938,14 @@ public class solicituduBean implements Serializable {
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;
 		sol_motivo = null;
+		sol_regresorigen = false;
+		verregresorigen = true;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
-		sol_flexibilidad = false;
+		sol_flexibilidad = true;
 		sol_observacion = null;
 		sol_estado = "P";
 		sol_estadonombre = "";
-		edicion = true;
 		ediciontipo = false;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
@@ -960,6 +994,26 @@ public class solicituduBean implements Serializable {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		return cal.getTime();
+	}
+	
+	public void regresoOrigen() {
+		try {
+			System.out.println(sol_regresorigen);
+			System.out.println("verregresorigen "+verregresorigen);
+			System.out.println("edicion "+edicion);
+			if(sol_regresorigen == true)
+			{
+				verregresorigen = false;
+				System.out.println("entra1");
+			}else{
+				System.out.println("entra2");
+				verregresorigen=true;
+				}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

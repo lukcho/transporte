@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+	<ui:composition template="template.xhtml">
+		<ui:define name="titulo">
+            Catalogos
+        </ui:define>
+		<ui:define name="contenido">
+			<h:form>
+				<center><h1>GESTIÓN DE CATÁLOGOS</h1></center>
+				<b:row>
+					<b:column span="1">
+						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{catalogosBean.nuevoCatalogoitem()}" />
+					</b:column>
+					<b:column span="1">
+						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
+					</b:column>
+				</b:row>
+			</h:form>
+			<br/>
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="true" />
+			<b:panel title="Listado de Cat&aacute;logos" look="primary">
+				<p:dataTable id="tbb" value="#{catalogosBean.listaCatalogoItems}"
+					reflow="true" var="cati" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="50">
+						<p:commandButton id="btnE" icon="ui-icon-pencil"
+							action="#{catalogosBean.cargarCatalogoItem(cati)}">
+							<p:tooltip id="toolTipTrack1" for="btnE"
+								value="Bot&oacute;n para modificar el cat&aacute;logo"
+								trackMouse="true" />
+						</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
+							action="#{catalogosBean.cambiarEstadocati(cati)}">
+							<p:tooltip id="toolTipTrack2" for="trackcamb"
+								value="Bot&oacute;n para cambiar el estado del producto"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column filterBy="#{cati.catdNombre}" filterMatchMode="contains"
+						headerText="NOMBRE" width="70">
+						<h:outputText value="#{cati.catdNombre}"></h:outputText>
+					</p:column>
+
+					<p:column filterBy="#{cati.transCatCab.catcNombre}"
+						filterMatchMode="contains" headerText="CATALOGO" width="60">
+						<h:outputText value="#{cati.transCatCab.catcNombre}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{cati.catdIdPadre}"
+						filterMatchMode="contains" headerText="PADRE" width="60">
+						<h:outputText value="#{cati.catdIdPadre}"></h:outputText>
+					</p:column>
+					
+					<p:column headerText="ESTADO" width="30">
+						<h:outputText value="#{cati.catdEstado}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmaci&oacute;n"
+			message="Est&aacute; seguro de cambiar el estado?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="ce">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check"
+					action="#{catalogosBean.cambiarEstado()}"
+					oncomplete="PF('ce').hide();" update="frm" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('ce').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+	</ui:composition>
+</html>

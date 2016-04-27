@@ -52,11 +52,17 @@ public class TransSolicitud implements Serializable {
 	@Column(name="sol_motivo", length=255)
 	private String solMotivo;
 
+	@Column(name="sol_novedades", length=255)
+	private String solNovedades;
+
 	@Column(name="sol_observacion", length=255)
 	private String solObservacion;
 
 	@Column(name="sol_pasajeros")
 	private Integer solPasajeros;
+
+	@Column(name="sol_regresorigen")
+	private Boolean solRegresorigen;
 
 	//bi-directional many-to-one association to TransConductore
 	@ManyToOne
@@ -174,6 +180,14 @@ public class TransSolicitud implements Serializable {
 		this.solMotivo = solMotivo;
 	}
 
+	public String getSolNovedades() {
+		return this.solNovedades;
+	}
+
+	public void setSolNovedades(String solNovedades) {
+		this.solNovedades = solNovedades;
+	}
+
 	public String getSolObservacion() {
 		return this.solObservacion;
 	}
@@ -188,6 +202,14 @@ public class TransSolicitud implements Serializable {
 
 	public void setSolPasajeros(Integer solPasajeros) {
 		this.solPasajeros = solPasajeros;
+	}
+
+	public Boolean getSolRegresorigen() {
+		return this.solRegresorigen;
+	}
+
+	public void setSolRegresorigen(Boolean solRegresorigen) {
+		this.solRegresorigen = solRegresorigen;
 	}
 
 	public TransConductore getTransConductore() {

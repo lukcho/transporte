@@ -32,11 +32,11 @@ public class TransLugare implements Serializable {
 
 	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transLugare1")
-	private List<TransSolicitud> TransSolicituds1;
+	private List<TransSolicitud> transSolicituds1;
 
 	//bi-directional many-to-one association to TransSolicitud
 	@OneToMany(mappedBy="transLugare2")
-	private List<TransSolicitud> TransSolicituds2;
+	private List<TransSolicitud> transSolicituds2;
 
 	public TransLugare() {
 	}
@@ -74,47 +74,47 @@ public class TransLugare implements Serializable {
 	}
 
 	public List<TransSolicitud> getTransSolicituds1() {
-		return this.TransSolicituds1;
+		return this.transSolicituds1;
 	}
 
-	public void setTransSolicituds1(List<TransSolicitud> TransSolicituds1) {
-		this.TransSolicituds1 = TransSolicituds1;
+	public void setTransSolicituds1(List<TransSolicitud> transSolicituds1) {
+		this.transSolicituds1 = transSolicituds1;
 	}
 
-	public TransSolicitud addTransSolicituds1(TransSolicitud TransSolicituds1) {
-		getTransSolicituds1().add(TransSolicituds1);
-		TransSolicituds1.setTransLugare1(this);
+	public TransSolicitud addTransSolicituds1(TransSolicitud transSolicituds1) {
+		getTransSolicituds1().add(transSolicituds1);
+		transSolicituds1.setTransLugare1(this);
 
-		return TransSolicituds1;
+		return transSolicituds1;
 	}
 
-	public TransSolicitud removeTransSolicituds1(TransSolicitud TransSolicituds1) {
-		getTransSolicituds1().remove(TransSolicituds1);
-		TransSolicituds1.setTransLugare1(null);
+	public TransSolicitud removeTransSolicituds1(TransSolicitud transSolicituds1) {
+		getTransSolicituds1().remove(transSolicituds1);
+		transSolicituds1.setTransLugare1(null);
 
-		return TransSolicituds1;
+		return transSolicituds1;
 	}
 
 	public List<TransSolicitud> getTransSolicituds2() {
-		return this.TransSolicituds2;
+		return this.transSolicituds2;
 	}
 
-	public void setTransSolicituds2(List<TransSolicitud> TransSolicituds2) {
-		this.TransSolicituds2 = TransSolicituds2;
+	public void setTransSolicituds2(List<TransSolicitud> transSolicituds2) {
+		this.transSolicituds2 = transSolicituds2;
 	}
 
-	public TransSolicitud addTransSolicituds2(TransSolicitud TransSolicituds2) {
-		getTransSolicituds2().add(TransSolicituds2);
-		TransSolicituds2.setTransLugare2(this);
+	public TransSolicitud addTransSolicituds2(TransSolicitud transSolicituds2) {
+		getTransSolicituds2().add(transSolicituds2);
+		transSolicituds2.setTransLugare2(this);
 
-		return TransSolicituds2;
+		return transSolicituds2;
 	}
 
-	public TransSolicitud removeTransSolicituds2(TransSolicitud TransSolicituds2) {
-		getTransSolicituds2().remove(TransSolicituds2);
-		TransSolicituds2.setTransLugare2(null);
+	public TransSolicitud removeTransSolicituds2(TransSolicitud transSolicituds2) {
+		getTransSolicituds2().remove(transSolicituds2);
+		transSolicituds2.setTransLugare2(null);
 
-		return TransSolicituds2;
+		return transSolicituds2;
 	}
 
 }

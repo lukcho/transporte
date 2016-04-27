@@ -71,9 +71,9 @@
 								filterMatchMode="contains" headerText="PLACA AUTOM&Oacute;VIL" width="70">
 								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
 							</p:column>
-							<p:column headerText="CONDUCTOR" width="70">
+							<p:column headerText="FUNCIONARIO CON." width="100">
 								<h:outputText
-									value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
+									value="#{sol1.transFuncionarioConductor.fcoNombres}"></h:outputText>
 							</p:column>
 							<p:column headerText="PASAJEROS" width="70">
 								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
@@ -127,7 +127,7 @@
 							<p:commandButton id="trackcamb" icon="ui-icon-close"
 									action="#{solicitudaBean.cambiarEstadoSoli(sol1)}">
 									<p:tooltip id="toolTipTrack2" for="trackcamb"
-										value="Bot&oacute;n para cambiar el estado de la solicitud"
+										value="Bot&oacute;n para anular la solicitud"
 										trackMouse="true" />
 								</p:commandButton>
 							</p:column>

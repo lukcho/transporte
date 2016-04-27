@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Cátalogo
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="true" />
+			<b:panel title="Registro de Catálogos" look="primary">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Tipo de Cat&aacute;logo:* " />
+					</b:column>
+					<b:column span="4" style="margin-bottom:10px">
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar" styleClass="form-control"
+								value="#{catalogosBean.cat_id}" required="true"
+								requiredMessage="Campo categoria requerido">
+								<f:selectItems value="#{catalogosBean.listaCategoria}" />
+								<f:ajax render="trackseleccionar1" listener="#{catalogosBean.asignarCat()}"/>
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Nombre de Categor&iacute;a/Sub-Categor&iacute;a:* " />
+					</b:column>
+					<b:column span="4" style="margin-bottom:10px">
+						<h:inputText value="#{catalogosBean.cati_nombre}" required="true"
+							styleClass="form-control"
+							requiredMessage="Campo nombre requerido">
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Tipo de Categor&iacute;a*: " />
+					</b:column>
+					<b:column span="4" style="margin-bottom:10px">
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar1" styleClass="form-control" 
+								value="#{catalogosBean.cati_idpadre}">
+								<f:selectItems value="#{catalogosBean.listaCatalogoitem}" />
+								<f:ajax render="trackseleccionar2"
+									listener="#{catalogosBean.asignarCatItem()}"  />
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</b:column>
+				</b:row>
+<!-- 				<b:row> -->
+<!-- 					<b:column span="2"> -->
+<!-- 						<h:outputLabel value="Sub - Categoría*: " /> -->
+<!-- 					</b:column> -->
+<!-- 					<b:column span="4" style="margin-bottom:10px"> -->
+<!-- 						<h:panelGroup> -->
+<!-- 							<h:selectOneMenu id="trackseleccionar2" value="#{catalogosBean.cati_idhijo}" -->
+<!-- 								styleClass="form-control"> -->
+<!-- 								<f:selectItems value="#{catalogosBean.listaCatalogoitemitems}" /> -->
+<!-- 								<f:ajax	listener="#{catalogosBean.asignarCatItemitem()}"  /> -->
+<!-- 							</h:selectOneMenu> -->
+<!-- 						</h:panelGroup> -->
+<!-- 					</b:column> -->
+<!-- 				</b:row> -->
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Estado*" rendered="#{catalogosBean.edicion}" />
+					</b:column>
+					<b:column span="4">
+						<b:selectOneMenu value="#{catalogosBean.cati_estado}"
+							rendered="#{catalogosBean.edicion}">
+							<f:selectItems value="#{catalogosBean.listEstados}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="5">
+						<p:commandButton value="Guardar" styleClass="btn btn-info"
+							style="padding:7px;"
+							actionListener="#{catalogosBean.abrirDialog()}"
+							update="frm messages">
+						</p:commandButton>&nbsp;&nbsp;&nbsp;
+						<b:commandButton value="Volver" action="#{catalogosBean.salir()}"
+							update="frm" look="info" process="@this">
+						</b:commandButton>&nbsp;&nbsp;&nbsp;
+					</b:column>
+				</b:row>
+				<br />
+				<br />
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmaci&oacute;n"
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{catalogosBean.crearCatalogo()}"
+					oncomplete="PF('gu').hide();" update="frm" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('gu').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+</html>

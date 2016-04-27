@@ -16,7 +16,47 @@ ALTER TABLE seq_trans_lugares
   CACHE 1;
 ALTER TABLE seq_trans_solicitud
   OWNER TO postgres;
+  
+CREATE SEQUENCE seq_trans_cat_cab
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE seq_trans_cat_cab
+  OWNER TO postgres;
 
+CREATE SEQUENCE seq_trans_cat_det
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE seq_trans_cat_det
+  OWNER TO postgres;
+  
+/*==============================================================*/
+/* Table: TRANS_CAT_CAB                                         */
+/*==============================================================*/
+create table TRANS_CAT_CAB (
+   CATC_ID              INT4                 not null DEFAULT nextval('seq_trans_cat_cab'::regclass),
+   CATC_NOMBRE          VARCHAR(200)         null,
+   CATC_VALOR           CHAR(4)              null,
+   constraint PK_TRANS_CAT_CAB primary key (CATC_ID)
+);
+
+/*==============================================================*/
+/* Table: TRANS_CAT_DET                                         */
+/*==============================================================*/
+create table TRANS_CAT_DET (
+   CATD_ID              INT4                 not null DEFAULT nextval('seq_trans_cat_det'::regclass),
+   CATC_ID              INT4                 null,
+   CATD_ID_PADRE        INT4                 null,
+   CATD_NOMBRE          VARCHAR(200)         null,
+   CATD_ESTADO          CHAR(1)              null,
+   constraint PK_TRANS_CAT_DET primary key (CATD_ID)
+);
+  
 /*==============================================================*/
 /* Table: TRANS_CONDUCTORES                                     */
 /*==============================================================*/
@@ -74,8 +114,8 @@ create table TRANS_VEHICULO (
 /* Table: TRAN_SOLICITUD                                        */
 /*==============================================================*/
 create table TRANS_SOLICITUD (
-   SOL_ID               INT4                 not null DEFAULT nextval('seq_trans_solicitud'::regclass),
-   SOL_ID_SOLICITANTE   VARCHAR(100)          null,
+   SOL_ID               INT4                 not null,
+   SOL_ID_SOLICITANTE   VARCHAR(200)         null,
    LUG_ID_ORIGEN        INT4                 null,
    LUG_ID_DESTINO       INT4                 null,
    FCO_ID               VARCHAR(20)          null,
@@ -92,8 +132,15 @@ create table TRANS_SOLICITUD (
    SOL_OBSERVACION      VARCHAR(255)         null,
    SOL_ESTADO           CHAR(1)              null,
    SOL_CORREO           VARCHAR(255)         null,
-   constraint PK_TRAN_SOLICITUD primary key (SOL_ID)
+   SOL_NOVEDADES        VARCHAR(200)         null,
+   SOL_REGRESORIGEN     BOOL                 null,
+   constraint PK_TRANS_SOLICITUD primary key (SOL_ID)
 );
+
+alter table TRANS_CAT_DET
+   add constraint FK_TRANS_CA_REFERENCE_TRANS_CA foreign key (CATC_ID)
+      references TRANS_CAT_CAB (CATC_ID)
+      on delete restrict on update restrict;
 
 alter table TRANS_SOLICITUD
    add constraint FK_TRAN_SOL_REFERENCE_TRANS_LU_OR foreign key (LUG_ID_ORIGEN)
@@ -106,16 +153,16 @@ alter table TRANS_SOLICITUD
       on delete restrict on update restrict;
 
 alter table TRANS_SOLICITUD
-   add constraint FK_TRAN_SOL_REFERENCE_TRANS_FU foreign key (FCO_ID)
+   add constraint FK_TRANS_SO_REFERENCE_TRANS_FU foreign key (FCO_ID)
       references TRANS_FUNCIONARIO_CONDUCTOR (FCO_ID)
       on delete restrict on update restrict;
 
 alter table TRANS_SOLICITUD
-   add constraint FK_TRAN_SOL_REFERENCE_TRANS_VE foreign key (VEHI_IDPLACA)
+   add constraint FK_TRANS_SO_REFERENCE_TRANS_VE foreign key (VEHI_IDPLACA)
       references TRANS_VEHICULO (VEHI_IDPLACA)
       on delete restrict on update restrict;
 
 alter table TRANS_SOLICITUD
-   add constraint FK_TRAN_SOL_REFERENCE_TRANS_CO foreign key (COND_CEDULA)
+   add constraint FK_TRANS_SO_REFERENCE_TRANS_CO foreign key (COND_CEDULA)
       references TRANS_CONDUCTORES (COND_CEDULA)
       on delete restrict on update restrict;

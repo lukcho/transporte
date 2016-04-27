@@ -13,7 +13,7 @@
 	<ui:define name="contenido">
 		<h:form>
 			<center>
-				<h1>Solicitudes</h1>
+				<h1>Solicitudes No Planificadas</h1>
 			</center>
 			<b:row>
 				<b:column span="1">
@@ -71,12 +71,13 @@
 						<h:outputText
 							value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
 					</p:column>
-					<p:column headerText="PASAJEROS" width="100">
-						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
-					</p:column>
 					<p:column headerText="FUNCIONARIO CON." width="100">
 						<h:outputText value="#{sol.transFuncionarioConductor.fcoNombres}"></h:outputText>
 					</p:column>
+					<p:column headerText="PASAJEROS" width="100">
+						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
+					</p:column>
+					
 					<p:column headerText="FECHA APROBACI&Oacute;N" width="100">
 						<h:outputText value="#{sol.solFechaAprobacion}">
 							<f:convertDateTime pattern="yyyy/MM/dd" />
