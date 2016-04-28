@@ -45,12 +45,6 @@
 										trackMouse="true" />
 								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-close"
-									action="#{solicitudaBean.cambiarEstadoSoli(sol)}">
-									<p:tooltip id="toolTipTrack2" for="trackcamb"
-										value="Bot&oacute;n para negar la solicitud"
-										trackMouse="true" />
-								</p:commandButton>
 							</p:column>
 							<p:column headerText="SOLICITUD" width="70">
 								<h:outputText value="#{sol.solId}"></h:outputText>
@@ -124,12 +118,7 @@
 										trackMouse="true" />
 								</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-close"
-									action="#{solicitudaBean.cambiarEstadoSoli(sol1)}">
-									<p:tooltip id="toolTipTrack2" for="trackcamb"
-										value="Bot&oacute;n para anular la solicitud"
-										trackMouse="true" />
-								</p:commandButton>
+							
 							</p:column>
 							<p:column headerText="SOLICITUD" width="80">
 								<h:outputText value="#{sol1.solId}"></h:outputText>
@@ -168,6 +157,10 @@
 							<p:column headerText="FECHA APROBACI&Oacute;N" width="100">
 								<h:outputText value="#{sol1.solFechaAprobacion}">
 									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="NOVEDADES" width="100">
+								<h:outputText value="#{sol1.solNovedades}">
 								</h:outputText>
 							</p:column>
 							<p:column filterBy="#{sol1.solEstado}" filterMatchMode="contains"

@@ -41,8 +41,8 @@
 						<h:outputLabel value="Fecha de petici&oacute;n:* " />
 					</b:column>
 					<b:column span="3">
-						<p:calendar disabled="true"
-							value="#{solicitudaBean.fecha}" pattern="yyyy/MM/dd" mask="true">
+						<p:calendar disabled="true" value="#{solicitudaBean.fecha}"
+							pattern="yyyy/MM/dd" mask="true">
 						</p:calendar>
 					</b:column>
 					<b:column span="1">
@@ -50,9 +50,8 @@
 					</b:column>
 					<b:column span="4">
 						<b:inputTextarea value="#{solicitudaBean.sol_motivo}"
-							fieldSize="2" rows="2" disabled="true"
-							required="true" requiredMessage="Campo motivo requerido"
-							maxlength="255">
+							fieldSize="2" rows="2" disabled="true" required="true"
+							requiredMessage="Campo motivo requerido" maxlength="255">
 
 						</b:inputTextarea>
 					</b:column>
@@ -64,8 +63,8 @@
 								<h:outputLabel value="Lugar Origen:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar2" required="true"
-										disabled="true"
-										styleClass="form-control" requiredMessage="Requerido Origen"
+										disabled="true" styleClass="form-control"
+										requiredMessage="Requerido Origen"
 										value="#{solicitudaBean.sol_id_origen}">
 										<f:selectItem itemLabel="Selecci&oacute;n Origen" itemValue="" />
 										<f:selectItems value="#{solicitudaBean.listaOrigen}" />
@@ -96,8 +95,7 @@
 								<h:outputLabel value="Lugar Destino:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar3" required="true"
-										disabled="true"
-										styleClass="form-control"
+										disabled="true" styleClass="form-control"
 										value="#{solicitudaBean.sol_id_destino}">
 										<f:selectItem itemLabel="Selecci&oacute;n Destino"
 											itemValue="" />
@@ -108,10 +106,13 @@
 								<br />
 								<p:selectBooleanCheckbox
 									value="#{solicitudaBean.sol_regresorigen}"
-									disabled="#{solicitudaBean.edicion}" 
-									caption="Regreso al lugar de Origen?" update="trackseleccionar5">
-									<p:ajax event="change" listener="#{solicitudaBean.regresoOrigen()}" update="trackseleccionar5"/>
-									</p:selectBooleanCheckbox>
+									disabled="#{solicitudaBean.edicion}"
+									caption="Regreso al lugar de Origen?"
+									update="trackseleccionar5">
+									<p:ajax event="change"
+										listener="#{solicitudaBean.regresoOrigen()}"
+										update="trackseleccionar5" />
+								</p:selectBooleanCheckbox>
 								<h:outputLabel value="Hora Regreso:* " />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
@@ -200,6 +201,24 @@
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Novedades*: "
+							rendered="#{solicitudaBean.mostrarnovedades}" />
+					</b:column>
+					<b:column span="5">
+						<p:selectCheckboxMenu required="true" id="menu"
+							rendered="#{solicitudaBean.mostrarnovedades}"
+							value="#{solicitudaBean.arrayNovedades}" label="-------"
+							panelStyle="width:250px" requiredMessage="Requerido Novedades">
+							<f:selectItems value="#{catalogosBean.listaCategoriatodos}"
+								itemValue="#{catalogosBean.cat_id}" />
+						</p:selectCheckboxMenu>
+						<b:inputText value="#{solicitudaBean.sol_novedades}" rendered="#{solicitudaBean.mostrarnovedades}"
+							disabled="true">
+						</b:inputText>
+					</b:column>
+				</b:row>
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
 					<b:panel title="Disponibilidad del Veh&iacute;culo" look="primary">
 						<p:dataTable id="tbb" value="#{solicitudaBean.listaVehiOcu}"
@@ -240,8 +259,8 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							renrendered="#{solicitudaBean.guardaredicion}"
-							disabled="false" style="padding:7px;"
+							renrendered="#{solicitudaBean.guardaredicion}" disabled="false"
+							style="padding:7px;"
 							actionListener="#{solicitudaBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;

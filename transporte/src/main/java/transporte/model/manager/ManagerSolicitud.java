@@ -19,6 +19,9 @@ public class ManagerSolicitud {
 
 	@EJB
 	private ManagerGestion mGes;
+	
+	@EJB
+	private ManagerCatalogos mCat;
 
 	private static TransConductore trans_con;
 	private static TransLugare trans_lugori;
@@ -253,6 +256,59 @@ public class ManagerSolicitud {
 	 * @throws Exception
 	 */
 	public void editarSolicitud(Integer sol_id, Timestamp sol_fecha,
+			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
+			Time sol_hora_fin, boolean sol_flexibilidad,
+			String sol_observacion, String sol_estado, String sol_fcoid,
+			String sol_cond, String sol_correo, boolean sol_regresorigen,Timestamp sol_fecha_aprobacion, String[] listado)
+			throws Exception {
+		TransSolicitud sol = this.solicitudByID(sol_id);
+		sol.setTransLugare2(trans_lugori);
+		sol.setTransLugare1(trans_lugdes);
+		if (!sol_fcoid.equals("Ninguno"))
+			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
+		else
+			sol.setTransFuncionarioConductor(null);
+		if (!sol_cond.equals("Ninguno"))
+			sol.setTransConductore(mGes.conductorByID(sol_cond));
+		sol.setTransVehiculo(trans_vehi);
+		sol.setSolFecha(sol_fecha);
+		sol.setSolPasajeros(sol_pasajeros);
+		sol.setSolMotivo(sol_motivo);
+		sol.setSolFechaAprobacion(sol_fecha_aprobacion);
+		sol.setSolHoraInicio(sol_hora_inicio);
+		sol.setSolHoraFin(sol_hora_fin);
+		sol.setSolFlexibilidad(sol_flexibilidad);
+		sol.setSolObservacion(sol_observacion);
+		sol.setSolEstado(sol_estado);
+		sol.setSolCorreo(sol_correo);
+		sol.setSolRegresorigen(sol_regresorigen);
+		String novedades="";
+		
+		System.out.println(listado.length);
+		for (String i : listado) {
+			novedades+=i+", ";
+			System.out.println(novedades);
+		}
+		sol.setSolNovedades(novedades);
+		System.out.println(novedades);
+		mDAO.actualizar(sol);
+	}
+	
+	/**
+	 * Cambiar datos de solicitudes
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public void editarSolicitudsn(Integer sol_id, Timestamp sol_fecha,
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
 			Time sol_hora_fin, boolean sol_flexibilidad,
 			String sol_observacion, String sol_estado, String sol_fcoid,

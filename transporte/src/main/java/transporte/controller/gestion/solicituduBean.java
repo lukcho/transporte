@@ -439,9 +439,9 @@ public class solicituduBean implements Serializable {
 			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
 					.getTime());
 			if (edicion) {
-				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
-						sol_motivo.trim(), horainiciotiemp, horafintiemp,
-						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor,sol_correo, sol_regresorigen);
+//				managersol.editarSolicitud(sol_id, sol_fecha, pasajeros,
+//						sol_motivo.trim(), horainiciotiemp, horafintiemp,
+//						sol_flexibilidad, sol_observacion.trim(), sol_estado,sol_fcoid,sol_conductor,sol_correo, sol_regresorigen);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				sol_id = null;
 				date = new Date();

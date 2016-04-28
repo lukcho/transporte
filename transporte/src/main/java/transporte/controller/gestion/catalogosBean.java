@@ -254,6 +254,19 @@ public class catalogosBean implements Serializable {
 		}
 		return "";
 	}
+	
+	/**
+	 * metodo para mostrar los Catalogositems en productos
+	 * 
+	 */
+	public List<SelectItem> getListaCategoriatodos() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		listadoSI.add(new SelectItem(0, "Seleccionar"));
+		for (TransCatDet t : managercat.findAllCatalogoItems()) {
+			listadoSI.add(new SelectItem(t.getCatdNombre()));
+		}
+		return listadoSI;
+	}
 
 	/**
 	 * metodo para mostrar los Catalogositems en productos
