@@ -203,12 +203,13 @@ public class ManagerSolicitud {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public void insertarSolicitud(Timestamp sol_fecha, String usuario,
+	public void insertarSolicitud(Timestamp sol_fecha, String usuario_cedula,String usuario_nombre,
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
 			Time sol_hora_fin, boolean sol_flexibilidad, String sol_fcoid,
 			String correo, boolean sol_regresorigen) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
-		sol.setSolIdSolicitante(usuario);
+		sol.setSolIdSolicitante(usuario_cedula);
+		sol.setSolNomSolicitante(usuario_nombre);
 		cargafecha();
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);

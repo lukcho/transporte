@@ -46,11 +46,14 @@ public class TransSolicitud implements Serializable {
 	@Column(name="sol_hora_inicio")
 	private Time solHoraInicio;
 
-	@Column(name="sol_id_solicitante", length=100)
+	@Column(name="sol_id_solicitante", length=20)
 	private String solIdSolicitante;
 
 	@Column(name="sol_motivo", length=255)
 	private String solMotivo;
+
+	@Column(name="sol_nom_solicitante", length=255)
+	private String solNomSolicitante;
 
 	@Column(name="sol_novedades", length=255)
 	private String solNovedades;
@@ -178,6 +181,14 @@ public class TransSolicitud implements Serializable {
 
 	public void setSolMotivo(String solMotivo) {
 		this.solMotivo = solMotivo;
+	}
+
+	public String getSolNomSolicitante() {
+		return this.solNomSolicitante;
+	}
+
+	public void setSolNomSolicitante(String solNomSolicitante) {
+		this.solNomSolicitante = solNomSolicitante;
 	}
 
 	public String getSolNovedades() {

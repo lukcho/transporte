@@ -115,7 +115,8 @@ create table TRANS_VEHICULO (
 /*==============================================================*/
 create table TRANS_SOLICITUD (
    SOL_ID               INT4                 not null,
-   SOL_ID_SOLICITANTE   VARCHAR(200)         null,
+   SOL_ID_SOLICITANTE   VARCHAR(20)          null,
+   SOL_NOM_SOLICITANTE  VARCHAR(255)         null,
    LUG_ID_ORIGEN        INT4                 null,
    LUG_ID_DESTINO       INT4                 null,
    FCO_ID               VARCHAR(20)          null,

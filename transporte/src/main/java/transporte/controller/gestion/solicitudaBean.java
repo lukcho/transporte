@@ -67,6 +67,7 @@ public class solicitudaBean implements Serializable {
 	private String sol_vehi;
 	private String sol_conductor;
 	private String sol_usuario_cedula;
+	private String sol_usuario_nombre;
 	private String sol_correo;
 	private String sol_novedades;
 	private boolean sol_regresorigen;
@@ -90,6 +91,8 @@ public class solicitudaBean implements Serializable {
 	private List<TransSolicitud> listaSolicitudaprorecha;
 	private List<TransSolicitud> listaVehiculoCond;
 	private List<TransSolicitud> listareporte;
+	
+	
 
 	// fechas
 	private Date date;
@@ -331,6 +334,14 @@ public class solicitudaBean implements Serializable {
 		this.sol_usuario_cedula = sol_usuario_cedula;
 	}
 
+	public String getSol_usuario_nombre() {
+		return sol_usuario_nombre;
+	}
+
+	public void setSol_usuario_nombre(String sol_usuario_nombre) {
+		this.sol_usuario_nombre = sol_usuario_nombre;
+	}
+
 	public Integer getSol_id() {
 		return sol_id;
 	}
@@ -549,6 +560,7 @@ public class solicitudaBean implements Serializable {
 										
 					sol_id = null;
 					sol_usuario_cedula = usuario;
+					sol_usuario_nombre = usuario;
 					date = new Date();
 					sol_id_origen = null;
 					sol_id_destino = null;
@@ -602,7 +614,7 @@ public class solicitudaBean implements Serializable {
 					{
 					mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 							+ "<meta name='viewport' content='width=device-width'></head><body>"
-							+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+",<br/>"
+							+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_nombre)+",<br/>"
 							+"Le notificamos que su solitud de Transporte fue: "+Funciones.utf8Sting(sol_estadonombre)+", <br/><br/>"
 							+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
 							+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
@@ -637,7 +649,7 @@ public class solicitudaBean implements Serializable {
 					else{
 					 mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 							+ "<meta name='viewport' content='width=device-width'></head><body>"
-							+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+",<br/>"
+							+"Estimado(a) Solicitante: "+Funciones.utf8Sting(sol_usuario_nombre)+",<br/>"
 							+"Le notificamos que su solitud de Transporte fue: "+Funciones.utf8Sting(sol_estadonombre)+", <br/><br/>"
 							+"Número de Solicitud: "+Funciones.utf8Sting(sol_id.toString()) +"<br/>"
 							+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
@@ -711,7 +723,7 @@ public class solicitudaBean implements Serializable {
 				
 
 			} else {
-				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
+				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,sol_usuario_nombre,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
 						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo,sol_regresorigen);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
@@ -719,6 +731,7 @@ public class solicitudaBean implements Serializable {
 				date = new Date();
 				// sol_idsolicitante = sol.getSolicitante();
 				sol_usuario_cedula = usuario;
+				sol_usuario_nombre = usuario;
 				sol_id_origen = null;
 				sol_id_destino = null;
 				sol_fcoid = "Ninguno";
@@ -831,6 +844,7 @@ public class solicitudaBean implements Serializable {
 			sol_id = sol.getSolId();
 			// sol_idsolicitante = sol.getSolicitante();
 			sol_usuario_cedula = sol.getSolIdSolicitante();
+			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			if (sol.getTransFuncionarioConductor() == null)
@@ -903,6 +917,7 @@ public class solicitudaBean implements Serializable {
 			sol_id = sol.getSolId();
 			// sol_idsolicitante = sol.getSolicitante();
 			sol_usuario_cedula = sol.getSolIdSolicitante();
+			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			if (sol.getTransFuncionarioConductor() == null)
@@ -1201,6 +1216,36 @@ public class solicitudaBean implements Serializable {
 
 		}
 	}
+	
+	/**
+	 * metodo para reporte del novedades
+	 * 
+	 */
+	public void reporteNovedades() {
+		if (sol_vehi == null) {
+			System.out.println("Es null");
+			System.out.println("fi: " + new Timestamp(fi.getTime()));
+			System.out.println("ff: " + new Timestamp(ff.getTime()));
+			getListareporte().clear();
+			getListareporte().addAll(
+					managersol.findAllVehiculosfecha(
+							new Timestamp(fi.getTime()),
+							new Timestamp(ff.getTime())));
+			getListareporte().size();
+		} else {
+			System.out.println("No es null");
+			System.out.println("fi: " + new Timestamp(fi.getTime()));
+			System.out.println("ff: " + new Timestamp(ff.getTime()));
+			getListareporte().clear();
+			getListareporte().addAll(
+					managersol.findAllVehiculosfechacond(sol_vehi,
+							new Timestamp(fi.getTime()),
+							new Timestamp(ff.getTime())));
+			getListareporte().size();
+
+		}
+	}
+	
 
 	/**
 	 * limpia la informacion de horario
@@ -1215,6 +1260,7 @@ public class solicitudaBean implements Serializable {
 		horamostrar = false;
 		// sol_idsolicitante = sol.getSolicitante();
 		sol_usuario_cedula = usuario;
+		sol_usuario_nombre = usuario;
 		sol_id_origen = null;
 		sol_id_destino = null;
 		sol_fcoid = "Ninguno";
@@ -1362,8 +1408,9 @@ public class solicitudaBean implements Serializable {
 		try {
 			System.out.println(usuario);
 			per = mc.funcionarioByDNI(usuario);
-			sol_usuario_cedula = per.getPerNombres() + " "
+			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
+			sol_usuario_cedula = per.getPerDNI();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

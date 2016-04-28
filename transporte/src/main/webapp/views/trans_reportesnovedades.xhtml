@@ -9,11 +9,11 @@
 
 <ui:composition template="template.xhtml">
 	<ui:define name="titulo">
-           Reporte Vehículo/Conductor
+           Reporte Novedades
         </ui:define>
 	<ui:define name="contenido">
 		<center>
-			<h1>Reporte de Veh&iacute;culo/Conductor</h1>
+			<h1>Reporte de Novedades</h1>
 		</center>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
@@ -39,23 +39,9 @@
 					</p:column>
 				</b:row>
 				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Veh&iacute;culo: " />
-					</b:column>
-					<b:column span="4">
-						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar5" styleClass="form-control"
-								value="#{solicitudaBean.sol_vehi}">
-								<f:selectItem itemLabel="Selección Vehículo" itemValue="" />
-								<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
-							</h:selectOneMenu>
-						</h:panelGroup>
-					</b:column>
-				</b:row>
-				<b:row>
 					<b:column span="5">
 				<p:commandButton value="Generar" icon="ui-icon-check" styleClass="btn btn-info" 	style="padding:7px;"
-					actionListener="#{solicitudaBean.reporteVehiculoConductor}" update="frm:tbb" />&nbsp;&nbsp;&nbsp;
+					actionListener="#{solicitudaBean.reporteNovedades}" update="frm:tbb" />&nbsp;&nbsp;&nbsp;
 					<b:commandButton value="Volver"
 							action="#{solicitudaBean.volver()}" update="frm"
 							look="info" process="@this">
@@ -64,8 +50,7 @@
 				
 				</b:row>
 			</b:panel>
-
-				<b:panel title="Listado de Conductor por Veh&iacute;culos "
+				<b:panel title="Listado de Novedades"
 					look="primary">
 					<p:dataTable id="tbb"
 						value="#{solicitudaBean.listareporte}" reflow="true"

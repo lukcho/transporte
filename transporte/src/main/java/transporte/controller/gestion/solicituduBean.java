@@ -70,6 +70,7 @@ public class solicituduBean implements Serializable {
 	private String sol_conductor;
 	private String sol_conductornombre;
 	private String sol_usuario_cedula;
+	private String sol_usuario_nombre;
 	private String sol_correo;
 	private boolean sol_regresorigen;
 
@@ -259,6 +260,14 @@ public class solicituduBean implements Serializable {
 
 	public void setSol_usuario_cedula(String sol_usuario_cedula) {
 		this.sol_usuario_cedula = sol_usuario_cedula;
+	}
+
+	public String getSol_usuario_nombre() {
+		return sol_usuario_nombre;
+	}
+
+	public void setSol_usuario_nombre(String sol_usuario_nombre) {
+		this.sol_usuario_nombre = sol_usuario_nombre;
 	}
 
 	public Integer getSol_id() {
@@ -474,7 +483,7 @@ public class solicituduBean implements Serializable {
 						.addAll(managersol
 								.findAllSolicitudesOrdenados(sol_usuario_cedula));
 			} else {
-				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
+				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,sol_usuario_nombre,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
 						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo, sol_regresorigen);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
@@ -484,7 +493,7 @@ public class solicituduBean implements Serializable {
 						+"Estimado(a) Administrador. <br/>"
 						+"Le notificamos que posee una solitud de Transporte Pendiente.<br/><br/>"
 					//	+"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
-						+"Nombre del Solicitante: "+Funciones.utf8Sting(sol_usuario_cedula)+"<br/>"
+						+"Nombre del Solicitante: "+Funciones.utf8Sting(sol_usuario_nombre)+"<br/>"
 						+"Correo del Solicitante: "+Funciones.utf8Sting(sol_correo)+"<br/>"
 						+"Fecha de Petición: "+Funciones.dateToString(sol_fecha)+"<br/>"
 						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
@@ -594,6 +603,7 @@ public class solicituduBean implements Serializable {
 			sol_id = sol.getSolId();
 			// sol_idsolicitante = sol.getSolicitante();
 			sol_usuario_cedula = sol.getSolIdSolicitante();
+			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
 			if (sol.getTransVehiculo() == null)
@@ -884,6 +894,7 @@ public class solicituduBean implements Serializable {
 	public String volverSolicitud() throws Exception {
 		// limpiar datos
 		sol_usuario_cedula = usuario;
+		sol_usuario_nombre = usuario;
 		sol_id = null;
 		date = new Date();
 		// sol_idsolicitante = sol.getSolicitante();
@@ -978,8 +989,9 @@ public class solicituduBean implements Serializable {
 	public void BuscarPersona() {
 		try {
 			per = mc.funcionarioByDNI(usuario);
-			sol_usuario_cedula = per.getPerNombres() + " "
+			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
+			sol_usuario_cedula = per.getPerDNI();
 			sol_correo = per.getPerCorreo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
