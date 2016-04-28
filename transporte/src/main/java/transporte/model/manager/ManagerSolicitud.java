@@ -205,8 +205,7 @@ public class ManagerSolicitud {
 	 */
 	public void insertarSolicitud(Timestamp sol_fecha, String usuario_cedula,String usuario_nombre,
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
-			Time sol_hora_fin, boolean sol_flexibilidad, String sol_fcoid,
-			String correo, boolean sol_regresorigen) throws Exception {
+			Time sol_hora_fin, boolean sol_flexibilidad, String sol_fcoid, boolean sol_regresorigen) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		sol.setSolIdSolicitante(usuario_cedula);
 		sol.setSolNomSolicitante(usuario_nombre);
@@ -225,7 +224,6 @@ public class ManagerSolicitud {
 		sol.setSolHoraFin(sol_hora_fin);
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolEstado("P");
-		sol.setSolCorreo(correo);
 		sol.setSolRegresorigen(sol_regresorigen);
 		mDAO.insertar(sol);
 	}
@@ -260,7 +258,7 @@ public class ManagerSolicitud {
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
 			Time sol_hora_fin, boolean sol_flexibilidad,
 			String sol_observacion, String sol_estado, String sol_fcoid,
-			String sol_cond, String sol_correo, boolean sol_regresorigen,Timestamp sol_fecha_aprobacion, String[] listado)
+			String sol_cond, boolean sol_regresorigen,Timestamp sol_fecha_aprobacion, String[] listado)
 			throws Exception {
 		TransSolicitud sol = this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
@@ -281,7 +279,6 @@ public class ManagerSolicitud {
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolObservacion(sol_observacion);
 		sol.setSolEstado(sol_estado);
-		sol.setSolCorreo(sol_correo);
 		sol.setSolRegresorigen(sol_regresorigen);
 		String novedades="";
 		
@@ -313,7 +310,7 @@ public class ManagerSolicitud {
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
 			Time sol_hora_fin, boolean sol_flexibilidad,
 			String sol_observacion, String sol_estado, String sol_fcoid,
-			String sol_cond, String sol_correo, boolean sol_regresorigen)
+			String sol_cond, boolean sol_regresorigen)
 			throws Exception {
 		TransSolicitud sol = this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
@@ -336,7 +333,6 @@ public class ManagerSolicitud {
 		sol.setSolFlexibilidad(sol_flexibilidad);
 		sol.setSolObservacion(sol_observacion);
 		sol.setSolEstado(sol_estado);
-		sol.setSolCorreo(sol_correo);
 		sol.setSolRegresorigen(sol_regresorigen);
 		mDAO.actualizar(sol);
 	}

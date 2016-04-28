@@ -21,6 +21,7 @@ public class Persona {
 	private String perDiscapacidadCarnet;
 	private String cargo;
 	private String jefeInmediato;
+	private String correoJefeInmediato;
 	
 	public Persona() {}
 	
@@ -32,7 +33,7 @@ public class Persona {
 			String perApellidos, String perTelefono, String perCelular,
 			String perCorreo, String perPais, Date perFechaNacimiento,
 			String cargo, String jefeInmediato, String pergerencia,
-			String perDireccion, String perGenero,
+			String perDireccion, String perGenero,String correoJefeInmediato,
 			String perDiscapacidadTipo, String perDiscapacidadGrado,
 			String perDiscapacidadCarnet) {
 		this.perDNI = perDNI;
@@ -50,11 +51,20 @@ public class Persona {
 		this.perDiscapacidadTipo = perDiscapacidadTipo;
 		this.perDiscapacidadGrado = perDiscapacidadGrado;
 		this.perDiscapacidadCarnet = perDiscapacidadCarnet;
+		this.correoJefeInmediato = correoJefeInmediato;
 		
 		this.cargo = cargo;
 		this.jefeInmediato = jefeInmediato;
 	}
 	
+	public String getCorreoJefeInmediato() {
+		return correoJefeInmediato;
+	}
+
+	public void setCorreoJefeInmediato(String correoJefeInmediato) {
+		this.correoJefeInmediato = correoJefeInmediato;
+	}
+
 	public String getPerGerencia() {
 		return perGerencia;
 	}

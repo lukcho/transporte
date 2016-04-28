@@ -16,10 +16,10 @@
 				<h1>Gesti&oacute;n de Solicitudes</h1>
 			</center>
 			<b:row>
-<!-- 				<b:column span="1"> -->
-<!-- 					<b:commandButton value="Nuevo" iconAwesome="file-o" -->
-<!-- 						action="#{solicitudaBean.nuevoSolicitud()}" /> -->
-<!-- 				</b:column> -->
+				<!-- 				<b:column span="1"> -->
+				<!-- 					<b:commandButton value="Nuevo" iconAwesome="file-o" -->
+				<!-- 						action="#{solicitudaBean.nuevoSolicitud()}" /> -->
+				<!-- 				</b:column> -->
 				<b:column span="1">
 					<b:commandButton value="Volver" iconAwesome="angle-left"
 						action="index?faces-redirect=true" />
@@ -49,8 +49,7 @@
 							<p:column headerText="SOLICITUD" width="70">
 								<h:outputText value="#{sol.solId}"></h:outputText>
 							</p:column>
-							<p:column headerText="NOMBRE SOLICITANTE"
-								width="70">
+							<p:column headerText="NOMBRE SOLICITANTE" width="70">
 								<h:outputText value="#{sol.solNomSolicitante}"></h:outputText>
 							</p:column>
 							<p:column headerText="ORIGEN/DESTINO" width="100">
@@ -62,12 +61,9 @@
 								</h:outputText>
 							</p:column>
 							<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}"
-								filterMatchMode="contains" headerText="PLACA AUTOM&Oacute;VIL" width="70">
+								filterMatchMode="contains" headerText="PLACA AUTOM&Oacute;VIL"
+								width="70">
 								<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
-							</p:column>
-							<p:column headerText="FUNCIONARIO CON." width="100">
-								<h:outputText
-									value="#{sol1.transFuncionarioConductor.fcoNombres}"></h:outputText>
 							</p:column>
 							<p:column headerText="PASAJEROS" width="70">
 								<h:outputText value="#{sol.solPasajeros}"></h:outputText>
@@ -89,22 +85,23 @@
 						</p:dataTable>
 					</b:panel>
 				</b:tab>
-			<p:confirmDialog header="Confirmaci&oacute;n"
-				message="Está seguro de cambiar el estado?" closable="false"
-				showEffect="fade" hideEffect="explode" widgetVar="ce">
-				<h:form>
-					<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-						icon="ui-icon-check"
-						action="#{solicitudaBean.cambiarEstadoSoli()}"
-						oncomplete="PF('ce').hide();" update="frm" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						onclick="PF('ce').hide();" />
-				</h:form>
-			</p:confirmDialog>
+				<p:confirmDialog header="Confirmaci&oacute;n"
+					message="Está seguro de cambiar el estado?" closable="false"
+					showEffect="fade" hideEffect="explode" widgetVar="ce">
+					<h:form>
+						<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check"
+							action="#{solicitudaBean.cambiarEstadoSoli()}"
+							oncomplete="PF('ce').hide();" update="frm" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('ce').hide();" />
+					</h:form>
+				</p:confirmDialog>
 				<b:tab title="Listado de Solicitudes Aprobadas/Rechazadas/Anuladas">
 					<p:growl id="messages1" showDetail="true" />
-					<b:panel title="Listado de Solicitudes Aprobadas/Rechazadas/Anuladas"
+					<b:panel
+						title="Listado de Solicitudes Aprobadas/Rechazadas/Anuladas"
 						look="primary">
 						<p:dataTable id="tbb1"
 							value="#{solicitudaBean.listaSolicitudaprorecha}" reflow="true"
@@ -120,12 +117,12 @@
 							&nbsp;&nbsp;&nbsp;
 							
 							</p:column>
-							<p:column headerText="SOLICITUD" width="80">
+							<p:column filterBy="#{sol.solId}" filterMatchMode="contains"
+								headerText="SOLICITUD" width="120">
 								<h:outputText value="#{sol1.solId}"></h:outputText>
 							</p:column>
 							<p:column headerText="SOLICITANTE" width="100">
-								<h:outputText
-									value="#{sol1.solNomSolicitante}"></h:outputText>
+								<h:outputText value="#{sol1.solNomSolicitante}"></h:outputText>
 							</p:column>
 							<p:column headerText="ORIGEN/DESTINO" width="120">
 								<h:outputText
@@ -149,10 +146,6 @@
 							<p:column headerText="CONDUCTOR" width="100">
 								<h:outputText
 									value="#{sol1.transConductore.condNombre} #{sol1.transConductore.condApellido}"></h:outputText>
-							</p:column>
-							<p:column headerText="FUNCIONARIO CON." width="100">
-								<h:outputText
-									value="#{sol1.transFuncionarioConductor.fcoNombres}"></h:outputText>
 							</p:column>
 							<p:column headerText="FECHA APROBACI&Oacute;N" width="100">
 								<h:outputText value="#{sol1.solFechaAprobacion}">

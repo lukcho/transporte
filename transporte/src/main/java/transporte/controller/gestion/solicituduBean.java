@@ -485,7 +485,7 @@ public class solicituduBean implements Serializable {
 			} else {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,sol_usuario_nombre,
 						pasajeros, sol_motivo.trim(), horainiciotiemp,
-						horafintiemp, sol_flexibilidad, sol_fcoid,sol_correo, sol_regresorigen);
+						horafintiemp, sol_flexibilidad, sol_fcoid, sol_regresorigen);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				
 				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -499,7 +499,7 @@ public class solicituduBean implements Serializable {
 						+"Lugar Origen y Destino: "+managergest.LugarByID(sol_id_origen).getLugNombre()+" - "+managergest.LugarByID(sol_id_destino).getLugNombre()+"<br/>"
 						+"Hora Origen y Destino: "+horainiciotiemp.toString()+" - "+horafintiemp.toString()+"<br/>"
 						+"Número de Pasajeros: "+sol_pasajeros.toString()+"<br/><br/>"
-				    	+"Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos.<br/>"
+				    	+"Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
 						+"<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
 				
 				Mail.generateAndSendEmail("lcorrea@yachay.gob.ec","Petición de Vehículo", mensaje);
@@ -635,7 +635,6 @@ public class solicituduBean implements Serializable {
 			sol_flexibilidad = sol.getSolFlexibilidad();
 			sol_observacion = sol.getSolObservacion();
 			sol_estado = sol.getSolEstado();
-			sol_correo = sol.getSolCorreo();
 			sol_regresorigen=sol.getSolRegresorigen();
 			edicion = true;
 			ediciontipo = false;

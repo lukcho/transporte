@@ -160,16 +160,16 @@
 						</b:thumbnail>
 					</b:column>
 					<b:column span="3">
-						<h:outputLabel value="Funcionario Conductor:* " />
-						<h:panelGroup>
-							<h:selectOneMenu id="trackseleccionar21"
-								styleClass="form-control"
-								disabled="#{solicitudaBean.infomostrar}"
-								value="#{solicitudaBean.sol_fcoid}">
-								<f:selectItems
-									value="#{solicitudaBean.listaConductorfuncionario}" />
-							</h:selectOneMenu>
-						</h:panelGroup>
+<!-- 						<h:outputLabel value="Funcionario Conductor:* " /> -->
+<!-- 						<h:panelGroup> -->
+<!-- 							<h:selectOneMenu id="trackseleccionar21" -->
+<!-- 								styleClass="form-control" -->
+<!-- 								disabled="#{solicitudaBean.infomostrar}" -->
+<!-- 								value="#{solicitudaBean.sol_fcoid}"> -->
+<!-- 								<f:selectItems -->
+<!-- 									value="#{solicitudaBean.listaConductorfuncionario}" /> -->
+<!-- 							</h:selectOneMenu> -->
+<!-- 						</h:panelGroup> -->
 
 						<h:outputLabel value="Estado*"
 							rendered="#{solicitudaBean.edicion}" />
@@ -214,9 +214,10 @@
 							<f:selectItems value="#{catalogosBean.listaCategoriatodos}"
 								itemValue="#{catalogosBean.cat_id}" />
 						</p:selectCheckboxMenu>
-						<b:inputText value="#{solicitudaBean.sol_novedades}" rendered="#{solicitudaBean.mostrarnovedades}"
+						<br /><br />
+						<b:inputTextarea value="#{solicitudaBean.sol_novedades}" fieldSize="2" rows="2" rendered="#{solicitudaBean.mostrarnovedades}"
 							disabled="true">
-						</b:inputText>
+						</b:inputTextarea>
 					</b:column>
 				</b:row>
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
