@@ -59,11 +59,6 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>1.0.10</version>
-		</dependency>
 		<!-- DATA EXPORT -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>

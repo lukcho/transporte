@@ -1,7 +1,6 @@
 package transporte.model.dao.entities;
 
 import java.util.Date;
-import java.sql.Time;
 
 public class Novedades {
 

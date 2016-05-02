@@ -4,7 +4,6 @@ import java.util.List;
 
 import transporte.general.connection.SingletonJDBC;
 import transporte.model.dao.entities.Novedades;
-import transporte.model.dao.entities.PersonaFuncionario;
 import transporte.model.manager.ManagerCarga;
 
 public class test {
