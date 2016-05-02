@@ -1,13 +1,16 @@
 package transporte.model.manager;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import transporte.general.connection.SingletonJDBC;
-import transporte.model.dao.entities.Datos;
+import transporte.general.connection.SingletonJDBCtrans;
+import transporte.model.dao.entities.Novedades;
 import transporte.model.dao.entities.Persona;
 import transporte.model.dao.entities.PersonaFuncionario;
+import transporte.model.generic.Funciones;
 
 /**
  * Contiene la lógica de negocio para realizar el proceso de reserva de sitios
@@ -18,9 +21,11 @@ import transporte.model.dao.entities.PersonaFuncionario;
 public class ManagerCarga {
 
 	private SingletonJDBC conDao;
+	private SingletonJDBCtrans conDaotrans;
 
 	public ManagerCarga() {
 		conDao = SingletonJDBC.getInstance();
+		conDaotrans = SingletonJDBCtrans.getInstance();
 	}
 
 	/**
@@ -126,94 +131,91 @@ public class ManagerCarga {
 		return filterUsers;
 	}
 	
+	/**
+	 * Devuelve las novedades por dni
+	 * 
+	 * @param dni
+	 * @return Funcionario
+	 * @throws Exception
+	 */
+	public List<Novedades> FindAllNovedades() throws Exception {
+		Novedades f = null;
+		List<Novedades> filterUsers = new ArrayList<Novedades>();
+		ResultSet consulta = conDaotrans
+				.consultaSQL("SELECT s.sol_id as numerosolicitud,s.sol_id_solicitante as cedula, s.sol_nom_solicitante as nombresolicitante, "
+					+	" (select  lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_origen)||' - '|| "
+					+	" (select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, " 
+					+	" s.sol_fecha_aprobacion as fecha_aprobacion,s.sol_hora_inicio as hora_inicio, s.sol_hora_fin as hora_fin, s.sol_estado as estado, tb.gerencia, tb.direccion, "
+					+	" s.sol_novedades as novedades from trans_solicitud s,  "
+					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h port=5432',' " 
+					+	" SELECT f.per_id , f.fun_gerencia, f.fun_direccion "
+					+	" FROM gen_funcionario f ' ) as tb(dni name, gerencia name, direccion name ) "
+					+	" where s.sol_id_solicitante = tb.dni "
+					+	" and s.sol_novedades not like '' Order by fecha desc ");
+				
+				System.out.println(consulta);
+		if (consulta != null) {
+			while(consulta.next()){
+				f = new Novedades();
+				f.setSol_Id(Integer.parseInt(consulta.getString("numerosolicitud")));
+				f.setSol_usuario_Cedula(consulta.getString("cedula"));
+				f.setSol_usuario_Nombre(consulta.getString("nombresolicitante"));
+				f.setSol_lugarordes(consulta.getString("lugardestino"));
+				f.setSol_Fecha(new Timestamp(Funciones.stringToDate(consulta.getString("fecha")).getTime()));
+				f.setSol_Fecha_Aprobacion(new Timestamp(Funciones.stringToDate(consulta.getString("fecha_aprobacion")).getTime()));
+				f.setSol_Hora_Inicio(consulta.getString("hora_inicio"));
+				f.setSol_Hora_Fin(consulta.getString("hora_fin"));
+				f.setSol_Estado(consulta.getString("estado"));
+				f.setSol_Gerencia(consulta.getString("gerencia"));
+				f.setSol_Direccion(consulta.getString("direccion"));
+				f.setSol_Novedades(consulta.getString("novedades"));
+				filterUsers.add(f);
+			}
+		}
+		return filterUsers;
+	}
 	
-	public List<Datos> estadoEvaluaciones(String periodo, String gerencia, String direccion, String estado) throws Exception{
-		  List<Datos> listDatos = new ArrayList<Datos>();
-		  ResultSet consulta =  conDao.consultaSQL("select te.evaluado, per.per_apellidos||' '||per.per_nombres as nevaluado,"
-		    + " te.evaluador, (select pe.per_apellidos||' '||pe.per_nombres from gen_persona pe "
-		    + " where pe.per_id= te.evaluador) as nevaluador , fu.fun_gerencia as gerencia, fu.fun_direccion as direccion,"
-		    + " fu.fun_tipo as tipoF, fu.fun_tipo_evaluacion as tipoE, te.categoria, fu.fun_jefe_inmediato as jefe,"
-		    + " (select p.per_apellidos||' '||p.per_nombres from gen_persona p where p.per_id =fu.fun_jefe_inmediato )as nombreJefe,"
-		    + " te.estado from gen_persona per, gen_funcionario fu,"
-		    + " dblink(dbname=evaper_yachay port=5432 host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h , "
-		    + " 'SELECT ee.prd_id, ee.per_id_encuestado, ee.per_id_encuestador, ee.evf_categoria, ee.evf_estado, "
-		    + " (case when evf_estado=''E'' then ''EVALUACIÓN REALIZADA'' else ''POR EVALUAR'' end ) as estado"
-		    + " from evaper_evaluacionfuncionario ee ')"
-		    + " AS te(periodo name, evaluado name, evaluador name, categoria name, idestado name, estado name) "
-		    + " where per.per_id= fu.per_id and per.per_id= te.evaluado"
-		    + " and fu.fun_gerencia like '"+gerencia+"' " 
-		    + " and fu.fun_direccion like '"+direccion+"'"
-		    + " and te.periodo='"+periodo+"'"
-		    + " and te.idestado like '"+estado+"' ;");
-		  if(consulta!=null){
-		   while(consulta.next()){
-//		    Datos d = new Datos();
-//		    d.setDniEvaluado(consulta.getString("evaluado"));
-//		    d.setnEvaluado(consulta.getString("nevaluado"));
-//		    d.setDniEvaluador(consulta.getString("evaluador"));
-//		    d.setnEvaluador(consulta.getString("nevaluador"));
-//		    d.setGerencia(consulta.getString("gerencia"));
-//		    d.setDireccion(consulta.getString("direccion"));
-//		    d.setTipo(consulta.getString("tipoF"));
-//		    d.setTipoEvaluacion(consulta.getString("tipoE"));
-//		    d.setCategoria(consulta.getString("categoria"));
-//		    d.setJefeInmediato(consulta.getString("jefe"));
-//		    d.setNombreJefe(consulta.getString("nombreJefe"));
-//		    d.setEstadoEv(consulta.getString("estado"));
-//		    listDatos.add(d);
-//		    d=null;
-		   }
-		  }
-		  else throw new Exception("No se ha podido obtener información.");
-		  return listDatos;
-		 }
-	
-//	select s.sol_id as numerosolicitud, s.sol_nom_solicitante as nombresolicitante, 
-//	(select  lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_origen)||' '||(select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, 
-//	s.sol_fecha_aprobacion as fecha_aprobacion, s.sol_estado as estado, 
-//	s.sol_novedades as novedades from trans_solicitud s
-//	select 	te.evaluado, per.per_apellidos||' '||per.per_nombres as nevaluado,
-//    te.evaluador, (select pe.per_apellidos||' '||pe.per_nombres from gen_persona pe 
-//    where pe.per_id= te.evaluador) as nevaluador , fu.fun_gerencia as gerencia, fu.fun_direccion as direccion,
-//    fu.fun_tipo as tipoF, fu.fun_tipo_evaluacion as tipoE, te.categoria, fu.fun_jefe_inmediato as jefe,
-//    (select p.per_apellidos||' '||p.per_nombres from gen_persona p where p.per_id =fu.fun_jefe_inmediato )as nombreJefe,
-//    te.estado from gen_persona per, gen_funcionario fu,
-//    dblink(dbname=evaper_yachay port=5432 host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h , 
-//    SELECT ee.prd_id, ee.per_id_encuestado, ee.per_id_encuestador, ee.evf_categoria, ee.evf_estado, 
-//    (case when evf_estado=''E'' then ''EVALUACIÓN REALIZADA'' else ''POR EVALUAR'' end ) as estado
-//    from evaper_evaluacionfuncionario ee)
-//    AS te(periodo name, evaluado name, evaluador name, categoria name, idestado name, estado name) 
-//    where per.per_id= fu.per_id and per.per_id= te.evaluado
-//    and fu.fun_gerencia like 'gerencia' 
-//    and fu.fun_direccion like 'direccion'
-//    and te.periodo='periodo'
-//    and te.idestado like 'estado';
-//
-//
-//select s.sol_id as numerosolicitud, s.sol_nom_solicitante as nombresolicitante, 
-//(select  lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_origen)||' '||(select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, 
-//s.sol_fecha_aprobacion as fecha_aprobacion, s.sol_estado as estado, 
-//s.sol_novedades as novedades from trans_solicitud s
-//
-//dblink(dbname=evaper_yachay port=5432 host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h , 
-//SELECT ee.prd_id, ee.per_id_encuestado, ee.per_id_encuestador, ee.evf_categoria, ee.evf_estado, 
-//    (case when evf_estado=''E'' then ''EVALUACIÓN REALIZADA'' else ''POR EVALUAR'' end ) as estado
-//    from evaper_evaluacionfuncionario ee)
-//    AS te(periodo name, evaluado name, evaluador name, categoria name, idestado name, estado name) 
-//    where per.per_id= fu.per_id and per.per_id= te.evaluado
-//    and fu.fun_gerencia like 'gerencia' 
-//    and fu.fun_direccion like 'direccion'
-//    and te.periodo='periodo'
-//    and te.idestado like 'estado';
-//
-//
-//dblink(dbname=evaper_yachay host= '10.1.0.158' user=adm_svcyachay password='_50STg-FGh2h' port='5432', 
-//SELECT p.per_id as dni , p.per_nombres as nombres, 
-//				 p.per_apellidos as apellidos, p.per_correo as correo, 
-//				 f.fun_cargo as cargo, f.fun_jefe_inmediato as jefe, f.fun_gerencia as gerencia, f.fun_direccion as direccion, 
-//				 (select pe.per_nombres||' '||pe.per_apellidos 
-//				 from gen_persona pe where pe.per_id=f.fun_jefe_inmediato) as nombreJefe 
-//				 FROM gen_persona p INNER JOIN gen_usuario u ON p.per_id = u.per_id 
-//				 INNER JOIN gen_funcionario f  on f.per_id = u.per_id 
-//				 WHERE u.usu_login = 'aquina';
+	/**
+	 * Devuelve las novedades por dni
+	 * 
+	 * @param dni
+	 * @return Funcionario
+	 * @throws Exception
+	 */
+	public List<Novedades> FindAllNovedadesByFecha(Timestamp fechai, Timestamp fechaf) throws Exception {
+		Novedades f = null;
+		List<Novedades> filterUsers = new ArrayList<Novedades>();
+		ResultSet consulta = conDaotrans
+				.consultaSQL("SELECT s.sol_id as numerosolicitud,s.sol_id_solicitante as cedula, s.sol_nom_solicitante as nombresolicitante, "
+					+	" (select  lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_origen)||' - '|| "
+					+	" (select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, " 
+					+	" s.sol_fecha_aprobacion as fecha_aprobacion,s.sol_hora_inicio as hora_inicio, s.sol_hora_fin as hora_fin, s.sol_estado as estado, tb.gerencia, tb.direccion, "
+					+	" s.sol_novedades as novedades from trans_solicitud s,  "
+					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h port=5432',' " 
+					+	" SELECT f.per_id , f.fun_gerencia, f.fun_direccion "
+					+	" FROM gen_funcionario f ' ) as tb(dni name, gerencia name, direccion name ) "
+					+	" where s.sol_id_solicitante = tb.dni and s.sol_fecha between "
+					+   " '"+ fechai +"' and  '"+fechaf +"' "
+					+	" and s.sol_novedades not like '' Order by s.sol_fecha desc ");
+		if (consulta != null) {
+			while(consulta.next()){
+				f = new Novedades();
+				f.setSol_Id(Integer.parseInt(consulta.getString("numerosolicitud")));
+				f.setSol_usuario_Cedula(consulta.getString("cedula"));
+				f.setSol_usuario_Nombre(consulta.getString("nombresolicitante"));
+				f.setSol_lugarordes(consulta.getString("lugardestino"));
+				f.setSol_Fecha(new Timestamp(Funciones.stringToDate(consulta.getString("fecha")).getTime()));
+				f.setSol_Fecha_Aprobacion(new Timestamp(Funciones.stringToDate(consulta.getString("fecha_aprobacion")).getTime()));
+				f.setSol_Hora_Inicio(consulta.getString("hora_inicio"));
+				f.setSol_Hora_Fin(consulta.getString("hora_fin"));
+				f.setSol_Estado(consulta.getString("estado"));
+				f.setSol_Gerencia(consulta.getString("gerencia"));
+				f.setSol_Direccion(consulta.getString("direccion"));
+				f.setSol_Novedades(consulta.getString("novedades"));
+				filterUsers.add(f);
+			}
+		}
+		return filterUsers;
+	}
+
 }

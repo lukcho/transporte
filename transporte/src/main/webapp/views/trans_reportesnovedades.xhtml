@@ -22,7 +22,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha Inicio: " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="2">
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Inicio" id="fechai"
 							value="#{solicitudaBean.fi}" pattern="yyyy/MM/dd" mask="true">
@@ -31,76 +31,83 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha Fin: " />
 					</b:column>
-					<p:column span="4">
+					<p:column span="2">
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Fin" id="fechaf"
 							value="#{solicitudaBean.ff}" pattern="yyyy/MM/dd" mask="true">
 						</p:calendar>
+					</p:column>&nbsp;&nbsp;&nbsp;
+					<p:column span="2">
+					<p:commandButton value="Todas las Novedades" icon="ui-icon-check" styleClass="btn btn-info" 	style="padding:7px;"
+					actionListener="#{solicitudaBean.reporteAllNovedades()}" process="@this" update="frm:tbb" />
 					</p:column>
 				</b:row>
 				<b:row>
 					<b:column span="5">
-				<p:commandButton value="Generar" icon="ui-icon-check" styleClass="btn btn-info" 	style="padding:7px;"
-					actionListener="#{solicitudaBean.reporteNovedades}" update="frm:tbb" />&nbsp;&nbsp;&nbsp;
-					<b:commandButton value="Volver"
-							action="#{solicitudaBean.volver()}" update="frm"
-							look="info" process="@this">
+						<p:commandButton value="Generar" icon="ui-icon-check"
+							styleClass="btn btn-info" style="padding:7px;"
+							actionListener="#{solicitudaBean.reporteNovedades}"
+							update="frm:tbb" />&nbsp;&nbsp;&nbsp;
+					<b:commandButton value="Volver" action="#{solicitudaBean.volver()}"
+							update="frm" look="info" process="@this">
 						</b:commandButton>
-				</b:column>
-				
+					</b:column>
+
 				</b:row>
 			</b:panel>
-				<b:panel title="Listado de Novedades"
-					look="primary">
-					<p:dataTable id="tbb"
-						value="#{solicitudaBean.listareporte}" reflow="true"
-						var="sol" rows="8" emptyMessage="Sin Datos" paginator="true"
-						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-						<p:column headerText="FECHA" width="70">
-							<h:outputText value="#{sol.solFecha}">
-								<f:convertDateTime pattern="yyyy/MM/dd" />
-							</h:outputText>
-						</p:column>
-						<p:column filterBy="#{sol.transVehiculo.vehiIdplaca}"
-							filterMatchMode="contains" headerText="PLACA AUTO" width="70">
-							<h:outputText value="#{sol.transVehiculo.vehiIdplaca}"></h:outputText>
-						</p:column>
-						<p:column filterBy="#{sol.transConductore.condCedula}"
-							filterMatchMode="contains" headerText="CONDUCTOR" width="70">
-							<h:outputText
-								value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
-						</p:column>
-						<p:column filterBy="#{sol.solIdSolicitante}"
-							filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"
-							width="70">
-							<h:outputText value="#{sol.solIdSolicitante}"></h:outputText>
-						</p:column>
-						<p:column headerText="ORIGEN/DESTINO" width="100">
-							<h:outputText
-								value="#{sol.transLugare2.lugNombre} - #{sol.transLugare1.lugNombre}"></h:outputText>
-						</p:column>
-						<p:column headerText="HORA INICIO/FIN" width="100">
-							<h:outputText value="#{sol.solHoraInicio} - #{sol.solHoraFin}">
-							</h:outputText>
-						</p:column>
-					</p:dataTable>
-					<h3>Exportar Datos</h3>
+			<b:panel title="Listado de Novedades" look="primary">
+				<p:dataTable id="tbb" value="#{solicitudaBean.listaNovedades}"
+					reflow="true" var="sol" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="GERENCIA" width="70">
+						<h:outputText value="#{sol.sol_Gerencia}">
+						</h:outputText>
+					</p:column>
+					<p:column filterBy="#{sol.sol_Direccion}"
+						filterMatchMode="contains" headerText="DIRECCION" width="70">
+						<h:outputText value="#{sol.sol_Direccion}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{sol.sol_usuario_Cedula}"
+						filterMatchMode="contains" headerText="CED. SOLICITANTE"
+						width="70">
+						<h:outputText value="#{sol.sol_usuario_Cedula}"></h:outputText>
+					</p:column>
+					<p:column headerText="NOMBRE SOLICITANTE" width="100">
+						<h:outputText value="#{sol.sol_usuario_Nombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="FECHA" width="100">
+						<h:outputText value="#{sol.sol_Fecha}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="LUGAR ORIGEN/DESTINO" width="100">
+						<h:outputText value="#{sol.sol_lugarordes}"></h:outputText>
+					</p:column>
+					<p:column headerText="HORA INICIO/FIN" width="100">
+						<h:outputText value="#{sol.sol_Hora_Inicio} - #{sol.sol_Hora_Fin}"></h:outputText>
+					</p:column>
+					<p:column headerText="NOVEDADES" width="100">
+						<h:outputText value="#{sol.sol_Novedades}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+				<h3>Exportar Datos</h3>
+				<h:commandButton style="width:40px;height:40px" ajax="false"
+					image="/resources/img/excel.png">
+					<p:dataExporter type="xls" target="tbb" fileName="rpttransporte"
+						pageOnly="true" />
+				</h:commandButton>&nbsp;&nbsp;&nbsp;
 					<h:commandButton style="width:40px;height:40px" ajax="false"
-						image="/resources/img/excel.png">
-						<p:dataExporter type="xls" target="tbb" fileName="rpttransporte"
-							pageOnly="true" />
-					</h:commandButton>&nbsp;&nbsp;&nbsp;
-					<h:commandButton style="width:40px;height:40px" ajax="false"
-						image="/resources/img/pdf.png">
-						<p:dataExporter type="pdf" target="tbb" fileName="rpttransporte"
-							pageOnly="false" />
-					</h:commandButton>&nbsp;&nbsp;&nbsp;
+					image="/resources/img/pdf.png">
+					<p:dataExporter type="pdf" target="tbb" fileName="rpttransporte"
+						pageOnly="false" />
+				</h:commandButton>&nbsp;&nbsp;&nbsp;
 					
 					<h:commandButton style="width:40px;height:40px" ajax="false"
-						image="/resources/img/csv.png">
-						<p:dataExporter type="csv" target="tbb" fileName="rpttransporte"
-							pageOnly="true" />
-					</h:commandButton>&nbsp;&nbsp;&nbsp;
+					image="/resources/img/csv.png">
+					<p:dataExporter type="csv" target="tbb" fileName="rpttransporte"
+						pageOnly="true" />
+				</h:commandButton>&nbsp;&nbsp;&nbsp;
 				</b:panel>
 		</h:form>
 		<br />

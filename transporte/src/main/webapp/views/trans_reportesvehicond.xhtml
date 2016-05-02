@@ -22,7 +22,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha Inicio: " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="2">
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Inicio" id="fechai"
 							value="#{solicitudaBean.fi}" pattern="yyyy/MM/dd" mask="true">
@@ -31,7 +31,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Fecha Fin: " />
 					</b:column>
-					<p:column span="4">
+					<p:column span="2">
 						<p:calendar required="true" mode="popup"
 							requiredMessage="Requerido Fecha Fin" id="fechaf"
 							value="#{solicitudaBean.ff}" pattern="yyyy/MM/dd" mask="true">
@@ -42,7 +42,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Veh&iacute;culo: " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="5">
 						<h:panelGroup>
 							<h:selectOneMenu id="trackseleccionar5" styleClass="form-control"
 								value="#{solicitudaBean.sol_vehi}">
@@ -50,6 +50,10 @@
 								<f:selectItems value="#{solicitudaBean.listaVehiculo}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
+					</b:column>
+					<b:column span="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<p:commandButton value="Listar Todos" icon="ui-icon-check" styleClass="btn btn-info" 	style="padding:7px;"
+					actionListener="#{solicitudaBean.reporteFindAllVehiculo}" update="frm:tbb" />
 					</b:column>
 				</b:row>
 				<b:row>
@@ -84,11 +88,6 @@
 							filterMatchMode="contains" headerText="CONDUCTOR" width="70">
 							<h:outputText
 								value="#{sol.transConductore.condNombre} #{sol.transConductore.condApellido}"></h:outputText>
-						</p:column>
-						<p:column filterBy="#{sol.transFuncionarioConductor.fcoNombres}"
-							filterMatchMode="contains" headerText="CONDUCTOR FUNCIONARIO"
-							width="70">
-							<h:outputText value="#{sol.transFuncionarioConductor.fcoNombres}"></h:outputText>
 						</p:column>
 						<p:column filterBy="#{sol.solIdSolicitante}"
 							filterMatchMode="contains" headerText="NOMBRE SOLICITANTE"

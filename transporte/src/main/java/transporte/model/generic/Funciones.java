@@ -165,7 +165,7 @@ public class Funciones {
 	 * @throws ParseException
 	 */
 	public static Date stringToDate(String fecha) throws ParseException{
-		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		if(fecha.isEmpty())
 			return null;
 		else
