@@ -824,123 +824,123 @@ public class solicitudaBean implements Serializable {
 										.getCondCorreo(),
 								"Solicitud de Vehículo", mensajeconductor);
 					} else {
-						mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-								+ "<meta name='viewport' content='width=device-width'></head><body>"
-								+ "Estimado(a) Solicitante: "
-								+ Funciones.utf8Sting(sol_usuario_nombre)
-								+ ",<br/>"
-								+ "Le notificamos que su solitud de Transporte fue: "
-								+ Funciones.utf8Sting(sol_estadonombre)
-								+ ", <br/><br/>"
-								+ "Número de Solicitud: "
-								+ Funciones.utf8Sting(sol_id.toString())
-								+ "<br/>"
-								+ "Fecha de Petición: "
-								+ Funciones.dateToString(sol_fecha)
-								+ "<br/>"
-								+ "Lugar Origen y Destino: "
-								+ managergest.LugarByID(sol_id_origen)
-										.getLugNombre()
-								+ " - "
-								+ managergest.LugarByID(sol_id_destino)
-										.getLugNombre()
-								+ "<br/>"
-								+ "Hora Origen y Destino: "
-								+ horainiciotiemp.toString()
-								+ " - "
-								+ horafintiemp.toString()
-								+ "<br/>"
-								+ "Número de Pasajeros: "
-								+ sol_pasajeros.toString()
-								+ "<br/>"
-								+ "Nombre del Conductor Funcionario: "
-								+ Funciones.utf8Sting(managergest
-										.conductorfunByID(sol_fcoid)
-										.getFcoNombres())
-								+ "<br/>"
-								+ "Correo del Conductor Funcionario: "
-								+ Funciones.utf8Sting(managergest
-										.conductorfunByID(sol_fcoid)
-										.getFcoCorreo())
-								+ "<br/>"
-								+ "Número de teléfono: "
-								+ Funciones.utf8Sting(managergest
-										.conductorfunByID(sol_fcoid)
-										.getFcoTelefono())
-								+ "<br/>"
-								+ "Vehículo con Placas: "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiIdplaca())
-								+ " - "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiNombre())
-								+ " "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiMarca())
-								+ " "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiModelo())
-								+ "<br/><br/>"
-								+ "Observaciónes: "
-								+ Funciones.utf8Sting(sol_observacion)
-								+ "<br/><br/>"
-								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
-								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
-
-						mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-								+ "<meta name='viewport' content='width=device-width'></head><body>"
-								+ "Estimado(a) "
-								+ Funciones.utf8Sting(managergest
-										.conductorfunByID(sol_fcoid)
-										.getFcoNombres())
-								+ "<br/>"
-								+ "Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
-								+ "Número de Solicitud: "
-								+ Funciones.utf8Sting(sol_id.toString())
-								+ "<br/>"
-								+ "Fecha de Petición: "
-								+ Funciones.dateToString(sol_fecha)
-								+ "<br/>"
-								+ "Lugar Origen y Destino: "
-								+ managergest.LugarByID(sol_id_origen)
-										.getLugNombre()
-								+ " - "
-								+ managergest.LugarByID(sol_id_destino)
-										.getLugNombre()
-								+ "<br/>"
-								+ "Hora Origen y Destino: "
-								+ horainiciotiemp.toString()
-								+ " - "
-								+ horafintiemp.toString()
-								+ "<br/>"
-								+ "Número de Pasajeros: "
-								+ sol_pasajeros.toString()
-								+ "<br/>"
-								+ "Vehículo con Placas: "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiIdplaca())
-								+ " - "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiNombre())
-								+ " "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiMarca())
-								+ " "
-								+ Funciones.utf8Sting(managergest.vehiculoByID(
-										sol_vehi).getVehiModelo())
-								+ "<br/><br/>"
-								+ "Observaciónes: "
-								+ Funciones.utf8Sting(sol_observacion)
-								+ "<br/><br/>"
-								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
-								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
-
-						Mail.generateAndSendEmail(sol_correo,
-								"Respuesta de Vehículo", mensaje);
-						Mail.generateAndSendEmail(
-								managergest.conductorfunByID(sol_fcoid)
-										.getFcoCorreo(),
-								"Solicitud de Vehículo", mensajeconductor);
+//						mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+//								+ "<meta name='viewport' content='width=device-width'></head><body>"
+//								+ "Estimado(a) Solicitante: "
+//								+ Funciones.utf8Sting(sol_usuario_nombre)
+//								+ ",<br/>"
+//								+ "Le notificamos que su solitud de Transporte fue: "
+//								+ Funciones.utf8Sting(sol_estadonombre)
+//								+ ", <br/><br/>"
+//								+ "Número de Solicitud: "
+//								+ Funciones.utf8Sting(sol_id.toString())
+//								+ "<br/>"
+//								+ "Fecha de Petición: "
+//								+ Funciones.dateToString(sol_fecha)
+//								+ "<br/>"
+//								+ "Lugar Origen y Destino: "
+//								+ managergest.LugarByID(sol_id_origen)
+//										.getLugNombre()
+//								+ " - "
+//								+ managergest.LugarByID(sol_id_destino)
+//										.getLugNombre()
+//								+ "<br/>"
+//								+ "Hora Origen y Destino: "
+//								+ horainiciotiemp.toString()
+//								+ " - "
+//								+ horafintiemp.toString()
+//								+ "<br/>"
+//								+ "Número de Pasajeros: "
+//								+ sol_pasajeros.toString()
+//								+ "<br/>"
+//								+ "Nombre del Conductor Funcionario: "
+//								+ Funciones.utf8Sting(managergest
+//										.conductorfunByID(sol_fcoid)
+//										.getFcoNombres())
+//								+ "<br/>"
+//								+ "Correo del Conductor Funcionario: "
+//								+ Funciones.utf8Sting(managergest
+//										.conductorfunByID(sol_fcoid)
+//										.getFcoCorreo())
+//								+ "<br/>"
+//								+ "Número de teléfono: "
+//								+ Funciones.utf8Sting(managergest
+//										.conductorfunByID(sol_fcoid)
+//										.getFcoTelefono())
+//								+ "<br/>"
+//								+ "Vehículo con Placas: "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiIdplaca())
+//								+ " - "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiNombre())
+//								+ " "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiMarca())
+//								+ " "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiModelo())
+//								+ "<br/><br/>"
+//								+ "Observaciónes: "
+//								+ Funciones.utf8Sting(sol_observacion)
+//								+ "<br/><br/>"
+//								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+//								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
+//
+//						mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+//								+ "<meta name='viewport' content='width=device-width'></head><body>"
+//								+ "Estimado(a) "
+//								+ Funciones.utf8Sting(managergest
+//										.conductorfunByID(sol_fcoid)
+//										.getFcoNombres())
+//								+ "<br/>"
+//								+ "Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
+//								+ "Número de Solicitud: "
+//								+ Funciones.utf8Sting(sol_id.toString())
+//								+ "<br/>"
+//								+ "Fecha de Petición: "
+//								+ Funciones.dateToString(sol_fecha)
+//								+ "<br/>"
+//								+ "Lugar Origen y Destino: "
+//								+ managergest.LugarByID(sol_id_origen)
+//										.getLugNombre()
+//								+ " - "
+//								+ managergest.LugarByID(sol_id_destino)
+//										.getLugNombre()
+//								+ "<br/>"
+//								+ "Hora Origen y Destino: "
+//								+ horainiciotiemp.toString()
+//								+ " - "
+//								+ horafintiemp.toString()
+//								+ "<br/>"
+//								+ "Número de Pasajeros: "
+//								+ sol_pasajeros.toString()
+//								+ "<br/>"
+//								+ "Vehículo con Placas: "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiIdplaca())
+//								+ " - "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiNombre())
+//								+ " "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiMarca())
+//								+ " "
+//								+ Funciones.utf8Sting(managergest.vehiculoByID(
+//										sol_vehi).getVehiModelo())
+//								+ "<br/><br/>"
+//								+ "Observaciónes: "
+//								+ Funciones.utf8Sting(sol_observacion)
+//								+ "<br/><br/>"
+//								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+//								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
+//
+//						Mail.generateAndSendEmail(sol_correo,
+//								"Respuesta de Vehículo", mensaje);
+//						Mail.generateAndSendEmail(
+//								managergest.conductorfunByID(sol_fcoid)
+//										.getFcoCorreo(),
+//								"Solicitud de Vehículo", mensajeconductor);
 					}
 
 					sol_id = null;

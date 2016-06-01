@@ -14,8 +14,8 @@ import java.sql.Statement;
 public class SingletonJDBC {
 
 	private static String URL = "jdbc:postgresql://10.1.0.158:5432/yachay";
-	private static String USER = "adm_svcyachay";
-	private static String PASS = "_50STg-FGh2h";
+	private static String USER = "adm_bicichay";
+	private static String PASS = "y-4IO4SDwu_!";
 	private static String CONTROLER = "org.postgresql.Driver"; 
 
 	private static SingletonJDBC jdbc;

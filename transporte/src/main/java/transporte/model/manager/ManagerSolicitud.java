@@ -212,8 +212,8 @@ public class ManagerSolicitud {
 		cargafecha();
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
-		if (!sol_fcoid.equals("Ninguno"))
-			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
+//		if (!sol_fcoid.equals("Ninguno"))
+//			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
 		sol.setTransVehiculo(trans_vehi);
 		sol.setTransConductore(trans_con);
 		sol.setSolFechaCreacion(fecha_creacion);
@@ -263,9 +263,9 @@ public class ManagerSolicitud {
 		TransSolicitud sol = this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
-		if (!sol_fcoid.equals("Ninguno"))
-			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
-		else
+//		if (!sol_fcoid.equals("Ninguno"))
+//			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
+//		else
 			sol.setTransFuncionarioConductor(null);
 		if (!sol_cond.equals("Ninguno"))
 			sol.setTransConductore(mGes.conductorByID(sol_cond));
@@ -315,10 +315,10 @@ public class ManagerSolicitud {
 		TransSolicitud sol = this.solicitudByID(sol_id);
 		sol.setTransLugare2(trans_lugori);
 		sol.setTransLugare1(trans_lugdes);
-		if (!sol_fcoid.equals("Ninguno"))
-			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
-		else
-			sol.setTransFuncionarioConductor(null);
+//		if (!sol_fcoid.equals("Ninguno"))
+//			sol.setTransFuncionarioConductor(mGes.conductorfunByID(sol_fcoid));
+//		else
+//			sol.setTransFuncionarioConductor(null);
 		if (!sol_cond.equals("Ninguno"))
 			sol.setTransConductore(mGes.conductorByID(sol_cond));
 		sol.setTransVehiculo(trans_vehi);
@@ -463,9 +463,9 @@ public class ManagerSolicitud {
 	public TransFuncionarioConductor asignarConductorfuncionario(
 			String confun_id) {
 		try {
-			if (!confun_id.isEmpty())
-				trans_fco = mGes.conductorfunByID(confun_id);
-			else
+//			if (!confun_id.isEmpty())
+//				trans_fco = mGes.conductorfunByID(confun_id);
+//			else
 				trans_fco = null;
 		} catch (Exception e) {
 			// TODO Auto-generated prodch block

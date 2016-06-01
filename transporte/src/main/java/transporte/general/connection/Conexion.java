@@ -8,8 +8,8 @@ import java.sql.Statement;
 public class Conexion {
 
     public String URL="jdbc:postgresql://10.1.0.158:5432/yachay";
-    public String USER="adm_svcyachay";
-    public String PASS="_50STg-FGh2h";
+    public String USER="adm_bicichay";
+    public String PASS="y-4IO4SDwu_!";
     public String CONTROLER="org.postgresql.Driver";
 
 

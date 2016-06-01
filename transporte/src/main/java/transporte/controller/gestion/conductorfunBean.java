@@ -86,7 +86,7 @@ public class conductorfunBean implements Serializable {
 		ediciontipo = false;
 		ocultarbusqueda = true;
 		mostrarcondf_id = false;
-		listaConductoresFun = managergest.findAllConductoresFuncionarios();
+//		listaConductoresFun = managergest.findAllConductoresFuncionarios();
 		hashpersonfun = new HashMap<String, PersonaFuncionario>();
 
 	}
@@ -209,18 +209,18 @@ public class conductorfunBean implements Serializable {
 		this.listaConductoresFun = listaConductoresFun;
 	}
 
-	// metodo para listar los conductores
-	public List<TransFuncionarioConductor> ListaConductoresFunSin() {
-		List<TransFuncionarioConductor> a = managergest
-				.findAllConductoresFuncionarios();
-		List<TransFuncionarioConductor> l1 = new ArrayList<TransFuncionarioConductor>();
-		for (TransFuncionarioConductor t : a) {
-			if (!t.getFcoId().equals("Ninguno")) {
-				l1.add(t);
-			}
-		}
-		return l1;
-	}
+//	// metodo para listar los conductores
+//	public List<TransFuncionarioConductor> ListaConductoresFunSin() {
+//		List<TransFuncionarioConductor> a = managergest
+//				.findAllConductoresFuncionarios();
+//		List<TransFuncionarioConductor> l1 = new ArrayList<TransFuncionarioConductor>();
+//		for (TransFuncionarioConductor t : a) {
+//			if (!t.getFcoId().equals("Ninguno")) {
+//				l1.add(t);
+//			}
+//		}
+//		return l1;
+//	}
 
 	public boolean isEdicion() {
 		return edicion;
@@ -256,19 +256,19 @@ public class conductorfunBean implements Serializable {
 		String r="";
 		try {
 			if (edicion) {
-				managergest.editarConductorFun(condf_cedula.trim(),condf_correo.trim(),condf_telefono.trim(), condf_estado);
-				getListaConductoresFun().clear();
-				getListaConductoresFun().addAll(
-						managergest.findAllConductoresFuncionarios());
+//				managergest.editarConductorFun(condf_cedula.trim(),condf_correo.trim(),condf_telefono.trim(), condf_estado);
+//				getListaConductoresFun().clear();
+//				getListaConductoresFun().addAll(
+//						managergest.findAllConductoresFuncionarios());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				r= "trans_conductoresfun?faces-redirect=true";
 			} else {
 				if (averiguarConFunId(perfun.getPerDNI())==false)
 				{
-				managergest.insertarConductorFun(perfun);
-				getListaConductoresFun().clear();
-				getListaConductoresFun().addAll(
-						managergest.findAllConductoresFuncionarios());
+//				managergest.insertarConductorFun(perfun);
+//				getListaConductoresFun().clear();
+//				getListaConductoresFun().addAll(
+//						managergest.findAllConductoresFuncionarios());
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				r= "trans_conductoresfun?faces-redirect=true";
 				}
@@ -346,14 +346,14 @@ public class conductorfunBean implements Serializable {
 	 */
 	public String cambiarEstadoConduFun() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managergest
-							.cambioEstadoConductorFun(getCondf().getFcoId())));
-			getListaConductoresFun().clear();
-			getListaConductoresFun().addAll(
-					managergest.findAllConductoresFuncionarios());
+//			FacesContext context = FacesContext.getCurrentInstance();
+//			context.addMessage(
+//					null,
+//					new FacesMessage("INFORMACION", managergest
+//							.cambioEstadoConductorFun(getCondf().getFcoId())));
+//			getListaConductoresFun().clear();
+//			getListaConductoresFun().addAll(
+//					managergest.findAllConductoresFuncionarios());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -374,15 +374,15 @@ public class conductorfunBean implements Serializable {
 	public boolean averiguarConFunId(String conf_id) {
 		Integer t = 0;
 		boolean r = false;
-		List<TransFuncionarioConductor> cond = managergest
-				.findAllConductoresFuncionarios();
-		for (TransFuncionarioConductor y : cond) {
-			if (y.getFcoId().equals(conf_id)) {
-				System.out.println("si entra1");
-				t = 1;
-				r = true;
-			}
-		}
+//		List<TransFuncionarioConductor> cond = managergest
+//				.findAllConductoresFuncionarios();
+//		for (TransFuncionarioConductor y : cond) {
+//			if (y.getFcoId().equals(conf_id)) {
+//				System.out.println("si entra1");
+//				t = 1;
+//				r = true;
+//			}
+//		}
 		if (t == 0) {
 			r = false;
 		}
@@ -455,9 +455,9 @@ public class conductorfunBean implements Serializable {
 		ediciontipo = false;
 		mostrarcondf_id = false;
 		edicion = false;
-		getListaConductoresFun().clear();
-		getListaConductoresFun().addAll(
-				managergest.findAllConductoresFuncionarios());
+//		getListaConductoresFun().clear();
+//		getListaConductoresFun().addAll(
+//				managergest.findAllConductoresFuncionarios());
 		return "trans_conductoresfun?faces-redirect=true";
 	}
 

@@ -244,114 +244,114 @@ public class ManagerGestion{
 		return resp;
 	}
 	
-	//CONDUCTORES FUNCIONARIOS
-		/**
-		 * listar todos los conductores funcionarios
-		 * @param prod_id
-		 * @throws Exception
-		 */	
-		@SuppressWarnings("unchecked") 
-		public List<TransFuncionarioConductor> findAllConductoresFuncionarios() {
-			return mDAO.findAll(TransFuncionarioConductor.class);
-		}
-
-		/**
-		 * buscar conductores funcionarios por ID
-		 * @param prod_id
-		 * @throws Exception
-		 */
-		public TransFuncionarioConductor conductorfunByID(String conf_id) throws Exception {
-			if(conf_id == "Ninguno"){
-				
-			}
-			else{
-			}
-				return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, conf_id);
-		}
-		
-		/**
-		 * Agrega conductores funcionarios
-		 * @param pro_id
-		 * @param prodfoto_id
-		 * @param pro_nombre
-		 * @param pro_descripcion
-		 * @param pro_costo
-		 * @param pro_precio
-		 * @param pro_stock
-		 * @param pro_estado
-		 * @param pro_estado_fun
-		 * @throws Exception
-		 */
-		public void insertarConductorFun(PersonaFuncionario per) throws Exception {
-			TransFuncionarioConductor conf = new TransFuncionarioConductor();
-			conf.setFcoId(per.getPerDNI());
-			conf.setFcoNombres(per.getPerNombres()+" "+per.getPerApellidos());
-			conf.setFcoGerencia(per.getPerGerencia());
-			conf.setFcoDireccion(per.getPerDireccion());
-			conf.setFcoTelefono(per.getPerTelefono());
-			conf.setFcoCorreo(per.getPerCorreo());
-			conf.setFcoEstado("A");
-			mDAO.insertar(conf);		
-		}
-
-		/**
-		 * Cambiar datos de conductores funcionarios
-		 * @param pro_id
-		 * @param prodfoto_id
-		 * @param pro_nombre
-		 * @param pro_descripcion
-		 * @param pro_costo
-		 * @param pro_precio
-		 * @param pro_stock
-		 * @param pro_estado
-		 * @param pro_estado_fun
-		 * @throws Exception
-		 */	
-		public void editarConductorFun(String cedula,String correo, String telefono,  String Estado) throws Exception {
-			TransFuncionarioConductor conf =  this.conductorfunByID(cedula);
-			conf.setFcoCorreo(correo);
-			conf.setFcoTelefono(telefono);
-			conf.setFcoEstado(Estado);
-			mDAO.actualizar(conf);	
-		}
-		
-		/**
-		 * Cambiar estado conductores funcionarios
-		 * @param id_prod
-		 * @param nombre
-		 * @param apellido
-		 * @param correo
-		 * @throws Exception
-		 */	
-		public String cambioEstadoConductorFun(String conf_id) throws Exception{
-			String h="";
-			TransFuncionarioConductor conf = conductorfunByID(conf_id);						
-			
-			if(conf.getFcoEstado().equals("A")){
-				conf.setFcoEstado("I");
-				h="Estado Modificado";
-				}
-			else if(conf.getFcoEstado().equals("I")){
-				conf.setFcoEstado("A");
-				h="Estado Modificado";
-				}
-			mDAO.actualizar(conf);
-			return h;
-			}		
-		
-		/**
-		 * Verifica si el conductores esta activado
-		 * @param u conductores a analizar
-		 * @return true o false
-		 */
-		public boolean esConFunActivo(TransFuncionarioConductor u){
-			boolean  resp = false;
-			if(u.getFcoEstado().equals("A")){
-				resp = true;
-			}
-			return resp;
-		}
-	
+//	//CONDUCTORES FUNCIONARIOS
+//		/**
+//		 * listar todos los conductores funcionarios
+//		 * @param prod_id
+//		 * @throws Exception
+//		 */	
+//		@SuppressWarnings("unchecked") 
+//		public List<TransFuncionarioConductor> findAllConductoresFuncionarios() {
+//			return mDAO.findAll(TransFuncionarioConductor.class);
+//		}
+//
+//		/**
+//		 * buscar conductores funcionarios por ID
+//		 * @param prod_id
+//		 * @throws Exception
+//		 */
+//		public TransFuncionarioConductor conductorfunByID(String conf_id) throws Exception {
+//			if(conf_id == "Ninguno"){
+//				
+//			}
+//			else{
+//			}
+//				return (TransFuncionarioConductor) mDAO.findById(TransFuncionarioConductor.class, conf_id);
+//		}
+//		
+//		/**
+//		 * Agrega conductores funcionarios
+//		 * @param pro_id
+//		 * @param prodfoto_id
+//		 * @param pro_nombre
+//		 * @param pro_descripcion
+//		 * @param pro_costo
+//		 * @param pro_precio
+//		 * @param pro_stock
+//		 * @param pro_estado
+//		 * @param pro_estado_fun
+//		 * @throws Exception
+//		 */
+//		public void insertarConductorFun(PersonaFuncionario per) throws Exception {
+//			TransFuncionarioConductor conf = new TransFuncionarioConductor();
+//			conf.setFcoId(per.getPerDNI());
+//			conf.setFcoNombres(per.getPerNombres()+" "+per.getPerApellidos());
+//			conf.setFcoGerencia(per.getPerGerencia());
+//			conf.setFcoDireccion(per.getPerDireccion());
+//			conf.setFcoTelefono(per.getPerTelefono());
+//			conf.setFcoCorreo(per.getPerCorreo());
+//			conf.setFcoEstado("A");
+//			mDAO.insertar(conf);		
+//		}
+//
+//		/**
+//		 * Cambiar datos de conductores funcionarios
+//		 * @param pro_id
+//		 * @param prodfoto_id
+//		 * @param pro_nombre
+//		 * @param pro_descripcion
+//		 * @param pro_costo
+//		 * @param pro_precio
+//		 * @param pro_stock
+//		 * @param pro_estado
+//		 * @param pro_estado_fun
+//		 * @throws Exception
+//		 */	
+//		public void editarConductorFun(String cedula,String correo, String telefono,  String Estado) throws Exception {
+//			TransFuncionarioConductor conf =  this.conductorfunByID(cedula);
+//			conf.setFcoCorreo(correo);
+//			conf.setFcoTelefono(telefono);
+//			conf.setFcoEstado(Estado);
+//			mDAO.actualizar(conf);	
+//		}
+//		
+//		/**
+//		 * Cambiar estado conductores funcionarios
+//		 * @param id_prod
+//		 * @param nombre
+//		 * @param apellido
+//		 * @param correo
+//		 * @throws Exception
+//		 */	
+//		public String cambioEstadoConductorFun(String conf_id) throws Exception{
+//			String h="";
+//			TransFuncionarioConductor conf = conductorfunByID(conf_id);						
+//			
+//			if(conf.getFcoEstado().equals("A")){
+//				conf.setFcoEstado("I");
+//				h="Estado Modificado";
+//				}
+//			else if(conf.getFcoEstado().equals("I")){
+//				conf.setFcoEstado("A");
+//				h="Estado Modificado";
+//				}
+//			mDAO.actualizar(conf);
+//			return h;
+//			}		
+//		
+//		/**
+//		 * Verifica si el conductores esta activado
+//		 * @param u conductores a analizar
+//		 * @return true o false
+//		 */
+//		public boolean esConFunActivo(TransFuncionarioConductor u){
+//			boolean  resp = false;
+//			if(u.getFcoEstado().equals("A")){
+//				resp = true;
+//			}
+//			return resp;
+//		}
+//	
 	//LUGARES
 	/**
 	 * listar todos los Lugares
