@@ -95,6 +95,7 @@ create table TRANS_LUGARES (
    constraint PK_TRANS_LUGARES primary key (LUG_ID)
 );
 
+
 /*==============================================================*/
 /* Table: TRANS_VEHICULO                                        */
 /*==============================================================*/
@@ -108,6 +109,16 @@ create table TRANS_VEHICULO (
    VEHI_ESTADO          CHAR(1)              null,
    VEHI_ESTADO__FUNCIONAL CHAR(1)              null,
    constraint PK_TRANS_VEHICULO primary key (VEHI_IDPLACA)
+);
+
+/*==============================================================*/
+/* Table: TRANS_PARAMETROS                                      */
+/*==============================================================*/
+create table TRANS_PARAMETROS (
+   PAR_ID               VARCHAR(30)          not null,
+   PAR_NOMBRE           VARCHAR(50)          null,
+   PAR_VALOR            TEXT                 null,
+   constraint PK_TRANS_PARAMETROS primary key (PAR_ID)
 );
 
 /*==============================================================*/

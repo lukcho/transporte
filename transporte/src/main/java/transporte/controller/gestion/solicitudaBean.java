@@ -26,7 +26,7 @@ import transporte.model.dao.entities.Novedades;
 import transporte.model.dao.entities.Persona;
 import transporte.model.dao.entities.TransSolicitud;
 import transporte.model.dao.entities.TransConductore;
-import transporte.model.dao.entities.TransFuncionarioConductor;
+//import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
@@ -77,7 +77,7 @@ public class solicitudaBean implements Serializable {
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
 	private TransLugare lugdestino;
-	private TransFuncionarioConductor fco_id;
+	// private TransFuncionarioConductor fco_id;
 	private TransVehiculo vehi_idplaca;
 	private TransConductore cond_cedula;
 
@@ -457,13 +457,13 @@ public class solicitudaBean implements Serializable {
 		this.lugdestino = lugdestino;
 	}
 
-	public TransFuncionarioConductor getFco_id() {
-		return fco_id;
-	}
-
-	public void setFco_id(TransFuncionarioConductor fco_id) {
-		this.fco_id = fco_id;
-	}
+	// public TransFuncionarioConductor getFco_id() {
+	// return fco_id;
+	// }
+	//
+	// public void setFco_id(TransFuncionarioConductor fco_id) {
+	// this.fco_id = fco_id;
+	// }
 
 	public TransVehiculo getVehi_idplaca() {
 		return vehi_idplaca;
@@ -526,15 +526,19 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * accion para invocar el manager y crear solicitud o editar el solicitud
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_id
+	 * @param sol_fecha
+	 * @param sol_motivo
+	 * @param horainiciotiemp
+	 * @param horafintiemp
+	 * @param sol_flexibilidad
+	 * @param sol_observacion
+	 * @param sol_estado
+	 * @param sol_fcoid
+	 * @param sol_conductor
+	 * @param sol_regresorigen
+	 * @param sol_fecha_aprobacion
+	 * @param arrayNovedades
 	 * @throws Exception
 	 */
 	public String crearSolicitud() {
@@ -824,123 +828,132 @@ public class solicitudaBean implements Serializable {
 										.getCondCorreo(),
 								"Solicitud de Vehículo", mensajeconductor);
 					} else {
-//						mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-//								+ "<meta name='viewport' content='width=device-width'></head><body>"
-//								+ "Estimado(a) Solicitante: "
-//								+ Funciones.utf8Sting(sol_usuario_nombre)
-//								+ ",<br/>"
-//								+ "Le notificamos que su solitud de Transporte fue: "
-//								+ Funciones.utf8Sting(sol_estadonombre)
-//								+ ", <br/><br/>"
-//								+ "Número de Solicitud: "
-//								+ Funciones.utf8Sting(sol_id.toString())
-//								+ "<br/>"
-//								+ "Fecha de Petición: "
-//								+ Funciones.dateToString(sol_fecha)
-//								+ "<br/>"
-//								+ "Lugar Origen y Destino: "
-//								+ managergest.LugarByID(sol_id_origen)
-//										.getLugNombre()
-//								+ " - "
-//								+ managergest.LugarByID(sol_id_destino)
-//										.getLugNombre()
-//								+ "<br/>"
-//								+ "Hora Origen y Destino: "
-//								+ horainiciotiemp.toString()
-//								+ " - "
-//								+ horafintiemp.toString()
-//								+ "<br/>"
-//								+ "Número de Pasajeros: "
-//								+ sol_pasajeros.toString()
-//								+ "<br/>"
-//								+ "Nombre del Conductor Funcionario: "
-//								+ Funciones.utf8Sting(managergest
-//										.conductorfunByID(sol_fcoid)
-//										.getFcoNombres())
-//								+ "<br/>"
-//								+ "Correo del Conductor Funcionario: "
-//								+ Funciones.utf8Sting(managergest
-//										.conductorfunByID(sol_fcoid)
-//										.getFcoCorreo())
-//								+ "<br/>"
-//								+ "Número de teléfono: "
-//								+ Funciones.utf8Sting(managergest
-//										.conductorfunByID(sol_fcoid)
-//										.getFcoTelefono())
-//								+ "<br/>"
-//								+ "Vehículo con Placas: "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiIdplaca())
-//								+ " - "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiNombre())
-//								+ " "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiMarca())
-//								+ " "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiModelo())
-//								+ "<br/><br/>"
-//								+ "Observaciónes: "
-//								+ Funciones.utf8Sting(sol_observacion)
-//								+ "<br/><br/>"
-//								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
-//								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
-//
-//						mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-//								+ "<meta name='viewport' content='width=device-width'></head><body>"
-//								+ "Estimado(a) "
-//								+ Funciones.utf8Sting(managergest
-//										.conductorfunByID(sol_fcoid)
-//										.getFcoNombres())
-//								+ "<br/>"
-//								+ "Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
-//								+ "Número de Solicitud: "
-//								+ Funciones.utf8Sting(sol_id.toString())
-//								+ "<br/>"
-//								+ "Fecha de Petición: "
-//								+ Funciones.dateToString(sol_fecha)
-//								+ "<br/>"
-//								+ "Lugar Origen y Destino: "
-//								+ managergest.LugarByID(sol_id_origen)
-//										.getLugNombre()
-//								+ " - "
-//								+ managergest.LugarByID(sol_id_destino)
-//										.getLugNombre()
-//								+ "<br/>"
-//								+ "Hora Origen y Destino: "
-//								+ horainiciotiemp.toString()
-//								+ " - "
-//								+ horafintiemp.toString()
-//								+ "<br/>"
-//								+ "Número de Pasajeros: "
-//								+ sol_pasajeros.toString()
-//								+ "<br/>"
-//								+ "Vehículo con Placas: "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiIdplaca())
-//								+ " - "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiNombre())
-//								+ " "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiMarca())
-//								+ " "
-//								+ Funciones.utf8Sting(managergest.vehiculoByID(
-//										sol_vehi).getVehiModelo())
-//								+ "<br/><br/>"
-//								+ "Observaciónes: "
-//								+ Funciones.utf8Sting(sol_observacion)
-//								+ "<br/><br/>"
-//								+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
-//								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
-//
-//						Mail.generateAndSendEmail(sol_correo,
-//								"Respuesta de Vehículo", mensaje);
-//						Mail.generateAndSendEmail(
-//								managergest.conductorfunByID(sol_fcoid)
-//										.getFcoCorreo(),
-//								"Solicitud de Vehículo", mensajeconductor);
+						// mensaje =
+						// "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						// +
+						// "<meta name='viewport' content='width=device-width'></head><body>"
+						// + "Estimado(a) Solicitante: "
+						// + Funciones.utf8Sting(sol_usuario_nombre)
+						// + ",<br/>"
+						// + "Le notificamos que su solitud de Transporte fue: "
+						// + Funciones.utf8Sting(sol_estadonombre)
+						// + ", <br/><br/>"
+						// + "Número de Solicitud: "
+						// + Funciones.utf8Sting(sol_id.toString())
+						// + "<br/>"
+						// + "Fecha de Petición: "
+						// + Funciones.dateToString(sol_fecha)
+						// + "<br/>"
+						// + "Lugar Origen y Destino: "
+						// + managergest.LugarByID(sol_id_origen)
+						// .getLugNombre()
+						// + " - "
+						// + managergest.LugarByID(sol_id_destino)
+						// .getLugNombre()
+						// + "<br/>"
+						// + "Hora Origen y Destino: "
+						// + horainiciotiemp.toString()
+						// + " - "
+						// + horafintiemp.toString()
+						// + "<br/>"
+						// + "Número de Pasajeros: "
+						// + sol_pasajeros.toString()
+						// + "<br/>"
+						// + "Nombre del Conductor Funcionario: "
+						// + Funciones.utf8Sting(managergest
+						// .conductorfunByID(sol_fcoid)
+						// .getFcoNombres())
+						// + "<br/>"
+						// + "Correo del Conductor Funcionario: "
+						// + Funciones.utf8Sting(managergest
+						// .conductorfunByID(sol_fcoid)
+						// .getFcoCorreo())
+						// + "<br/>"
+						// + "Número de teléfono: "
+						// + Funciones.utf8Sting(managergest
+						// .conductorfunByID(sol_fcoid)
+						// .getFcoTelefono())
+						// + "<br/>"
+						// + "Vehículo con Placas: "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiIdplaca())
+						// + " - "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiNombre())
+						// + " "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiMarca())
+						// + " "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiModelo())
+						// + "<br/><br/>"
+						// + "Observaciónes: "
+						// + Funciones.utf8Sting(sol_observacion)
+						// + "<br/><br/>"
+						// +
+						// "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+						// +
+						// "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
+						//
+						// mensajeconductor =
+						// "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						// +
+						// "<meta name='viewport' content='width=device-width'></head><body>"
+						// + "Estimado(a) "
+						// + Funciones.utf8Sting(managergest
+						// .conductorfunByID(sol_fcoid)
+						// .getFcoNombres())
+						// + "<br/>"
+						// +
+						// "Le notificamos que tiene una solicitud de Transporte por atender  <br/><br/>"
+						// + "Número de Solicitud: "
+						// + Funciones.utf8Sting(sol_id.toString())
+						// + "<br/>"
+						// + "Fecha de Petición: "
+						// + Funciones.dateToString(sol_fecha)
+						// + "<br/>"
+						// + "Lugar Origen y Destino: "
+						// + managergest.LugarByID(sol_id_origen)
+						// .getLugNombre()
+						// + " - "
+						// + managergest.LugarByID(sol_id_destino)
+						// .getLugNombre()
+						// + "<br/>"
+						// + "Hora Origen y Destino: "
+						// + horainiciotiemp.toString()
+						// + " - "
+						// + horafintiemp.toString()
+						// + "<br/>"
+						// + "Número de Pasajeros: "
+						// + sol_pasajeros.toString()
+						// + "<br/>"
+						// + "Vehículo con Placas: "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiIdplaca())
+						// + " - "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiNombre())
+						// + " "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiMarca())
+						// + " "
+						// + Funciones.utf8Sting(managergest.vehiculoByID(
+						// sol_vehi).getVehiModelo())
+						// + "<br/><br/>"
+						// + "Observaciónes: "
+						// + Funciones.utf8Sting(sol_observacion)
+						// + "<br/><br/>"
+						// +
+						// "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+						// +
+						// "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
+						//
+						// Mail.generateAndSendEmail(sol_correo,
+						// "Respuesta de Vehículo", mensaje);
+						// Mail.generateAndSendEmail(
+						// managergest.conductorfunByID(sol_fcoid)
+						// .getFcoCorreo(),
+						// "Solicitud de Vehículo", mensajeconductor);
 					}
 
 					sol_id = null;
@@ -1037,6 +1050,11 @@ public class solicitudaBean implements Serializable {
 		}
 	}
 
+	/**
+	 * metodo para abrir  el dialogo
+	 * 
+	 * @throws Exception
+	 */
 	public void abrirDialog() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {
@@ -1088,15 +1106,19 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_id
+	 * @param sol_fecha
+	 * @param sol_motivo
+	 * @param horainiciotiemp
+	 * @param horafintiemp
+	 * @param sol_flexibilidad
+	 * @param sol_observacion
+	 * @param sol_estado
+	 * @param sol_fcoid
+	 * @param sol_conductor
+	 * @param sol_regresorigen
+	 * @param sol_fecha_aprobacion
+	 * @param arrayNovedades
 	 * @throws Exception
 	 */
 	public String cargarSolicitud(TransSolicitud sol) {
@@ -1108,10 +1130,10 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			if (sol.getTransFuncionarioConductor() == null)
-				sol_fcoid = "Ninguno";
-			else
-				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			// if (sol.getTransFuncionarioConductor() == null)
+			// sol_fcoid = "Ninguno";
+			// else
+			// sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			if (sol.getTransVehiculo() == null)
 				sol_vehi = "";
 			else
@@ -1160,15 +1182,19 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_id
+	 * @param sol_fecha
+	 * @param sol_motivo
+	 * @param horainiciotiemp
+	 * @param horafintiemp
+	 * @param sol_flexibilidad
+	 * @param sol_observacion
+	 * @param sol_estado
+	 * @param sol_fcoid
+	 * @param sol_conductor
+	 * @param sol_regresorigen
+	 * @param sol_fecha_aprobacion
+	 * @param arrayNovedades
 	 * @throws Exception
 	 */
 	public String cargarSolicitudvalidada(TransSolicitud sol) {
@@ -1180,10 +1206,10 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
-			if (sol.getTransFuncionarioConductor() == null)
-				sol_fcoid = "Ninguno";
-			else
-				sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
+			// if (sol.getTransFuncionarioConductor() == null)
+			// sol_fcoid = "Ninguno";
+			// else
+			// sol_fcoid = sol.getTransFuncionarioConductor().getFcoId();
 			if (sol.getTransVehiculo() == null)
 				sol_vehi = "";
 			else
@@ -1265,8 +1291,9 @@ public class solicitudaBean implements Serializable {
 	}
 
 	/**
-	 * metodo para conocer el prodid si esta usado
+	 * metodo para conocer el soli_id si esta usado
 	 * 
+	 * @param sol_id
 	 */
 	public boolean averiguarSoliid(Integer soli_id) {
 		Integer t = 0;
@@ -1357,24 +1384,25 @@ public class solicitudaBean implements Serializable {
 		return listadoSI;
 	}
 
-	/**
-	 * metodo para mostrar los conductorefunacionario en solicitud Me llaMO lkc
-	 * ELECTROFLOGEAUR JAJAJ
-	 */
-	public List<SelectItem> getListaConductorfuncionario() {
-		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		listadoSI.add(new SelectItem("Ninguno", "Ninguno"));
-		for (TransFuncionarioConductor t : managersol
-				.findAllConductFuncionarios()) {
-			if (!t.getFcoEstado().equals("I")) {
-				if (per.getPerGerencia().equals(t.getFcoGerencia()))
-					listadoSI.add(new SelectItem(t.getFcoId(), t
-							.getFcoNombres() + " - " + t.getFcoGerencia()));
-			}
-		}
-
-		return listadoSI;
-	}
+	// /**
+	// * metodo para mostrar los conductorefunacionario en solicitud Me llaMO
+	// lkc
+	// * ELECTROFLOGEAUR JAJAJ
+	// */
+	// public List<SelectItem> getListaConductorfuncionario() {
+	// List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+	// listadoSI.add(new SelectItem("Ninguno", "Ninguno"));
+	// for (TransFuncionarioConductor t : managersol
+	// .findAllConductFuncionarios()) {
+	// if (!t.getFcoEstado().equals("I")) {
+	// if (per.getPerGerencia().equals(t.getFcoGerencia()))
+	// listadoSI.add(new SelectItem(t.getFcoId(), t
+	// .getFcoNombres() + " - " + t.getFcoGerencia()));
+	// }
+	// }
+	//
+	// return listadoSI;
+	// }
 
 	/**
 	 * metodo para mostrar los vehiculos en solicitud
@@ -1479,16 +1507,15 @@ public class solicitudaBean implements Serializable {
 
 		}
 	}
-	
+
 	/**
 	 * metodo para reporte del vehiculo
 	 * 
 	 */
 	public void reporteFindAllVehiculo() {
-			getListareporte().clear();
-			getListareporte().addAll(
-					managersol.findAllSolicitudes());
-			getListareporte().size();
+		getListareporte().clear();
+		getListareporte().addAll(managersol.findAllSolicitudes());
+		getListareporte().size();
 	}
 
 	/**
@@ -1647,6 +1674,11 @@ public class solicitudaBean implements Serializable {
 		return l1;
 	}
 
+	/**
+	 * Metodo para buscar a la persona
+	 * 
+	 * @throws Exception
+	 */
 	public void BuscarPersona() {
 
 		try {
@@ -1661,6 +1693,11 @@ public class solicitudaBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Metodo para buscar a la personasolicitud
+	 * 
+	 * @throws Exception
+	 */
 	public void BuscarPersonasolicitud() {
 
 		try {
@@ -1696,7 +1733,7 @@ public class solicitudaBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * metodo para reporte de novedades
 	 * 
@@ -1704,8 +1741,8 @@ public class solicitudaBean implements Serializable {
 	public void reporteAllNovedades() {
 		try {
 			getListaNovedades().clear();
-			getListaNovedades().addAll(
-					mc.FindAllNovedades());
+			getListaNovedades().addAll(mc.FindAllNovedades());
+			System.out.println("entra con:" + listaNovedades.size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1753,6 +1790,11 @@ public class solicitudaBean implements Serializable {
 		return "index?faces-redirect=true";
 	}
 
+	/**
+	 * Metodo para observar el regreso y origen
+	 * 
+	 * @throws Exception
+	 */
 	public void regresoOrigen() {
 		try {
 			System.out.println(sol_regresorigen);

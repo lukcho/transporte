@@ -63,7 +63,7 @@ public class ManagerCarga {
 	
 	
 	/**
-	 * Devuelve un funcionario por dni
+	 * Devuelve un persona solicitud por dni
 	 * 
 	 * @param dni
 	 * @return Funcionario
@@ -98,10 +98,10 @@ public class ManagerCarga {
 	}
 
 	/**
-	 * Devuelve un funcionario por dni
+	 * Devuelve un funcionario por gerencia
 	 * 
-	 * @param dni
-	 * @return Funcionario
+	 * @param gerencia
+	 * @return PersonaFuncionario
 	 * @throws Exception
 	 */
 	public  List<PersonaFuncionario> funcionarioByGerencia(String Gerencia) throws Exception {
@@ -132,10 +132,9 @@ public class ManagerCarga {
 	}
 	
 	/**
-	 * Devuelve las novedades por dni
+	 * Devuelve las novedades
 	 * 
-	 * @param dni
-	 * @return Funcionario
+	 * @return Novedades
 	 * @throws Exception
 	 */
 	public List<Novedades> FindAllNovedades() throws Exception {
@@ -147,13 +146,12 @@ public class ManagerCarga {
 					+	" (select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, " 
 					+	" s.sol_fecha_aprobacion as fecha_aprobacion,s.sol_hora_inicio as hora_inicio, s.sol_hora_fin as hora_fin, s.sol_estado as estado, tb.gerencia, tb.direccion, "
 					+	" s.sol_novedades as novedades from trans_solicitud s,  "
-					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h port=5432',' " 
+					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_bicichay password=y-4IO4SDwu_! port=5432',' " 
 					+	" SELECT f.per_id , f.fun_gerencia, f.fun_direccion "
 					+	" FROM gen_funcionario f ' ) as tb(dni name, gerencia name, direccion name ) "
 					+	" where s.sol_id_solicitante = tb.dni "
 					+	" and s.sol_novedades not like '' Order by fecha desc ");
-				
-				System.out.println(consulta);
+		System.out.println(consulta);
 		if (consulta != null) {
 			while(consulta.next()){
 				f = new Novedades();
@@ -176,10 +174,11 @@ public class ManagerCarga {
 	}
 	
 	/**
-	 * Devuelve las novedades por dni
+	 * Devuelve las novedades por las fechas inicio, fin 
 	 * 
-	 * @param dni
-	 * @return Funcionario
+	 * @param fechai 
+	 * @param fechaf
+	 * @return Novedades
 	 * @throws Exception
 	 */
 	public List<Novedades> FindAllNovedadesByFecha(Timestamp fechai, Timestamp fechaf) throws Exception {
@@ -191,7 +190,7 @@ public class ManagerCarga {
 					+	" (select lu.lug_nombre from trans_lugares lu where lu.lug_id = s.lug_id_destino) as lugardestino,  s.sol_fecha as fecha, " 
 					+	" s.sol_fecha_aprobacion as fecha_aprobacion,s.sol_hora_inicio as hora_inicio, s.sol_hora_fin as hora_fin, s.sol_estado as estado, tb.gerencia, tb.direccion, "
 					+	" s.sol_novedades as novedades from trans_solicitud s,  "
-					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_svcyachay password=_50STg-FGh2h port=5432',' " 
+					+	" dblink('dbname=yachay host= 10.1.0.158 user=adm_bicichay password=y-4IO4SDwu_! port=5432',' " 
 					+	" SELECT f.per_id , f.fun_gerencia, f.fun_direccion "
 					+	" FROM gen_funcionario f ' ) as tb(dni name, gerencia name, direccion name ) "
 					+	" where s.sol_id_solicitante = tb.dni and s.sol_fecha between "

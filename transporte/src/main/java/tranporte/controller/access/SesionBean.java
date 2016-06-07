@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -143,26 +143,20 @@ public class SesionBean implements Serializable{
         	}
         }
 	}
-	
-	/**
-	 * Verifica y devuelve el usuario en sesión
-	 * @param vista página principal de acceso
-	 * @return String
-	 */
-	public String validarSesion(){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
-            } catch (IOException ex) {
-            	Mensaje.crearMensajeERROR(ex.getMessage());
-            }
-            return null;
-        }else{
-        	return user.getUsuario();
-        }
-	}
 
+	/**
+	   * Método para validar sesión en el INDEX
+	   */
+	  public void validaIndex(){
+	   HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+	                 .getExternalContext().getSession(false);
+	      SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+	      if (user==null || user.getUsuario() == null) {
+	             try {
+	                 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+	             } catch (IOException ex) {
+	              Mensaje.crearMensajeERROR(ex.getMessage());
+	             }
+	      }
+	  }
 }

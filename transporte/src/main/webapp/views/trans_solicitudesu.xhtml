@@ -12,6 +12,10 @@
         </ui:define>
 	<ui:define name="contenido">
 		<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{solicituduBean.vSesionPermiso()}" autoRun="true" />
+		</h:form>
+		<h:form>
 			<center>
 				<h1>Solicitudes No Planificadas</h1>
 			</center>
@@ -74,7 +78,7 @@
 					<p:column headerText="PASAJEROS" width="100">
 						<h:outputText value="#{sol.solPasajeros}"></h:outputText>
 					</p:column>
-					
+
 					<p:column headerText="FECHA APROBACI&Oacute;N" width="100">
 						<h:outputText value="#{sol.solFechaAprobacion}">
 							<f:convertDateTime pattern="yyyy/MM/dd" />

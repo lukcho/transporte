@@ -111,6 +111,8 @@ public class solicituduBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		mc = new ManagerCarga();
+		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
+		BuscarPersona();
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_id = null;
@@ -129,7 +131,6 @@ public class solicituduBean implements Serializable {
 		verregresorigen=true;
 		sol_conductornombre = "";
 		sol_conductornombrefuncionario = "";
-		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
 	}
 	
 	public boolean isVerregresorigen() {
@@ -840,13 +841,13 @@ public class solicituduBean implements Serializable {
 		managersol.asignarConductor(sol_conductor);
 	}
 
-	/**
-	 * metodo para asignar el condutorfuncionario a solicitud
-	 * 
-	 */
-	public void asignarConductorFuncionario() {
-		managersol.asignarConductorfuncionario(sol_fcoid);
-	}
+//	/**
+//	 * metodo para asignar el condutorfuncionario a solicitud
+//	 * 
+//	 */
+//	public void asignarConductorFuncionario() {
+//		managersol.asignarConductorfuncionario(sol_fcoid);
+//	}
 
 	/**
 	 * metodo para asignar el lugarorigen a solicitud
@@ -934,6 +935,39 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoSolicitud() {
+		String r="";
+		if(usuario.equals(null))
+		{
+			sol_id = null;
+			date = new Date();
+			fecha = addDays(date,1);
+			// sol_idsolicitante = sol.getSolicitante();
+			sol_id_origen = null;
+			sol_id_destino = null;
+			sol_fcoid = "";
+			sol_vehi = "";
+			sol_conductor = "";
+			sol_fecha = null;
+			sol_fecha_aprobacion = null;
+			sol_pasajeros = null;
+			sol_motivo = null;
+			sol_regresorigen = false;
+			verregresorigen = true;
+			sol_hora_inicio = null;
+			sol_hora_fin = null;
+			sol_flexibilidad = true;
+			sol_observacion = null;
+			sol_estado = "P";
+			sol_estadonombre = "";
+			ediciontipo = false;
+			sol_hora_inicio = null;
+			sol_hora_fin = null;
+			horainiciotiemp = null;
+			horafintiemp = null;
+			edicion = false;
+			r="";
+		}
+		else{
 		BuscarPersona();
 		sol_id = null;
 		date = new Date();
@@ -964,8 +998,10 @@ public class solicituduBean implements Serializable {
 		edicion = false;
 		asignarVehiculo();
 		asignarConductor();
-		asignarConductorFuncionario();
-		return "trans_nsolicitudu?faces-redirect=true";
+	//	asignarConductorFuncionario();
+		r= "trans_nsolicitudu?faces-redirect=true";
+		}
+		return r;
 	}
 
 	/**
@@ -974,7 +1010,7 @@ public class solicituduBean implements Serializable {
 	 * @return
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
-		BuscarPersona();
+		
 		List<TransSolicitud> a = managersol
 				.findAllSolicitudesOrdenados(sol_usuario_cedula);
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
@@ -994,7 +1030,7 @@ public class solicituduBean implements Serializable {
 			sol_correo = per.getPerCorreo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -1026,5 +1062,12 @@ public class solicituduBean implements Serializable {
 		}
 
 	}
+	
+	/**
+	  * Validar sesión y permiso
+	  */
+	 public void vSesionPermiso(){
+	  ms.validarSesion("trans_solicitudesu.xhtml");
+	 }
 
 }

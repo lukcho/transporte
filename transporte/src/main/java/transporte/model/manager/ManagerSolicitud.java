@@ -27,7 +27,7 @@ public class ManagerSolicitud {
 	private static TransLugare trans_lugori;
 	private static TransLugare trans_lugdes;
 	private static TransVehiculo trans_vehi;
-	private static TransFuncionarioConductor trans_fco;
+//	private static TransFuncionarioConductor trans_fco;
 
 	private Timestamp fecha_creacion;
 
@@ -39,7 +39,7 @@ public class ManagerSolicitud {
 	// Solicitud
 
 	/**
-	 * buscar todos solicitudes
+	 * buscar todas las solicitudes
 	 * 
 	 * @throws Exception
 	 */
@@ -50,9 +50,8 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los solicitudes
+	 * listar todas las solicitudes
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -61,7 +60,7 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los eventos en ordenados aprobadosrechazados
+	 * listar todos las solicitudes ordenados por fecha y estado
 	 * 
 	 * @param prod_id
 	 * @throws Exception
@@ -74,9 +73,8 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los eventos en ordenados pendientes
+	 * listar todos las solicitudes ordenados pendientes por fecha y estado
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -86,9 +84,8 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los eventos en ordenados
+	 * listar todos las solicitudes ordenados por fecha y estado
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -98,9 +95,9 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los eventos en ordenados
+	 * listar todos las solicitudes ordenadas
 	 * 
-	 * @param prod_id
+	 * @param sol_idsolicitante
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -114,7 +111,8 @@ public class ManagerSolicitud {
 	/**
 	 * listar todos los vehiculos con solicitud
 	 * 
-	 * @param prod_id
+	 * @param placa
+	 * @param fecha
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -127,9 +125,8 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los solicitudes
+	 * listar todos los vehiculos conductores
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -138,9 +135,8 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los eventos en ordenados
+	 * listar todos los vehiculos en ordenados
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -150,9 +146,9 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * buscar solicitudes por ID
+	 * buscar los vehuculos por ID
 	 * 
-	 * @param prod_id
+	 * @param vehi_id
 	 * @throws Exception
 	 */
 	public TransSolicitud solicitudByID(Integer vehi_id) throws Exception {
@@ -160,9 +156,11 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * listar todos los vehiculos con en la fecha
+	 * listar todos los vehiculos con la fecha
 	 * 
-	 * @param prod_id
+	 * @param placa
+	 * @param fechai
+	 * @param fechaf
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -178,7 +176,8 @@ public class ManagerSolicitud {
 	/**
 	 * listar todos los vehiculos con en la fecha
 	 * 
-	 * @param prod_id
+	 * @param fechai
+	 * @param fechaf
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -188,19 +187,32 @@ public class ManagerSolicitud {
 				+ fechai + "' and  '" + fechaf + "'",
 				" o.solFecha desc , o.solHoraInicio desc");
 	}
+	
+	/**
+	 * listar todos los vehiculos con en la fecha
+	 * 
+	 * @param fechai
+	 * @param fechaf
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findAllNovedades() {
+		return mDAO.findWhere(TransSolicitud.class, "  o.solNovedades not like '' ", " o.solFecha desc" );
+	}
 
 	/**
 	 * Agrega solicitudes
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_fecha
+	 * @param usuario_cedula
+	 * @param usuario_nombre
+	 * @param sol_pasajeros
+	 * @param sol_motivo
+	 * @param sol_hora_inicio
+	 * @param sol_hora_fin
+	 * @param sol_flexibilidad
+	 * @param sol_fcoid
+	 * @param sol_regresorigen
 	 * @throws Exception
 	 */
 	public void insertarSolicitud(Timestamp sol_fecha, String usuario_cedula,String usuario_nombre,
@@ -243,15 +255,16 @@ public class ManagerSolicitud {
 	/**
 	 * Cambiar datos de solicitudes
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_fecha
+	 * @param usuario_cedula
+	 * @param usuario_nombre
+	 * @param sol_pasajeros
+	 * @param sol_motivo
+	 * @param sol_hora_inicio
+	 * @param sol_hora_fin
+	 * @param sol_flexibilidad
+	 * @param sol_fcoid
+	 * @param sol_regresorigen
 	 * @throws Exception
 	 */
 	public void editarSolicitud(Integer sol_id, Timestamp sol_fecha,
@@ -295,15 +308,16 @@ public class ManagerSolicitud {
 	/**
 	 * Cambiar datos de solicitudes
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param sol_fecha
+	 * @param usuario_cedula
+	 * @param usuario_nombre
+	 * @param sol_pasajeros
+	 * @param sol_motivo
+	 * @param sol_hora_inicio
+	 * @param sol_hora_fin
+	 * @param sol_flexibilidad
+	 * @param sol_fcoid
+	 * @param sol_regresorigen
 	 * @throws Exception
 	 */
 	public void editarSolicitudsn(Integer sol_id, Timestamp sol_fecha,
@@ -340,10 +354,7 @@ public class ManagerSolicitud {
 	/**
 	 * Cambiar estado solicitudes
 	 * 
-	 * @param id_prod
-	 * @param nombre
-	 * @param apellido
-	 * @param correo
+	 * @param sol_id
 	 * @throws Exception
 	 */
 	public String cambioEstadoSolicitud(Integer sol_id) throws Exception {
@@ -369,10 +380,10 @@ public class ManagerSolicitud {
 	}
 
 	/**
-	 * Verifica si el solicitudes esta activado
+	 * Verifica si el solicitud esta activado
 	 * 
 	 * @param u
-	 *            solicitudes a analizar
+	 *            solicitud a analizar
 	 * @return true o false
 	 */
 	public boolean esSolicitudActivo(TransSolicitud u) {
@@ -453,31 +464,30 @@ public class ManagerSolicitud {
 		return trans_con;
 	}
 
-	/**
-	 * metodo para asignar el conductorfunaiconario
-	 * 
-	 * @param u
-	 *            conductorfunionario a analizar
-	 * @return true o false
-	 */
-	public TransFuncionarioConductor asignarConductorfuncionario(
-			String confun_id) {
-		try {
+//	/**
+//	 * metodo para asignar el conductorfunaiconario
+//	 * 
+//	 * @param u
+//	 *            conductorfunionario a analizar
+//	 * @return true o false
+//	 */
+//	public TransFuncionarioConductor asignarConductorfuncionario(
+//			String confun_id) {
+//		try {
 //			if (!confun_id.isEmpty())
 //				trans_fco = mGes.conductorfunByID(confun_id);
 //			else
-				trans_fco = null;
-		} catch (Exception e) {
-			// TODO Auto-generated prodch block
-			e.printStackTrace();
-		}
-		return trans_fco;
-	}
+//				trans_fco = null;
+//		} catch (Exception e) {
+//			// TODO Auto-generated prodch block
+//			e.printStackTrace();
+//		}
+//		return trans_fco;
+//	}
 
 	/**
 	 * listar todos los conductores funcionarios
 	 * 
-	 * @param prod_id
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

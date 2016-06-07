@@ -11,7 +11,10 @@
             Gestión de Transporte
         </ui:define>
 	<ui:define name="contenido">
-
+			<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<b:well>
 			<h1>Sistema de Transporte</h1>
 			<p>Este módulo permite la Gestión de Transporte</p>

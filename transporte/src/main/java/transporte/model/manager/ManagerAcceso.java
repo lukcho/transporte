@@ -5,6 +5,7 @@ package transporte.model.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.json.simple.JSONArray;
@@ -12,12 +13,16 @@ import org.json.simple.JSONObject;
 
 import transporte.model.access.Menu;
 import transporte.model.access.Submenu;
+import transporte.model.dao.entities.TransParametro;
 import transporte.model.generic.ConsumeREST;
 import transporte.model.generic.Funciones;
 
 @Stateless
 public class ManagerAcceso {
 	
+	@EJB
+	private ManagerDAO mDAO;
+
 
 	public ManagerAcceso() {
 	}
@@ -56,16 +61,31 @@ public class ManagerAcceso {
 	@SuppressWarnings("unchecked")
 	public List<Menu> loginWS(String usr, String pass, String aplicacion) throws Exception
 	{
+		TransParametro param = parametroByID("login_ws");
+		if(param == null)
+			throw new Exception("error al consultar parametro de logeo");		
 		List<Menu> lmenu = new ArrayList<Menu>();
 		JSONObject salida = new JSONObject();
+		System.out.println(param.getParValor());
 		salida.put("usr", usr);salida.put("pwd", pass);salida.put("apl", aplicacion);
-		JSONObject respuesta = ConsumeREST.postClient(Funciones.hostWS+"WSLogin/postPermisos",salida);
+		JSONObject respuesta = ConsumeREST.postClient(param.getParValor(),salida);
 		if(!respuesta.get("status").equals("OK"))
 			throw new Exception("ERROR al consultar sus permisos: "+respuesta.get("mensaje").toString());
 		else
 			lmenu = cargarMenu((JSONArray) respuesta.get("value"));
 		return lmenu;
 		
+	}
+	
+
+	/**
+	 * buscar los vehuculos por ID
+	 * 
+	 * @param vehi_id
+	 * @throws Exception
+	 */
+	public TransParametro parametroByID(String parametro) throws Exception {
+		return (TransParametro) mDAO.findById(TransParametro.class, parametro);
 	}
 	
 	/**

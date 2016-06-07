@@ -39,19 +39,19 @@ public class vehiculoBean implements Serializable {
 	private String vehi_capacidad;
 	private String vehi_estado;
 	private String vehi_estado_funcional;
-	
+
 	private TransVehiculo vehi;
 
-	//mmostrar
+	// mmostrar
 	private boolean mostrarvehi_id;
 	private boolean edicion;
 	private boolean ediciontipo;
 	private boolean verhorario;
-	
+
 	private List<TransVehiculo> listaVehiculo;
-	
+
 	private String usuario;
-	
+
 	@Inject
 	SesionBean ms;
 
@@ -63,18 +63,18 @@ public class vehiculoBean implements Serializable {
 		usuario = ms.validarSesion("trans_vehiculos.xhtml");
 		vehi_id = null;
 		vehi_estado_funcional = "A";
-		vehi_estado="A";
+		vehi_estado = "A";
 		vehi_capacidad = null;
 		edicion = false;
 		ediciontipo = false;
 		mostrarvehi_id = false;
 		listaVehiculo = managergest.findAllVehiculos();
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
-	
+
 	public String getVehi_id() {
 		return vehi_id;
 	}
@@ -118,11 +118,11 @@ public class vehiculoBean implements Serializable {
 	public String getVehi_capacidad() {
 		return vehi_capacidad;
 	}
-	
+
 	public void setVehi_capacidad(String vehi_capacidad) {
 		this.vehi_capacidad = vehi_capacidad;
 	}
-	
+
 	public String getVehi_estado() {
 		return vehi_estado;
 	}
@@ -178,18 +178,6 @@ public class vehiculoBean implements Serializable {
 	public void setListaVehiculo(List<TransVehiculo> listaVehiculo) {
 		this.listaVehiculo = listaVehiculo;
 	}
-	
-	//metodo para listar los VEHICULOS
-	public List<TransVehiculo> ListaVehiculosSin(){			
-		List<TransVehiculo> a = managergest.findAllVehiculos();
-		List<TransVehiculo> l1 = new ArrayList<TransVehiculo>();			
-		for (TransVehiculo t : a ){								
-				if(!t.getVehiIdplaca().equals("Ninguno")){
-						l1.add(t);
-			}		
-		}
-		return l1;
-	}
 
 	public TransVehiculo getVehi() {
 		return vehi;
@@ -198,30 +186,47 @@ public class vehiculoBean implements Serializable {
 	public void setVehi(TransVehiculo vehi) {
 		this.vehi = vehi;
 	}
-	
-	//VEHICULO
+
+	/**
+	 * Metodo para listar los vehiculos
+	 * 
+	 * @return
+	 */
+	public List<TransVehiculo> ListaVehiculosSin() {
+		List<TransVehiculo> a = managergest.findAllVehiculos();
+		List<TransVehiculo> l1 = new ArrayList<TransVehiculo>();
+		for (TransVehiculo t : a) {
+			if (!t.getVehiIdplaca().equals("Ninguno")) {
+				l1.add(t);
+			}
+		}
+		return l1;
+	}
+
+	// VEHICULO
 	/**
 	 * accion para invocar el manager y crear vehiculo o editar el vehiculo
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param vehi_id
+	 * @param vehi_nombre
+	 * @param vehi_marca
+	 * @param vehi_modelo
+	 * @param vehi_tipo
+	 * @param capa
+	 * @param vehi_estado
+	 * @param vehi_estado_funcional
 	 * @throws Exception
 	 */
 	public String crearVehiculo() {
 		try {
 			if (edicion) {
 				Integer capa = Integer.parseInt(vehi_capacidad);
-				managergest.editarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), 
-						vehi_tipo.trim(), capa, vehi_estado, vehi_estado_funcional);
+				managergest.editarVehiculo(vehi_id.trim(), vehi_nombre.trim(),
+						vehi_marca.trim(), vehi_modelo.trim(),
+						vehi_tipo.trim(), capa, vehi_estado,
+						vehi_estado_funcional);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				vehi_id= null;
+				vehi_id = null;
 				vehi_nombre = null;
 				vehi_marca = null;
 				vehi_modelo = null;
@@ -230,29 +235,31 @@ public class vehiculoBean implements Serializable {
 				vehi_estado = "A";
 				vehi_estado_funcional = "A";
 				ediciontipo = false;
-				mostrarvehi_id= false;
+				mostrarvehi_id = false;
 				edicion = false;
-				verhorario=false;
+				verhorario = false;
 				getListaVehiculo().clear();
 				getListaVehiculo().addAll(managergest.findAllVehiculos());
 			} else {
-					Integer capa = Integer.parseInt(vehi_capacidad);
-					managergest.insertarVehiculo(vehi_id.trim(), vehi_nombre.trim(), vehi_marca.trim(), vehi_modelo.trim(), vehi_tipo.trim(), capa);
-					Mensaje.crearMensajeINFO("Registrado - Creado");
-					vehi_id= null;
-					vehi_nombre = null;
-					vehi_marca = null;
-					vehi_modelo = null;
-					vehi_tipo = null;
-					vehi_capacidad = null;
-					vehi_estado = "A";
-					vehi_estado_funcional = "A";
-					ediciontipo = false;
-					mostrarvehi_id= false;
-					edicion = false;
-					verhorario=false;
-					getListaVehiculo().clear();
-					getListaVehiculo().addAll(managergest.findAllVehiculos());
+				Integer capa = Integer.parseInt(vehi_capacidad);
+				managergest.insertarVehiculo(vehi_id.trim(),
+						vehi_nombre.trim(), vehi_marca.trim(),
+						vehi_modelo.trim(), vehi_tipo.trim(), capa);
+				Mensaje.crearMensajeINFO("Registrado - Creado");
+				vehi_id = null;
+				vehi_nombre = null;
+				vehi_marca = null;
+				vehi_modelo = null;
+				vehi_tipo = null;
+				vehi_capacidad = null;
+				vehi_estado = "A";
+				vehi_estado_funcional = "A";
+				ediciontipo = false;
+				mostrarvehi_id = false;
+				edicion = false;
+				verhorario = false;
+				getListaVehiculo().clear();
+				getListaVehiculo().addAll(managergest.findAllVehiculos());
 			}
 			return "trans_vehiculos?faces-redirect=true";
 		} catch (Exception e) {
@@ -267,34 +274,36 @@ public class vehiculoBean implements Serializable {
 			return "";
 		}
 	}
-	
-	public void abrirDialog(){
-		if(edicion == true)
-		{
-				RequestContext.getCurrentInstance().execute("PF('gu').show();");
-		}else
-		if (!averiguarVehiid(vehi_id)) {
-				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+
+	/**
+	 * Metodo para abrir el dialogo
+	 * 
+	 */
+	public void abrirDialog() {
+		if (edicion == true) {
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		} else if (!averiguarVehiid(vehi_id)) {
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		}
 	}
 
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param vehi_id
+	 * @param vehi_nombre
+	 * @param vehi_marca
+	 * @param vehi_modelo
+	 * @param vehi_tipo
+	 * @param capa
+	 * @param vehi_estado
+	 * @param vehi_estado_funcional
 	 * @throws Exception
 	 */
 	public String cargarVehiculo(TransVehiculo vehi) {
+
 		try {
-			vehi_id=vehi.getVehiIdplaca();
+			vehi_id = vehi.getVehiIdplaca();
 			vehi_nombre = vehi.getVehiNombre();
 			vehi_marca = vehi.getVehiMarca();
 			vehi_modelo = vehi.getVehiModelo();
@@ -320,10 +329,13 @@ public class vehiculoBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cambiarEstadoVehi() {
+
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACION",
-					managergest.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
+			context.addMessage(
+					null,
+					new FacesMessage("INFORMACION", managergest
+							.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
 			getListaVehiculo().clear();
 			getListaVehiculo().addAll(managergest.findAllVehiculos());
 		} catch (Exception e) {
@@ -332,16 +344,22 @@ public class vehiculoBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * Metodo para cambiar el estado del vehiculo
+	 * 
+	 * @param vehi
+	 */
 	public void cambiarEstadovehi(TransVehiculo vehi) {
+
 		setVehi(vehi);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 		System.out.println("holi");
-
 	}
-	
+
 	/**
 	 * metodo para conocer el prodid si esta usado
 	 * 
+	 * @param vehi_id
 	 */
 	public boolean averiguarVehiid(String vehi_id) {
 		Integer t = 0;
@@ -363,7 +381,7 @@ public class vehiculoBean implements Serializable {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Lista de estados
 	 * 
@@ -378,7 +396,7 @@ public class vehiculoBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
-	
+
 	/**
 	 * Lista de estadosfuncionales
 	 * 
@@ -394,14 +412,13 @@ public class vehiculoBean implements Serializable {
 		return lista;
 	}
 
-	
 	/**
 	 * Redirecciona a la pagina de creacion de vehiculos
 	 * 
 	 * @return
 	 */
 	public String nuevoVehiculo() {
-		vehi_id= null;
+		vehi_id = null;
 		vehi_nombre = null;
 		vehi_marca = null;
 		vehi_modelo = null;
@@ -410,12 +427,12 @@ public class vehiculoBean implements Serializable {
 		vehi_estado = "A";
 		vehi_estado_funcional = "A";
 		ediciontipo = false;
-		mostrarvehi_id= false;
+		mostrarvehi_id = false;
 		edicion = false;
-		verhorario=false;
+		verhorario = false;
 		return "trans_nvehiculo?faces-redirect=true";
 	}
-	
+
 	/**
 	 * limpia la informacion de horario
 	 * 
@@ -424,7 +441,7 @@ public class vehiculoBean implements Serializable {
 	 */
 	public String volverVehiculo() throws Exception {
 		// limpiar datos
-		vehi_id= null;
+		vehi_id = null;
 		vehi_nombre = null;
 		vehi_marca = null;
 		vehi_modelo = null;
@@ -433,7 +450,7 @@ public class vehiculoBean implements Serializable {
 		vehi_estado = "A";
 		vehi_estado_funcional = "A";
 		ediciontipo = false;
-		mostrarvehi_id= false;
+		mostrarvehi_id = false;
 		edicion = false;
 		getListaVehiculo().clear();
 		getListaVehiculo().addAll(managergest.findAllVehiculos());

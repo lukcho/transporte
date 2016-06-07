@@ -2,27 +2,27 @@ package transporte.controller.gestion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
+//import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+//import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
 import tranporte.controller.access.SesionBean;
-import transporte.model.dao.entities.Persona;
+//import transporte.model.dao.entities.Persona;
 import transporte.model.dao.entities.PersonaFuncionario;
 import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.generic.Funciones;
-import transporte.model.generic.Mensaje;
-import transporte.model.manager.ManagerCarga;
+//import transporte.model.generic.Mensaje;
+//import transporte.model.manager.ManagerCarga;
 import transporte.model.manager.ManagerGestion;
 
 @SessionScoped
@@ -34,7 +34,7 @@ public class conductorfunBean implements Serializable {
 	@EJB
 	private ManagerGestion managergest;
 
-	private ManagerCarga mangcar;
+	// private ManagerCarga mangcar;
 
 	// VEHICULO
 	private String condf_cedula;
@@ -58,25 +58,25 @@ public class conductorfunBean implements Serializable {
 
 	private List<PersonaFuncionario> listafuncionariodebase;
 
-	private HashMap<String, PersonaFuncionario> hashpersonfun;
-	
-	private String usuario;
+//	private HashMap<String, PersonaFuncionario> hashpersonfun;
 
+	private String usuario;
 
 	@Inject
 	SesionBean ms;
 
-	private Persona per;
-	private PersonaFuncionario perfun;
+//	private Persona per;
+
+	// private PersonaFuncionario perfun;
 
 	public conductorfunBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		mangcar = new ManagerCarga();
+		// mangcar = new ManagerCarga();
 		usuario = ms.validarSesion("trans_conductoresfun.xhtml");
- 		condf_cedula = null;
+		condf_cedula = null;
 		condf_estado = "A";
 		condf_direccion = "";
 		condf_telefono = "";
@@ -86,11 +86,11 @@ public class conductorfunBean implements Serializable {
 		ediciontipo = false;
 		ocultarbusqueda = true;
 		mostrarcondf_id = false;
-//		listaConductoresFun = managergest.findAllConductoresFuncionarios();
-		hashpersonfun = new HashMap<String, PersonaFuncionario>();
+		// listaConductoresFun = managergest.findAllConductoresFuncionarios();
+	//	hashpersonfun = new HashMap<String, PersonaFuncionario>();
 
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -128,13 +128,13 @@ public class conductorfunBean implements Serializable {
 		this.listafuncionariodebase = listafuncionariodebase;
 	}
 
-	public PersonaFuncionario getPerfun() {
-		return perfun;
-	}
-
-	public void setPerfun(PersonaFuncionario perfun) {
-		this.perfun = perfun;
-	}
+	// public PersonaFuncionario getPerfun() {
+	// return perfun;
+	// }
+	//
+	// public void setPerfun(PersonaFuncionario perfun) {
+	// this.perfun = perfun;
+	// }
 
 	public ManagerGestion getManagergest() {
 		return managergest;
@@ -209,18 +209,22 @@ public class conductorfunBean implements Serializable {
 		this.listaConductoresFun = listaConductoresFun;
 	}
 
-//	// metodo para listar los conductores
-//	public List<TransFuncionarioConductor> ListaConductoresFunSin() {
-//		List<TransFuncionarioConductor> a = managergest
-//				.findAllConductoresFuncionarios();
-//		List<TransFuncionarioConductor> l1 = new ArrayList<TransFuncionarioConductor>();
-//		for (TransFuncionarioConductor t : a) {
-//			if (!t.getFcoId().equals("Ninguno")) {
-//				l1.add(t);
-//			}
-//		}
-//		return l1;
-//	}
+	// /**
+	// * metodo para lstar los funcionarios conductores
+	// *
+	// */
+	// public List<TransFuncionarioConductor> ListaConductoresFunSin() {
+	// List<TransFuncionarioConductor> a = managergest
+	// .findAllConductoresFuncionarios();
+	// List<TransFuncionarioConductor> l1 = new
+	// ArrayList<TransFuncionarioConductor>();
+	// for (TransFuncionarioConductor t : a) {
+	// if (!t.getFcoId().equals("Ninguno")) {
+	// l1.add(t);
+	// }
+	// }
+	// return l1;
+	// }
 
 	public boolean isEdicion() {
 		return edicion;
@@ -238,80 +242,79 @@ public class conductorfunBean implements Serializable {
 		this.ediciontipo = ediciontipo;
 	}
 
+	// /**
+	// * accion para invocar el manager y crear conductor o editar el conductor
+	// *
+	// * @param condf_cedula
+	// * @param condf_correo
+	// * @param condf_telefono
+	// * @param condf_estado
+	// * @throws Exception
+	// */
+	// public String crearConductorFun() {
+	// String r="";
+	// try {
+	// if (edicion) {
+	// //
+	// managergest.editarConductorFun(condf_cedula.trim(),condf_correo.trim(),condf_telefono.trim(),
+	// condf_estado);
+	// // getListaConductoresFun().clear();
+	// // getListaConductoresFun().addAll(
+	// // managergest.findAllConductoresFuncionarios());
+	// Mensaje.crearMensajeINFO("Actualizado - Modificado");
+	// r= "trans_conductoresfun?faces-redirect=true";
+	// } else {
+	// if (averiguarConFunId(perfun.getPerDNI())==false)
+	// {
+	// // managergest.insertarConductorFun(perfun);
+	// // getListaConductoresFun().clear();
+	// // getListaConductoresFun().addAll(
+	// // managergest.findAllConductoresFuncionarios());
+	// Mensaje.crearMensajeINFO("Registrado - Creado");
+	// r= "trans_conductoresfun?faces-redirect=true";
+	// }
+	// else
+	// {
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_INFO,
+	// "El conductor funcionario existe.", null));
+	// r="";
+	// }
+	//
+	// }
+	// return r;
+	// } catch (Exception e) {
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	// "Error al crear conductor funcionario", null));
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_ERROR, e
+	// .getMessage(), null));
+	// return "";
+	// }
+	// }
+
 	/**
-	 * accion para invocar el manager y crear conductor o editar el conductor
+	 * metodo para abrir el dialogo
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
-	 * @throws Exception
 	 */
-	public String crearConductorFun() {
-		String r="";
-		try {
-			if (edicion) {
-//				managergest.editarConductorFun(condf_cedula.trim(),condf_correo.trim(),condf_telefono.trim(), condf_estado);
-//				getListaConductoresFun().clear();
-//				getListaConductoresFun().addAll(
-//						managergest.findAllConductoresFuncionarios());
-				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r= "trans_conductoresfun?faces-redirect=true";
-			} else {
-				if (averiguarConFunId(perfun.getPerDNI())==false)
-				{
-//				managergest.insertarConductorFun(perfun);
-//				getListaConductoresFun().clear();
-//				getListaConductoresFun().addAll(
-//						managergest.findAllConductoresFuncionarios());
-				Mensaje.crearMensajeINFO("Registrado - Creado");
-				r= "trans_conductoresfun?faces-redirect=true";
-				}
-				else
-				{
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"El conductor funcionario existe.", null));
-					r="";
-				}
-
-			}
-			return r;
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear conductor funcionario", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
-			return "";
-		}
-	}
-
 	public void abrirDialog() {
-			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param condf_cedula
+	 * @param condf_nombre
+	 * @param condf_direccion
+	 * @param condf_gerencia
+	 * @param condf_estado
+	 * @param condf_telefono
+	 * @param condf_correo
 	 * @throws Exception
 	 */
 	public String cargarConductorFun(TransFuncionarioConductor condf) {
@@ -328,8 +331,9 @@ public class conductorfunBean implements Serializable {
 			ediciontipo = false;
 			ocultarbusqueda = false;
 			System.out.println(usuario);
-			per = mangcar.funcionarioByDNI(usuario);
-	//		listafuncionariodebase = mangcar.funcionarioByGerencia(perfun.getPerGerencia());
+			// per = mangcar.funcionarioByDNI(usuario);
+			// listafuncionariodebase =
+			// mangcar.funcionarioByGerencia(perfun.getPerGerencia());
 			return "trans_nconductorfun?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -338,28 +342,34 @@ public class conductorfunBean implements Serializable {
 		return "";
 	}
 
+	// /**
+	// * activar y desactivar estado conductor
+	// *
+	// * @param cond_cedula
+	// * @throws Exception
+	// */
+	// public String cambiarEstadoConduFun() {
+	// try {
+	// FacesContext context = FacesContext.getCurrentInstance();
+	// context.addMessage(
+	// null,
+	// new FacesMessage("INFORMACION", managergest
+	// .cambioEstadoConductorFun(getCondf().getFcoId())));
+	// getListaConductoresFun().clear();
+	// getListaConductoresFun().addAll(
+	// managergest.findAllConductoresFuncionarios());
+	// } catch (Exception e) {
+	// System.out.println(e.getMessage());
+	// }
+	// return "";
+	// }
+
 	/**
-	 * activar y desactivar estado conductor
+	 * cambiar el estado conductor funcionario
 	 * 
 	 * @param cond_cedula
 	 * @throws Exception
 	 */
-	public String cambiarEstadoConduFun() {
-		try {
-//			FacesContext context = FacesContext.getCurrentInstance();
-//			context.addMessage(
-//					null,
-//					new FacesMessage("INFORMACION", managergest
-//							.cambioEstadoConductorFun(getCondf().getFcoId())));
-//			getListaConductoresFun().clear();
-//			getListaConductoresFun().addAll(
-//					managergest.findAllConductoresFuncionarios());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "";
-	}
-
 	public void cambiarEstadoConFun(TransFuncionarioConductor condf) {
 		setCondf(condf);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
@@ -367,27 +377,27 @@ public class conductorfunBean implements Serializable {
 
 	}
 
-	/**
-	 * metodo para conocer el conductor si esta usado
-	 * 
-	 */
-	public boolean averiguarConFunId(String conf_id) {
-		Integer t = 0;
-		boolean r = false;
-//		List<TransFuncionarioConductor> cond = managergest
-//				.findAllConductoresFuncionarios();
-//		for (TransFuncionarioConductor y : cond) {
-//			if (y.getFcoId().equals(conf_id)) {
-//				System.out.println("si entra1");
-//				t = 1;
-//				r = true;
-//			}
-//		}
-		if (t == 0) {
-			r = false;
-		}
-		return r;
-	}
+	// /**
+	// * metodo para conocer el conductor funcionario si esta usado
+	// *
+	// */
+	// public boolean averiguarConFunId(String conf_id) {
+	// Integer t = 0;
+	// boolean r = false;
+	// List<TransFuncionarioConductor> cond = managergest
+	// .findAllConductoresFuncionarios();
+	// for (TransFuncionarioConductor y : cond) {
+	// if (y.getFcoId().equals(conf_id)) {
+	// System.out.println("si entra1");
+	// t = 1;
+	// r = true;
+	// }
+	// }
+	// if (t == 0) {
+	// r = false;
+	// }
+	// return r;
+	// }
 
 	/**
 	 * Lista de estados
@@ -404,65 +414,65 @@ public class conductorfunBean implements Serializable {
 		return lista;
 	}
 
-	/**
-	 * Redirecciona a la pagina de creacion de conductores
-	 * 
-	 * @return
-	 */
-	public String nuevoConductorFun() {
-		try {
-			condf_cedula = null;
-			condf_nombre = null;
-			condf_gerencia = null;
-			condf_direccion = null;
-			condf_estado = "A";
-			ediciontipo = false;
-			mostrarcondf_id = false;
-			ocultarbusqueda = true;
-			edicion = false;
-			ediciontipo = true;
-			BuscarPersona();
-			System.out.println(usuario);
-			per = mangcar.funcionarioByDNI(usuario);
-			listafuncionariodebase = mangcar.funcionarioByGerencia(per
-					.getPerGerencia());
-			hashpersonfun.clear();
-			for (PersonaFuncionario p : listafuncionariodebase) {
-				hashpersonfun.put(p.getPerDNI(), p);
-			}
+	// /**
+	// * Redirecciona a la pagina de creacion de conductores funcionarios
+	// *
+	// * @return
+	// */
+	// public String nuevoConductorFun() {
+	// try {
+	// condf_cedula = null;
+	// condf_nombre = null;
+	// condf_gerencia = null;
+	// condf_direccion = null;
+	// condf_estado = "A";
+	// ediciontipo = false;
+	// mostrarcondf_id = false;
+	// ocultarbusqueda = true;
+	// edicion = false;
+	// ediciontipo = true;
+	// BuscarPersona();
+	// System.out.println(usuario);
+	// per = mangcar.funcionarioByDNI(usuario);
+	// listafuncionariodebase = mangcar.funcionarioByGerencia(per
+	// .getPerGerencia());
+	// hashpersonfun.clear();
+	// for (PersonaFuncionario p : listafuncionariodebase) {
+	// hashpersonfun.put(p.getPerDNI(), p);
+	// }
+	//
+	// } catch (Exception e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// return "trans_nconductorfun?faces-redirect=true";
+	// }
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "trans_nconductorfun?faces-redirect=true";
-	}
+	// /**
+	// * limpia la informacion de horario
+	// *
+	// * @return
+	// * @throws Exception
+	// */
+	// public String volverConductorFun() throws Exception {
+	// // limpiar datos
+	// condf_cedula = null;
+	// condf_nombre = null;
+	// condf_gerencia = null;
+	// condf_direccion = null;
+	// condf_estado = "A";
+	// ocultarbusqueda = true;
+	// ediciontipo = false;
+	// mostrarcondf_id = false;
+	// edicion = false;
+	// getListaConductoresFun().clear();
+	// getListaConductoresFun().addAll(
+	// managergest.findAllConductoresFuncionarios());
+	// return "trans_conductoresfun?faces-redirect=true";
+	// }
 
 	/**
-	 * limpia la informacion de horario
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public String volverConductorFun() throws Exception {
-		// limpiar datos
-		condf_cedula = null;
-		condf_nombre = null;
-		condf_gerencia = null;
-		condf_direccion = null;
-		condf_estado = "A";
-		ocultarbusqueda = true;
-		ediciontipo = false;
-		mostrarcondf_id = false;
-		edicion = false;
-//		getListaConductoresFun().clear();
-//		getListaConductoresFun().addAll(
-//				managergest.findAllConductoresFuncionarios());
-		return "trans_conductoresfun?faces-redirect=true";
-	}
-
-	/**
-	 * Setea los datos del BEAN al cambiar de usuario
+	 * liberar datos
 	 */
 	public void liberarDatos() {
 		condf_cedula = null;
@@ -471,18 +481,23 @@ public class conductorfunBean implements Serializable {
 		condf_direccion = null;
 	}
 
-	public void asignarFuncionario() {
-		perfun = hashpersonfun.get(getCondf_cedula());
-	}
-	
-	public void BuscarPersona() {
-		try {
-			per = mangcar.funcionarioByDNI(usuario);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	// /**
+	// * metodo para asignar funcionario
+	// */
+	// public void asignarFuncionario() {
+	// perfun = hashpersonfun.get(getCondf_cedula());
+	// }
 
-	}
+//	/**
+//	 * metodo para bvyscar persona funcionario
+//	 */
+//	public void BuscarPersona() {
+//		try {
+//			 per = mangcar.funcionarioByDNI(usuario);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }

@@ -29,8 +29,6 @@ public class ManagerCatalogos {
 	 * buscar todos catalogos
 	 * 
 	 * @param cat_id
-	 * @param nombre
-	 * @param valor
 	 * @throws Exception
 	 */
 
@@ -40,7 +38,7 @@ public class ManagerCatalogos {
 	}
 	
 	/**
-	 * buscar todos catalogos
+	 * buscar catalogos por el catalogo_id
 	 * 
 	 * @param catId
 	 * @throws Exception
@@ -55,8 +53,6 @@ public class ManagerCatalogos {
 	 * listar todos los catalogos
 	 * 
 	 * @param id_cat
-	 * @param nombre
-	 * @param valor
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -65,11 +61,9 @@ public class ManagerCatalogos {
 	}
 
 	/**
-	 * buscar Catalogos por ID
+	 * buscar Catalogo por ID
 	 * 
 	 * @param id_cat
-	 * @param nombre
-	 * @param valor
 	 * @throws Exception
 	 */
 	public TransCatCab CatalogoByID(Integer cat_id) throws Exception {
@@ -79,7 +73,6 @@ public class ManagerCatalogos {
 	/**
 	 * Agrega Catalogo
 	 * 
-	 * @param cat_id
 	 * @param nombre
 	 * @param valor
 	 * @throws Exception
@@ -111,9 +104,6 @@ public class ManagerCatalogos {
 	 * Cambiar estado Catalogo
 	 * 
 	 * @param id_cat
-	 * @param nombre
-	 * @param apellido
-	 * @param correo
 	 * @throws Exception
 	 */
 	public String cambioEstadocat(Integer cat_id) throws Exception {
@@ -176,9 +166,6 @@ public class ManagerCatalogos {
 	/**
 	 * listar todos los catalogositems
 	 * 
-	 * @param id_cat
-	 * @param nombre
-	 * @param valor
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -190,8 +177,6 @@ public class ManagerCatalogos {
 	 * buscar Catalogositems por ID
 	 * 
 	 * @param id_cat
-	 * @param nombre
-	 * @param valor
 	 * @throws Exception
 	 */
 	public TransCatDet CatalogoItemsByID(Integer cati_id) throws Exception {
@@ -203,7 +188,7 @@ public class ManagerCatalogos {
 	 * 
 	 * @param cat_id
 	 * @param nombre
-	 * @param valor
+	 * @param id_padre
 	 * @throws Exception
 	 */
 	public void insertarCatalogoItems(String nombre, Integer id_padre)
@@ -228,7 +213,8 @@ public class ManagerCatalogos {
 	 * 
 	 * @param id_cat
 	 * @param nombre
-	 * @param valor
+	 * @param estado
+	 * @param id_padre
 	 * @throws Exception
 	 */
 	public void editarCatalogoItems(Integer cati_id, String nombre,
@@ -251,9 +237,6 @@ public class ManagerCatalogos {
 	 * Cambiar estado CatalogoItems
 	 * 
 	 * @param id_cat
-	 * @param nombre
-	 * @param apellido
-	 * @param correo
 	 * @throws Exception
 	 */
 	public String cambioEstadocati(Integer cati_id) throws Exception {
@@ -275,7 +258,7 @@ public class ManagerCatalogos {
 	 * Verifica si el CatalogoItems esta activado
 	 * 
 	 * @param u
-	 *            Catalogo a analizar
+	 *            Catalogoitem a analizar
 	 * @return true o false
 	 */
 	public boolean escatiActivo(TransCatDet u) {
@@ -287,7 +270,7 @@ public class ManagerCatalogos {
 	}
 
 	/**
-	 * metodo para asignar el catalogo al un item
+	 * Método para asignar el catalogo al un item
 	 * 
 	 * @param u
 	 *            Catalogo a analizar
@@ -303,12 +286,10 @@ public class ManagerCatalogos {
 		return fab_cat;
 	}
 
-	// CATALOGOITEM
-
 	/**
 	 * buscar catalogo_item por ID
 	 * 
-	 * @param prod_id
+	 * @param cati_id
 	 * @throws Exception
 	 */
 	public TransCatDet CatalogoItemByID(Integer cati_id) throws Exception {
@@ -316,7 +297,7 @@ public class ManagerCatalogos {
 	}
 
 	/**
-	 * metodo para asignar el producto a un item
+	 * Método para asignar el producto a un item
 	 * 
 	 * @param u
 	 *            prodalogo a analizar

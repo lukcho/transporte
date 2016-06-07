@@ -35,46 +35,46 @@ public class lugarBean implements Serializable {
 	private String lug_nombre;
 	private String lug_ciudad;
 	private String lug_estado;
-	
+
 	private TransLugare lug;
 
-	//mmostrar
+	// mmostrar
 	private boolean mostrarlug_id;
 	private boolean edicion;
 	private boolean ediciontipo;
 	private boolean verhorario;
-	
+
 	private List<TransLugare> listaLugares;
 
 	private String usuario;
 
 	@Inject
 	SesionBean ms;
-	
+
 	public lugarBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
 		lug_id = null;
-		lug_estado="A";
-		lug_nombre="";
-		lug_ciudad="";
+		lug_estado = "A";
+		lug_nombre = "";
+		lug_ciudad = "";
 		edicion = false;
 		ediciontipo = false;
 		mostrarlug_id = false;
 		listaLugares = managergest.findAllLugares();
 		usuario = ms.validarSesion("trans_lugares.xhtml");
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
-	
+
 	public Integer getLug_id() {
 		return lug_id;
 	}
-	
+
 	public void setLug_id(Integer lug_id) {
 		this.lug_id = lug_id;
 	}
@@ -142,7 +142,7 @@ public class lugarBean implements Serializable {
 	public void setListaLugares(List<TransLugare> listaLugares) {
 		this.listaLugares = listaLugares;
 	}
-	
+
 	public TransLugare getLug() {
 		return lug;
 	}
@@ -150,43 +150,39 @@ public class lugarBean implements Serializable {
 	public void setLug(TransLugare lug) {
 		this.lug = lug;
 	}
-	
-	//VEHICULO
+
+	// VEHICULO
 	/**
-	 * accion para invocar el manager y crear Lugar o editar el Lugar
+	 * accion para invocar el manager y crear vehiculo o editar el vehiculo
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param lug_id
+	 * @param lug_nombre
+	 * @param lug_ciudad
+	 * @param lug_estado
 	 * @throws Exception
 	 */
 	public String crearLugar() {
 		try {
 			if (edicion) {
-				managergest.editarLugar(lug_id, lug_nombre.trim(), lug_ciudad.trim(), lug_estado.trim());
+				managergest.editarLugar(lug_id, lug_nombre.trim(),
+						lug_ciudad.trim(), lug_estado.trim());
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				lug_id=null;
-				lug_nombre=null;
-				lug_ciudad=null;
-				lug_estado="A";
+				lug_id = null;
+				lug_nombre = null;
+				lug_ciudad = null;
+				lug_estado = "A";
 			} else {
-					managergest.insertarLugar(lug_nombre.trim(), lug_ciudad.trim());
-					Mensaje.crearMensajeINFO("Registrado - Creado");
-					getListaLugares().clear();
-					getListaLugares().addAll(managergest.findAllLugares());
-					lug_id=null;
-					lug_nombre=null;
-					lug_ciudad=null;
-					lug_estado="A";
-				}
+				managergest.insertarLugar(lug_nombre.trim(), lug_ciudad.trim());
+				Mensaje.crearMensajeINFO("Registrado - Creado");
+				getListaLugares().clear();
+				getListaLugares().addAll(managergest.findAllLugares());
+				lug_id = null;
+				lug_nombre = null;
+				lug_ciudad = null;
+				lug_estado = "A";
+			}
 			return "trans_lugares?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -200,28 +196,27 @@ public class lugarBean implements Serializable {
 			return "";
 		}
 	}
-	
-	public void abrirDialog(){
+
+	/**
+	 * accion para abrir el dialogo
+	 * 
+	 */
+	public void abrirDialog() {
 		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param lug_id
+	 * @param lug_nombre
+	 * @param lug_ciudad
+	 * @param lug_estado
 	 * @throws Exception
 	 */
 	public String cargarLugar(TransLugare lug) {
 		try {
-			lug_id=lug.getLugId();
+			lug_id = lug.getLugId();
 			lug_nombre = lug.getLugNombre();
 			lug_ciudad = lug.getLugCiudad();
 			lug_estado = lug.getLugEstado();
@@ -238,7 +233,6 @@ public class lugarBean implements Serializable {
 	/**
 	 * activar y desactivar estado Lugar
 	 * 
-	 * @param vehi_id
 	 * @throws Exception
 	 */
 	public String cambiarEstadoLugar() {
@@ -254,13 +248,19 @@ public class lugarBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * cambiar el estado del lugars
+	 * 
+	 * @param cond
+	 * @throws Exception
+	 */
 	public void cambiarEstadoLugara(TransLugare cond) {
 		setLug(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 		System.out.println("holi");
 
 	}
-	
+
 	/**
 	 * metodo para conocer el lug_id si esta usado
 	 * 
@@ -285,7 +285,7 @@ public class lugarBean implements Serializable {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Lista de estados
 	 * 
@@ -300,24 +300,23 @@ public class lugarBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
-	
+
 	/**
 	 * Redirecciona a la pagina de creacion de lugares
 	 * 
 	 * @return
 	 */
 	public String nuevoLugar() {
-		lug_id=null;
-		lug_nombre=null;
-		lug_ciudad=null;
-		lug_estado="A";
+		lug_id = null;
+		lug_nombre = null;
+		lug_ciudad = null;
+		lug_estado = "A";
 		verhorario = false;
 		mostrarlug_id = false;
 		edicion = false;
 		return "trans_nlugar?faces-redirect=true";
 	}
-	
-	
+
 	/**
 	 * limpia la informacion de lugar
 	 * 
@@ -325,13 +324,12 @@ public class lugarBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String volverLugar() throws Exception {
-		// limpiar datos
-		lug_id= null;
+		lug_id = null;
 		lug_nombre = null;
 		lug_ciudad = null;
 		lug_estado = "A";
 		ediciontipo = false;
-		mostrarlug_id= false;
+		mostrarlug_id = false;
 		edicion = false;
 		getListaLugares().clear();
 		getListaLugares().addAll(managergest.findAllLugares());

@@ -47,12 +47,12 @@ public class conductorBean implements Serializable {
 	private boolean ediciontipo;
 
 	private List<TransConductore> listaConductores;
-	
+
 	private String usuario;
 
 	@Inject
 	SesionBean ms;
-	
+
 	public conductorBean() {
 	}
 
@@ -68,7 +68,7 @@ public class conductorBean implements Serializable {
 		usuario = ms.validarSesion("trans_conductores.xhtml");
 		listaConductores = managergest.findAllConductores();
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -173,7 +173,11 @@ public class conductorBean implements Serializable {
 		return listaConductores;
 	}
 
-	// metodo para listar los conductores
+	/**
+	 * metodo para listar los conductores
+	 * 
+	 * @return
+	 */
 	public List<TransConductore> ListaConductoresSin() {
 		List<TransConductore> a = managergest.findAllConductores();
 		List<TransConductore> l1 = new ArrayList<TransConductore>();
@@ -185,6 +189,11 @@ public class conductorBean implements Serializable {
 		return l1;
 	}
 
+	/**
+	 * metodo para editar la lista de los conductores
+	 * 
+	 * @return
+	 */
 	public void setListaConductores(List<TransConductore> listaConductores) {
 		this.listaConductores = listaConductores;
 	}
@@ -192,15 +201,13 @@ public class conductorBean implements Serializable {
 	/**
 	 * accion para invocar el manager y crear conductor o editar el conductor
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
+	 * @param cond_cedula
+	 * @param cond_nombre
+	 * @param cond_apellido
+	 * @param cond_telefono
+	 * @param cond_correo
 	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param cond_estado
 	 * @throws Exception
 	 */
 	public String crearConductor() {
@@ -235,29 +242,15 @@ public class conductorBean implements Serializable {
 		}
 	}
 
-	public void abrirDialog() {
-		if(edicion == true)
-		{
-				RequestContext.getCurrentInstance().execute("PF('gu').show();");
-		}else
-		if (!averiguarConid(cond_cedula)) {
-			if (!averiguarCorr(cond_correo))
-				RequestContext.getCurrentInstance().execute("PF('gu').show();");
-		}
-	}
-
 	/**
-	 * accion para cargar los datos en el formulario
+	 * accion para cargar los datos del conductor en el formulario
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param cond_cedula
+	 * @param cond_nombre
+	 * @param cond_apellido
+	 * @param cond_telefono
+	 * @param cond_estado
+	 * @param cond_correo
 	 * @throws Exception
 	 */
 	public String cargarConductor(TransConductore cond) {
@@ -282,7 +275,6 @@ public class conductorBean implements Serializable {
 	/**
 	 * activar y desactivar estado conductor
 	 * 
-	 * @param cond_cedula
 	 * @throws Exception
 	 */
 	public String cambiarEstadoCondu() {
@@ -300,6 +292,11 @@ public class conductorBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * metodo para cambiar el estado del conductor
+	 * 
+	 * @throws Exception
+	 */
 	public void cambiarEstadoCon(TransConductore cond) {
 		setCond(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
@@ -391,7 +388,7 @@ public class conductorBean implements Serializable {
 	}
 
 	/**
-	 * limpia la informacion de horario
+	 * limpia la informacion del conductor
 	 * 
 	 * @return
 	 * @throws Exception
@@ -412,4 +409,18 @@ public class conductorBean implements Serializable {
 		return "trans_conductores?faces-redirect=true";
 	}
 
+	/**
+	 * abre el dialogo
+	 * 
+	 * @throws Exception
+	 */
+	public void abrirDialog() {
+		if (edicion == true) {
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		} else if (!averiguarConid(cond_cedula)) {
+			if (!averiguarCorr(cond_correo))
+				RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		}
+	}
+	
 }
