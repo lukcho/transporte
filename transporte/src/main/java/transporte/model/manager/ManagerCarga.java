@@ -1,15 +1,25 @@
 package transporte.model.manager;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.ejb.EJB;
+
+import org.json.simple.JSONObject;
 
 import transporte.general.connection.SingletonJDBC;
 import transporte.general.connection.SingletonJDBCtrans;
 import transporte.model.dao.entities.Novedades;
 import transporte.model.dao.entities.Persona;
 import transporte.model.dao.entities.PersonaFuncionario;
+import transporte.model.dao.entities.TransFuncionarioConductor;
+import transporte.model.dao.entities.TransParametro;
+import transporte.model.generic.ConsumeREST;
 import transporte.model.generic.Funciones;
 
 /**
@@ -18,16 +28,51 @@ import transporte.model.generic.Funciones;
  * @author
  * 
  */
+
 public class ManagerCarga {
 
 	private SingletonJDBC conDao;
 	private SingletonJDBCtrans conDaotrans;
+	
+	@EJB
+	private ManagerDAO mDAO;
 
 	public ManagerCarga() {
 		conDao = SingletonJDBC.getInstance();
 		conDaotrans = SingletonJDBCtrans.getInstance();
 	}
-
+	
+	
+	public static String consultaSQL(String usr) throws Exception{
+	  String cc = "jdbc:postgresql://10.1.0.158:5432/app_permisos?user=adm_svcyachay&password=_50STg-FGh2h";
+	  Connection conexion = null;
+	  Statement comando = null;
+	  ResultSet resultado = null;
+	  try {
+	   Class.forName("org.postgresql.Driver");
+	      conexion = DriverManager.getConnection(cc);
+	      comando = conexion.createStatement();
+	      resultado = comando.executeQuery("SELECT per_id FROM app_usuario WHERE usu_login = '"+usr+"';");
+	      if(resultado.next()){
+	       return resultado.getString("per_id");
+	      }else{
+	       return null;
+	      }
+	  } catch (Exception e) {
+	   throw new Exception(e.getMessage());
+	  }finally{
+	   if (resultado != null)
+	    resultado.close();
+	   if (comando != null)
+	    comando.close();
+	   if (conexion!=null)
+	    conexion.close();
+	  }
+	 }
+	
+	
+	
+	
 	/**
 	 * Devuelve un funcionario por dni
 	 * 
@@ -216,5 +261,26 @@ public class ManagerCarga {
 		}
 		return filterUsers;
 	}
+	
 
+	/**
+	 * listar todos los conductores funcionarios
+	 * 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransFuncionarioConductor> findAllConductFuncionarios() {
+		return mDAO.findAll(TransFuncionarioConductor.class);
+	}
+
+	/**
+	 * buscar los vehuculos por ID
+	 * 
+	 * @param vehi_id
+	 * @throws Exception
+	 */
+	public TransParametro parametroByID(String parametro) throws Exception {
+		return (TransParametro) mDAO.findById(TransParametro.class, parametro);
+	}
+	
 }

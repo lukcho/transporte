@@ -494,5 +494,4 @@ public class ManagerSolicitud {
 	public List<TransFuncionarioConductor> findAllConductFuncionarios() {
 		return mDAO.findAll(TransFuncionarioConductor.class);
 	}
-
 }
