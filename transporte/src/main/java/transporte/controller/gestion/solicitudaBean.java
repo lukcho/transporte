@@ -32,6 +32,7 @@ import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
 import transporte.model.generic.Mail;
 import transporte.model.generic.Mensaje;
+import transporte.model.manager.ManagerBuscar;
 import transporte.model.manager.ManagerCarga;
 import transporte.model.manager.ManagerGestion;
 import transporte.model.manager.ManagerSolicitud;
@@ -73,7 +74,7 @@ public class solicitudaBean implements Serializable {
 	private String sol_novedades;
 	private boolean sol_regresorigen;
 	private String sol_correojefeinmediato;
-
+	private String cedula;
 	// private transolicitante solicitante;
 	private TransLugare lugorigen;
 	private TransLugare lugdestino;
@@ -117,6 +118,9 @@ public class solicitudaBean implements Serializable {
 	@Inject
 	SesionBean ms;
 
+	@EJB
+	private ManagerBuscar mb;
+
 	private Persona per;
 
 	public solicitudaBean() {
@@ -157,6 +161,14 @@ public class solicitudaBean implements Serializable {
 		listareporte = new ArrayList<TransSolicitud>();
 		listaNovedades = new ArrayList<Novedades>();
 		usuario = ms.validarSesion("trans_solicitudesa.xhtml");
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public String getSol_correojefeinmediato() {
@@ -643,7 +655,7 @@ public class solicitudaBean implements Serializable {
 							+ Funciones.utf8Sting(sol_observacion)
 							+ "<br/><br/>"
 							+ "<br/>Atentamente,<br/>Sistema de Gestión de Transportes Yachay.</body></html>";
-
+					System.out.println(sol_correojefeinmediato);
 					Mail.generateAndSendEmail(sol_correojefeinmediato,
 							"Respuesta de Vehículo", mensaje);
 					Mail.generateAndSendEmail(sol_correo,
@@ -1051,7 +1063,7 @@ public class solicitudaBean implements Serializable {
 	}
 
 	/**
-	 * metodo para abrir  el dialogo
+	 * metodo para abrir el dialogo
 	 * 
 	 * @throws Exception
 	 */
@@ -1130,6 +1142,7 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_nombre = sol.getSolNomSolicitante();
 			sol_id_origen = sol.getTransLugare2().getLugId();
 			sol_id_destino = sol.getTransLugare1().getLugId();
+			BuscarPersona();
 			// if (sol.getTransFuncionarioConductor() == null)
 			// sol_fcoid = "Ninguno";
 			// else
@@ -1682,11 +1695,14 @@ public class solicitudaBean implements Serializable {
 	public void BuscarPersona() {
 
 		try {
+			cedula = ManagerCarga.consultaSQL(usuario);
 			System.out.println(usuario);
-			per = mc.funcionarioByDNI(usuario);
+			// per = mc.funcionarioByDNI(usuario);
+			per = mb.buscarPersonaWSReg(cedula);
 			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
 			sol_usuario_cedula = per.getPerDNI();
+			sol_correo = per.getPerCorreo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1702,7 +1718,10 @@ public class solicitudaBean implements Serializable {
 
 		try {
 			System.out.println(sol_usuario_cedula);
-			per = mc.personasolicitudByDNI(sol_usuario_cedula);
+			// per = mc.funcionarioByDNI(usuario);
+			per = mb.buscarPersonaWSReg(sol_usuario_cedula);
+
+			// per = mc.personasolicitudByDNI(sol_usuario_cedula);
 			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
 			sol_usuario_cedula = per.getPerDNI();

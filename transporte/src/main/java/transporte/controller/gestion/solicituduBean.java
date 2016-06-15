@@ -48,6 +48,9 @@ public class solicituduBean implements Serializable {
 
 	@EJB
 	private ManagerSolicitud managersol;
+	
+	
+	//private ManagerCarga mc;
 
 	@EJB
 	private ManagerBuscar mb;
@@ -115,7 +118,7 @@ public class solicituduBean implements Serializable {
 	public void ini() {
 		usuario = ms.validarSesion("trans_solicitudesu.xhtml");
 		System.out.println(usuario);
-
+	//	mc = new ManagerCarga();
 		BuscarPersona();
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
@@ -1053,7 +1056,7 @@ public class solicituduBean implements Serializable {
 	public void BuscarPersona() {
 		try {
 			cedula = ManagerCarga.consultaSQL(usuario);
-			
+			//per = mc.personasolicitudByDNI(cedula);
 			per = mb.buscarPersonaWSReg(cedula);
 			
 			if(per!=null){

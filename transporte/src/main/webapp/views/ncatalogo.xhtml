@@ -14,11 +14,11 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Registro de Catálogos" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Tipo de Cat&aacute;logo:* " />
+						<h:outputLabel value="Tipo de Cat&aacute;logo:* " for="trackseleccionar" />
 					</b:column>
 					<b:column span="4" style="margin-bottom:10px">
 						<h:panelGroup>
@@ -31,44 +31,15 @@
 						</h:panelGroup>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre de Categor&iacute;a/Sub-Categor&iacute;a:* " />
+						<h:outputLabel value="Nombre de Categor&iacute;a/Sub-Categor&iacute;a:* " for="cat"/>
 					</b:column>
 					<b:column span="4" style="margin-bottom:10px">
-						<h:inputText value="#{catalogosBean.cati_nombre}" required="true"
+						<h:inputText id="cat" value="#{catalogosBean.cati_nombre}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 						</h:inputText>
 					</b:column>
 				</b:row>
-<!-- 				<b:row> -->
-<!-- 					<b:column span="2"> -->
-<!-- 						<h:outputLabel value="Tipo de Categor&iacute;a*: " /> -->
-<!-- 					</b:column> -->
-<!-- 					<b:column span="4" style="margin-bottom:10px"> -->
-<!-- 						<h:panelGroup> -->
-<!-- 							<h:selectOneMenu id="trackseleccionar1" styleClass="form-control"  -->
-<!-- 								value="#{catalogosBean.cati_idpadre}"> -->
-<!-- 								<f:selectItems value="#{catalogosBean.listaCatalogoitem}" /> -->
-<!-- 								<f:ajax render="trackseleccionar2" -->
-<!-- 									listener="#{catalogosBean.asignarCatItem()}"  /> -->
-<!-- 							</h:selectOneMenu> -->
-<!-- 						</h:panelGroup> -->
-<!-- 					</b:column> -->
-<!-- 				</b:row> -->
-<!-- 				<b:row> -->
-<!-- 					<b:column span="2"> -->
-<!-- 						<h:outputLabel value="Sub - Categoría*: " /> -->
-<!-- 					</b:column> -->
-<!-- 					<b:column span="4" style="margin-bottom:10px"> -->
-<!-- 						<h:panelGroup> -->
-<!-- 							<h:selectOneMenu id="trackseleccionar2" value="#{catalogosBean.cati_idhijo}" -->
-<!-- 								styleClass="form-control"> -->
-<!-- 								<f:selectItems value="#{catalogosBean.listaCatalogoitemitems}" /> -->
-<!-- 								<f:ajax	listener="#{catalogosBean.asignarCatItemitem()}"  /> -->
-<!-- 							</h:selectOneMenu> -->
-<!-- 						</h:panelGroup> -->
-<!-- 					</b:column> -->
-<!-- 				</b:row> -->
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Estado*" rendered="#{catalogosBean.edicion}" />

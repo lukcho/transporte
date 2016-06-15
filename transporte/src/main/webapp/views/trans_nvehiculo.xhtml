@@ -18,88 +18,99 @@
 			<b:panel title="Registro de Veh&iacute;culos" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="N&uacute;mero de Placa:* " />
+						<h:outputLabel value="N&uacute;mero de Placa:* " for="num"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_id}" required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
+						<p:inputText id="num" value="#{vehiculoBean.vehi_id}" required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
 							requiredMessage="Campo num. placa requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Num. placa con error. Ejemplo. ABC-123">
 							<f:validateRegex pattern="^([A-Z]{3}-\d{3,4})$" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="nom"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_nombre}" required="true"
+						<p:inputText id="nom" value="#{vehiculoBean.vehi_nombre}" required="true"
 							requiredMessage="Campo nombre requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar nombre el veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Marca:* " />
+						<h:outputLabel value="Marca:* " for="mar"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_marca}" required="true"
+						<p:inputText id="mar" value="#{vehiculoBean.vehi_marca}" required="true"
 							requiredMessage="Campo marca requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar marca del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Modelo:* " />
+						<h:outputLabel value="Modelo:* " for="mod"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_modelo}" required="true"
+						<p:inputText id="mod" value="#{vehiculoBean.vehi_modelo}" required="true"
 							requiredMessage="Campo modelo requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar modelo del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Tipo:* " />
+						<h:outputLabel value="Tipo:* " for="tip"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_tipo}" required="true"
+						<p:inputText id="tip" value="#{vehiculoBean.vehi_tipo}" required="true"
 							requiredMessage="Campo tipo requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar tipo del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Capacidad:* " />
+						<h:outputLabel value="Capacidad:* " for="cap"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{vehiculoBean.vehi_capacidad}" required="true"
+						<p:inputText id="cap" value="#{vehiculoBean.vehi_capacidad}" required="true"
 							requiredMessage="Campo capacidad requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar capacidad del veh&iacute;culo solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
-				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*"
+						<h:outputLabel value="Estado*" for="est"
 							rendered="#{vehiculoBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:selectOneMenu value="#{vehiculoBean.vehi_estado}"
+						<b:selectOneMenu id="est" value="#{vehiculoBean.vehi_estado}"
 							rendered="#{vehiculoBean.edicion}">
 							<f:selectItems value="#{vehiculoBean.listEstados}" />
 						</b:selectOneMenu>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Estado Funcional*"
+						<h:outputLabel value="Estado Funcional*" for="estf"
 							rendered="#{vehiculoBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:selectOneMenu
+						<b:selectOneMenu id="estf"
 							value="#{vehiculoBean.vehi_estado_funcional}"
 							rendered="#{vehiculoBean.edicion}">
 							<f:selectItems

@@ -18,7 +18,7 @@
 			<b:panel title="Crear Nueva Solicitud" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado: "
+						<h:outputLabel value="Estado: " 
 							rendered="#{solicituduBean.edicion}" />
 					</b:column>
 					<b:column span="4">
@@ -37,45 +37,50 @@
 					</b:column>
 					<b:column span="1"></b:column>
 					<b:column span="2">
-						<h:outputLabel value="Pasajeros:* " />
+						<h:outputLabel value="Pasajeros:* " for="pas"/>
 					</b:column>
 					<b:column span="3">
-						<b:inputText value="#{solicituduBean.sol_pasajeros}"
+						<p:inputText id="pas" value="#{solicituduBean.sol_pasajeros}"
 							disabled="#{solicituduBean.edicion}" required="true"
+								styleClass="form-control"
+									style="width:100%; margin-bottom:15px;"
 							requiredMessage="Campo pasajeros requerido" maxlength="10"
 							validatorMessage="Campo pasajeros debe ingresar solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Fecha de petici&oacute;n:* " />
+						<h:outputLabel value="Fecha de petici&oacute;n:* " for="fechai"/>
 					</b:column>
 					<b:column span="3">
 						<p:calendar required="true" mindate="#{solicituduBean.fecha}"
 							disabled="#{solicituduBean.edicion}" label="Hora Fin"
+									style="width:100%; margin-bottom:15px;"
 							requiredMessage="Requerido Fecha" id="fechai" mode="popup"
 							value="#{solicituduBean.fecha}" pattern="yyyy/MM/dd" mask="true">
 							<!-- 							<p:ajax event="dateSelect" update="frm messages"></p:ajax> -->
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Motivo:* " />
+						<h:outputLabel value="Motivo:* " for="mot"/>
 					</b:column>
 					<b:column span="3">
-						<b:inputTextarea value="#{solicituduBean.sol_motivo}"
+						<p:inputTextarea id="mot" value="#{solicituduBean.sol_motivo}"
+							styleClass="form-control"
+									style="width:100%; margin-bottom:15px;"
 							fieldSize="2" rows="2" disabled="#{solicituduBean.edicion}"
 							required="true" requiredMessage="Campo motivo requerido"
 							maxlength="255">
-						</b:inputTextarea>
+						</p:inputTextarea>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="5">
 						<b:thumbnail tooltip="Origen">
 							<f:facet name="caption">
-								<h:outputLabel value="Lugar Origen:* " />
+								<h:outputLabel value="Lugar Origen:* " for="trackseleccionar2"/>
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar2" required="true"
 										disabled="#{solicituduBean.edicion}" styleClass="form-control"
@@ -87,7 +92,7 @@
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<br />
-								<h:outputLabel value="Hora Inicio:* " />
+								<h:outputLabel value="Hora Inicio:* " for="trackseleccionar4"/>
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar4" required="true"
 										disabled="#{solicituduBean.edicion}" styleClass="form-control"
@@ -106,7 +111,7 @@
 					<b:column span="5">
 						<b:thumbnail tooltip="Destino">
 							<f:facet name="caption">
-								<h:outputLabel value="Lugar Destino:* " />
+								<h:outputLabel value="Lugar Destino:* " for="trackseleccionar3"/>
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar3" required="true"
 										disabled="#{solicituduBean.edicion}" styleClass="form-control"
@@ -125,7 +130,7 @@
 									caption="Regreso al lugar de Origen?" update="trackseleccionar5">
 									<p:ajax event="change" listener="#{solicituduBean.regresoOrigen()}" update="trackseleccionar5"/>
 									</p:selectBooleanCheckbox>
-								<h:outputLabel value="Hora Regreso:* " />
+								<h:outputLabel value="Hora Regreso:* " for="trackseleccionar5"/>
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
 										disabled="#{solicituduBean.verregresorigen}" styleClass="form-control"
@@ -155,33 +160,33 @@
 							<f:facet name="caption">
 								<b:row>
 									<b:column span="3">
-										<h:outputLabel value="Veh&iacute;culo Asignado: "
+										<h:outputLabel value="Veh&iacute;culo Asignado: " for="vehia"
 											rendered="#{solicituduBean.edicion}" />
 									</b:column>
 									<b:column span="4">
-										<h:outputLabel value="#{solicituduBean.sol_vehi}"
+										<h:outputLabel id="vehia" value="#{solicituduBean.sol_vehi}"
 											style="color: #317eac;" rendered="#{solicituduBean.edicion}">
 										</h:outputLabel>
 									</b:column>
 								</b:row>
 								<b:row>
 									<b:column span="3">
-										<h:outputLabel value="Conductor Asignado: "
+										<h:outputLabel value="Conductor Asignado: " for="conda"
 											rendered="#{solicituduBean.edicion}" />
 									</b:column>
 									<b:column span="4">
-										<h:outputLabel value="#{solicituduBean.sol_conductornombre} "
+										<h:outputLabel id="conda" value="#{solicituduBean.sol_conductornombre} "
 											style="color: #317eac;" rendered="#{solicituduBean.edicion}">
 										</h:outputLabel>
 									</b:column>
 								</b:row>
 								<b:row>
 									<b:column span="3">
-										<h:outputLabel value="Observaciones: "
+										<h:outputLabel value="Observaciones: " for="obs"
 											rendered="#{solicituduBean.edicion}" />
 									</b:column>
 									<b:column span="8">
-										<b:inputTextarea value="#{solicituduBean.sol_observacion}"
+										<b:inputTextarea id="obs" value="#{solicituduBean.sol_observacion}"
 											rendered="#{solicituduBean.edicion}" fieldSize="2" rows="2"
 											disabled="#{solicituduBean.edicion}" maxlength="255">
 										</b:inputTextarea>

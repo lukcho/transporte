@@ -72,7 +72,7 @@
 									</h:selectOneMenu>
 								</h:panelGroup>
 								<br />
-								<h:outputLabel value="Hora Inicio:* " />
+								<h:outputLabel value="Hora Inicio:* " for="trackseleccionar4" />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar4" required="true"
 										disabled="#{solicitudaBean.horamostrar}"
@@ -113,7 +113,7 @@
 										listener="#{solicitudaBean.regresoOrigen()}"
 										update="trackseleccionar5" />
 								</p:selectBooleanCheckbox>
-								<h:outputLabel value="Hora Regreso:* " />
+								<h:outputLabel value="Hora Regreso:* " for="trackseleccionar5" />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
 										disabled="#{solicitudaBean.verregresorigen}"
@@ -135,7 +135,7 @@
 							tooltip-position="right" disabled="#{solicitudaBean.infomostrar}"
 							rendered="#{solicitudaBean.edicion}">
 							<f:facet name="caption">
-								<h:outputLabel value="Vehículo:* " />
+								<h:outputLabel value="Vehículo:* " for="trackseleccionar7" />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar7" required="true"
 										disabled="#{solicitudaBean.infomostrar}"
@@ -147,7 +147,7 @@
 											render="frm" update="frm messages" />
 									</h:selectOneMenu>
 								</h:panelGroup>
-								<h:outputLabel value="Conductor:* " />
+								<h:outputLabel value="Conductor:* " for="trackseleccionar6" />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar6"
 										disabled="#{solicitudaBean.infomostrar}"
@@ -160,9 +160,9 @@
 						</b:thumbnail>
 					</b:column>
 					<b:column span="3">
-						<h:outputLabel value="Estado*"
+						<h:outputLabel value="Estado*" for="est"
 							rendered="#{solicitudaBean.edicion}" />
-						<b:selectOneMenu value="#{solicitudaBean.sol_estado}"
+						<b:selectOneMenu id="est" value="#{solicitudaBean.sol_estado}"
 							disabled="false" required="true"
 							requiredMessage="Requerido Estado"
 							rendered="#{solicitudaBean.edicion}">
@@ -178,21 +178,23 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Observaciones:* "
+						<h:outputLabel value="Observaciones:* " for="obs"
 							rendered="#{solicitudaBean.edicion}" />
 					</b:column>
 					<b:column span="8">
-						<b:inputTextarea value="#{solicitudaBean.sol_observacion}"
-							rendered="#{solicitudaBean.edicion}" fieldSize="2" rows="2"
+						<p:inputTextarea id="obs"
+							value="#{solicitudaBean.sol_observacion}"
+							rendered="#{solicitudaBean.edicion}" fieldSize="2" rows="3"
+							styleClass="form-control" style="width:100%; margin-bottom:15px;"
 							disabled="#{solicitudaBean.infomostrar}" required="true"
 							requiredMessage="Campo Observaci&oacute;n requerido"
 							maxlength="255">
-						</b:inputTextarea>
+						</p:inputTextarea>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Novedades*: "
+						<h:outputLabel value="Novedades*: " for="menu"
 							rendered="#{solicitudaBean.mostrarnovedades}" />
 					</b:column>
 					<b:column span="5">
@@ -203,10 +205,11 @@
 							<f:selectItems value="#{catalogosBean.listaCategoriatodos}"
 								itemValue="#{catalogosBean.cat_id}" />
 						</p:selectCheckboxMenu>
-						<br /><br />
-						<b:inputTextarea value="#{solicitudaBean.sol_novedades}" fieldSize="2" rows="2" rendered="#{solicitudaBean.mostrarnovedades}"
-							disabled="true">
-						</b:inputTextarea>
+						<br />
+						<p:inputTextarea value="#{solicitudaBean.sol_novedades}" 
+							fieldSize="2" rows="2"
+							rendered="#{solicitudaBean.mostrarnovedades}" disabled="true">
+						</p:inputTextarea>
 					</b:column>
 				</b:row>
 				<h:form id="frm" rendered="#{solicitudaBean.edicion}">
@@ -260,7 +263,6 @@
 						</b:commandButton>
 					</b:column>
 				</b:row>
-				<br />
 				<br />
 			</b:panel>
 		</h:form>

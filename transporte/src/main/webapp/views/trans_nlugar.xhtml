@@ -18,36 +18,38 @@
 			<b:panel title="Registro de Lugares" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="lug"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{lugarBean.lug_nombre}"
+						<p:inputText id="lug" value="#{lugarBean.lug_nombre}" 
 							required="true"
 							requiredMessage="Campo nombre requerido"
+							styleClass="form-control"
 							maxlength="100"
 							validatorMessage="Nombre no debe caracteres especiales.">
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Ciudad:* " />
+						<h:outputLabel value="Ciudad:* " for="ciu"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{lugarBean.lug_ciudad}"
+						<p:inputText id="ciu" value="#{lugarBean.lug_ciudad}"
 							required="true"
 							requiredMessage="Campo ciudad requerido"
+							styleClass="form-control"
 							maxlength="100"
 							validatorMessage="Ciudad no debe contener caracteres especiales.">
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*"
+						<h:outputLabel value="Estado*" for="est"
 							rendered="#{lugarBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:selectOneMenu value="#{lugarBean.lug_estado}"
+						<b:selectOneMenu id="est" value="#{lugarBean.lug_estado}"
 							rendered="#{lugarBean.edicion}">
 							<f:selectItems value="#{lugarBean.listEstados}" />
 						</b:selectOneMenu>

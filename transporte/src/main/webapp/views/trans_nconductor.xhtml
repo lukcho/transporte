@@ -18,66 +18,75 @@
 			<b:panel title="Registro de Conductores" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="C&eacute;dula:* " />
+						<h:outputLabel value="C&eacute;dula:* " for="cedu"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_cedula}" required="true" disabled="#{conductorBean.mostrarcond_id}"
+						<p:inputText id="cedu" value="#{conductorBean.cond_cedula}" required="true"
+							disabled="#{conductorBean.mostrarcond_id}"
 							requiredMessage="Campo cédula requerido" maxlength="100"
+							styleClass="form-control" style="width:100%; margin-bottom:15px;"
 							validatorMessage="C&eacute;dula s&oacute;lo debe ingresar n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="nom"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_nombre}" required="true"
+						<p:inputText id="nom" value="#{conductorBean.cond_nombre}" required="true"
 							requiredMessage="Campo nombre requerido" maxlength="100"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Nombre no debe contener caracteres especiales.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Apellido:* " />
+						<h:outputLabel value="Apellido:* " for="ape"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_apellido}"
+						<p:inputText id="ape" value="#{conductorBean.cond_apellido}"
 							required="true" requiredMessage="Campo apellido requerido"
-							maxlength="100"
+							styleClass="form-control"
+							maxlength="100" style="width:100%; margin-bottom:15px;"
 							validatorMessage="Apellido no debe contener espacios.">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Tel&eacute;fono:* " />
+						<h:outputLabel value="Tel&eacute;fono:* " for="telef"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{conductorBean.cond_telefono}"
+						<p:inputText id="telef" value="#{conductorBean.cond_telefono}"
 							required="true" requiredMessage="Campo tel&eacute;fono requerido"
-							maxlength="10"
+							maxlength="10" style="width:100%; margin-bottom:15px;"
+							styleClass="form-control"
 							validatorMessage="Tel&eacute;fono solo debe tener números.">
 							<f:validateRegex pattern="[0-9]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
-					</b:row>
-					<b:row>
+				</b:row>
+				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Correo* : " />
+						<h:outputLabel value="Correo* : " for="correo1"/>
 					</b:column>
 					<b:column span="4">
-						<b:inputText id="correo1" value="#{conductorBean.cond_correo}" required="true"
-							requiredMessage="Campo correo requerido" validatorMessage="Campo correo no tiene el formato correcto.">
+						<p:inputText id="correo1" value="#{conductorBean.cond_correo}"
+							required="true" requiredMessage="Campo correo requerido"
+							styleClass="form-control"
+							style="width:100%; margin-bottom:15px;"
+							validatorMessage="Campo correo no tiene el formato correcto.">
 							<f:validateRegex
 								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Estado*" rendered="#{conductorBean.edicion}" />
+						<h:outputLabel value="Estado*: " rendered="#{conductorBean.edicion}" for="est"/>
 					</b:column>
 					<b:column span="4">
-						<b:selectOneMenu value="#{conductorBean.cond_estado}"
+						<b:selectOneMenu id="est" value="#{conductorBean.cond_estado}"
 							rendered="#{conductorBean.edicion}">
 							<f:selectItems value="#{conductorBean.listEstados}" />
 						</b:selectOneMenu>
@@ -86,12 +95,13 @@
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" actionListener="#{conductorBean.abrirDialog()}"
+							style="padding:7px;"
+							actionListener="#{conductorBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
 							action="#{conductorBean.volverConductor()}" update="frm"
-							look="info" process="@this" >
+							look="info" process="@this">
 						</b:commandButton>&nbsp;&nbsp;&nbsp;
 					</b:column>
 				</b:row>
@@ -100,12 +110,12 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmaci&oacute;n"
-			message="Est&aacute; seguro de guardar la informaci&oacute;n?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			message="Est&aacute; seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check"
-					action="#{conductorBean.crearConductor()}"
+					icon="ui-icon-check" action="#{conductorBean.crearConductor()}"
 					oncomplete="PF('gu').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
