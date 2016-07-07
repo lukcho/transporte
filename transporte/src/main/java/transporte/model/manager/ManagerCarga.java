@@ -111,15 +111,13 @@ public class ManagerCarga {
 	public Persona personasolicitudByDNI(String per_id) throws Exception {
 		Persona f = null;
 		ResultSet consulta = conDao
-				.consultaSQL("SELECT p.per_id as dni , p.per_nombres as nombres, "
-						+ " p.per_apellidos as apellidos, p.per_correo as correo, "
-						+ " f.fun_cargo as cargo, f.fun_jefe_inmediato as jefe, f.fun_gerencia as gerencia, f.fun_direccion as direccion, "
-						+ " (select pe.per_nombres||' '||pe.per_apellidos "
-						+ " from gen_persona pe where pe.per_id=f.fun_jefe_inmediato) as nombreJefe, "
-						+ " (select pe.per_correo from gen_persona pe where pe.per_id=f.fun_jefe_inmediato) as correojefeinmediato"
-						+ " FROM gen_persona p INNER JOIN gen_usuario u ON p.per_id = u.per_id "
-						+ " INNER JOIN gen_funcionario f  on f.per_id = u.per_id "
-						+ " WHERE p.per_id = '" + per_id + "'");
+				.consultaSQL("SELECT f.per_dni as dni ,(select pe.per_nombres from gen_persona pe where pe.per_dni =f.fun_jefe_inmediato) as nombres,"
+						+ "	(select pe.per_apellidos from gen_persona pe where pe.per_dni =f.fun_jefe_inmediato) as apellidos,"
+						+ "	(select pe.per_apellidos from gen_persona pe where pe.per_dni =f.fun_jefe_inmediato) as correo"
+						+ " from gen_persona p, gen_funcionarios_institucion f "
+						+ "	 where p.per_dni= f.per_dni "
+						+ "	 and p.per_dni='" + per_id + "'");
+		
 		if (consulta != null) {
 			consulta.next();
 			f = new Persona();
@@ -127,11 +125,6 @@ public class ManagerCarga {
 			f.setPerNombres(consulta.getString("nombres"));
 			f.setPerApellidos(consulta.getString("apellidos"));
 			f.setPerCorreo(consulta.getString("correo"));
-			f.setCargo(consulta.getString("cargo"));
-			f.setJefeInmediato(consulta.getString("jefe"));
-			f.setPerGerencia(consulta.getString("gerencia"));
-			f.setPerDireccion(consulta.getString("direccion"));
-			f.setCorreoJefeInmediato(consulta.getString("correojefeinmediato"));
 		}
 		return f;
 	}

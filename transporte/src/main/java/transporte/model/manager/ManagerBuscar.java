@@ -43,6 +43,42 @@ public class ManagerBuscar {
 		}
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	public void envioMailWS(String para, String asunto, String body)
+			throws Exception {
+		TransParametro param = parametroByID("envio_mail");
+		TransParametro idWS = parametroByID("id_ws_mail");
+		JSONObject objSalida = new JSONObject();
+		objSalida.put("id", idWS.getParValor());
+		objSalida.put("para", para);
+		objSalida.put("asunto", asunto);
+		objSalida.put("body", body);
+		System.out.println("Envio Mail ---> " + objSalida);
+		String url = param.getParValor();
+		JSONObject respuesta = ConsumeREST.postClientRestEasy(url, objSalida);
+		if (!respuesta.get("respuesta").equals("OK"))
+			throw new Exception("Error al enviar el correo. (WS)");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void envioMailAdminWS(String asunto, String body)
+			throws Exception {
+		TransParametro param = parametroByID("envio_mail");
+		TransParametro idWS = parametroByID("id_ws_mail");
+		TransParametro adminWS = parametroByID("admin_correo");
+		JSONObject objSalida = new JSONObject();
+		objSalida.put("id", idWS.getParValor());
+		objSalida.put("para", adminWS.getParValor());
+		objSalida.put("asunto", asunto);
+		objSalida.put("body", body);
+		System.out.println("Envio Mail ---> " + objSalida);
+		String url = param.getParValor();
+		JSONObject respuesta = ConsumeREST.postClientRestEasy(url, objSalida);
+		if (!respuesta.get("respuesta").equals("OK"))
+			throw new Exception("Error al enviar el correo. (WS)");
+	}
+
 	/**
 	 * buscar los vehuculos por ID
 	 * 

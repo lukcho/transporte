@@ -50,6 +50,18 @@ public class ManagerSolicitud {
 	}
 
 	/**
+	 * buscar todas las solicitudes
+	 * 
+	 * @throws Exception
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<TransSolicitud> findsolreporte() {
+		return mDAO.findWhere(TransSolicitud.class, "o.solEstado not like 'P' ", null);
+	}
+
+	
+	/**
 	 * listar todas las solicitudes
 	 * 
 	 * @throws Exception

@@ -12,7 +12,7 @@
         </ui:define>
 		<ui:define name="contenido">
 			<h:form>
-				<center><h1>GESTIÓN DE CATÁLOGOS</h1></center>
+				<center><h1>GESTIÓN DE NOVEDADES</h1></center>
 				<b:row>
 					<b:column span="1">
 						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{catalogosBean.nuevoCatalogoitem()}" />
@@ -25,7 +25,7 @@
 			<br/>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de Cat&aacute;logos" look="primary">
+			<b:panel title="Listado de Novedades" look="primary">
 				<p:dataTable id="tbb" value="#{catalogosBean.listaCatalogoItems}"
 					reflow="true" var="cati" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
@@ -54,11 +54,11 @@
 						filterMatchMode="contains" headerText="CATALOGO" width="60">
 						<h:outputText value="#{cati.transCatCab.catcNombre}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{cati.catdIdPadre}"
-						filterMatchMode="contains" headerText="PADRE" width="60">
-						<h:outputText value="#{cati.catdIdPadre}"></h:outputText>
-					</p:column>
-					
+					<!-- 					<p:column filterBy="#{cati.catdIdPadre}" -->
+					<!-- 						filterMatchMode="contains" headerText="PADRE" width="60"> -->
+					<!-- 						<h:outputText value="#{cati.catdIdPadre}"></h:outputText> -->
+					<!-- 					</p:column -->
+
 					<p:column headerText="ESTADO" width="30">
 						<h:outputText value="#{cati.catdEstado}"></h:outputText>
 					</p:column>

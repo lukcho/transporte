@@ -534,11 +534,14 @@ public class solicituduBean implements Serializable {
 						+ "Número de Pasajeros: "
 						+ sol_pasajeros.toString()
 						+ "<br/><br/>"
-						+ "Nota: Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
-						+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay.</body></html>";
+						+ "<em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>"						
+						+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay."
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";;
 
-				Mail.generateAndSendEmail("lcorrea@yachay.gob.ec",
-						"Petición de Vehículo", mensaje);
+//				Mail.generateAndSendEmail("lcorrea@yachay.gob.ec",
+//						"Petición de Vehículo", mensaje);
+//				
+				mb.envioMailAdminWS("Petición de Vehículo", mensaje);
 				// Libero objetos
 				mensaje = null;
 				sol_id = null;
