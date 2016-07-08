@@ -184,7 +184,6 @@ public class ManagerCarga {
 						+ " FROM gen_funcionarios_institucion f ' ) as tb(dni name, gerencia name, direccion name ) "
 						+ " where s.sol_id_solicitante = tb.dni "
 						+ " and s.sol_novedades not like '' Order by fecha desc ");
-		System.out.println(consulta);
 		if (consulta != null) {
 			while (consulta.next()) {
 				f = new Novedades();

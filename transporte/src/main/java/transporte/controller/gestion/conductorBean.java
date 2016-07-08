@@ -176,7 +176,7 @@ public class conductorBean implements Serializable {
 	/**
 	 * metodo para listar los conductores
 	 * 
-	 * @return
+	 * @return listaconductores
 	 */
 	public List<TransConductore> ListaConductoresSin() {
 		List<TransConductore> a = managergest.findAllConductores();
@@ -192,7 +192,7 @@ public class conductorBean implements Serializable {
 	/**
 	 * metodo para editar la lista de los conductores
 	 * 
-	 * @return
+	 * @return listaconductores
 	 */
 	public void setListaConductores(List<TransConductore> listaConductores) {
 		this.listaConductores = listaConductores;
@@ -282,7 +282,7 @@ public class conductorBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managergest
+					new FacesMessage("INFORMACIÓN", managergest
 							.cambioEstadoConductor(getCond().getCondCedula())));
 			getListaConductores().clear();
 			getListaConductores().addAll(managergest.findAllConductores());
@@ -307,6 +307,7 @@ public class conductorBean implements Serializable {
 	/**
 	 * metodo para conocer el conductor si esta usado
 	 * 
+	 * @return boolean
 	 */
 	public boolean averiguarConid(String cond_id) {
 		Integer t = 0;
@@ -357,7 +358,7 @@ public class conductorBean implements Serializable {
 	/**
 	 * Lista de estados
 	 * 
-	 * @return lista de items de estados
+	 * @return listaestados
 	 */
 	public List<SelectItem> getlistEstados() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
@@ -372,7 +373,6 @@ public class conductorBean implements Serializable {
 	/**
 	 * Redirecciona a la pagina de creacion de conductores
 	 * 
-	 * @return
 	 */
 	public String nuevoConductor() {
 		cond_cedula = null;
@@ -390,7 +390,6 @@ public class conductorBean implements Serializable {
 	/**
 	 * limpia la informacion del conductor
 	 * 
-	 * @return
 	 * @throws Exception
 	 */
 	public String volverConductor() throws Exception {

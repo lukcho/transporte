@@ -1,7 +1,5 @@
 package transporte.model.manager;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,39 +17,42 @@ import transporte.model.generic.Funciones;
 
 @Stateless
 public class ManagerAcceso {
-	
+
 	@EJB
 	private ManagerDAO mDAO;
 
-
 	public ManagerAcceso() {
 	}
-	
-	
+
 	/**
 	 * Lista de menus para menú dinámico
+	 * 
 	 * @param menu
 	 * @return List<Menu>
 	 */
-	public List<Menu> cargarMenu(JSONArray menu){
+	public List<Menu> cargarMenu(JSONArray menu) {
 		List<Menu> menus = new ArrayList<Menu>();
 		for (Object objmenu : menu) {
 			Menu gmenu = new Menu();
-			gmenu.setNombre(((JSONObject)objmenu).get("nombre").toString());
+			gmenu.setNombre(((JSONObject) objmenu).get("nombre").toString());
 			gmenu.setLstLinks(new ArrayList<Submenu>());
-			JSONArray jvistas = (JSONArray) ((JSONObject)objmenu).get("vistas");
+			JSONArray jvistas = (JSONArray) ((JSONObject) objmenu)
+					.get("vistas");
 			for (Object objvis : jvistas) {
-				gmenu.getLstLinks().add(new Submenu(((JSONObject) objvis).get("nombre").toString(),
-						((JSONObject) objvis).get("link").toString()));
+				gmenu.getLstLinks().add(
+						new Submenu(((JSONObject) objvis).get("nombre")
+								.toString(), ((JSONObject) objvis).get("link")
+								.toString()));
 			}
 			menus.add(gmenu);
-			gmenu=null;
-		}	
+			gmenu = null;
+		}
 		return menus;
 	}
-	
+
 	/***
 	 * Consulta los permisos en el SWLogin
+	 * 
 	 * @param usr
 	 * @param pass
 	 * @param aplicacion
@@ -59,24 +60,27 @@ public class ManagerAcceso {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> loginWS(String usr, String pass, String aplicacion) throws Exception
-	{
+	public List<Menu> loginWS(String usr, String pass, String aplicacion)
+			throws Exception {
 		TransParametro param = parametroByID("login_ws");
-		if(param == null)
-			throw new Exception("error al consultar parametro de logeo");		
+		if (param == null)
+			throw new Exception("error al consultar parametro de logeo");
 		List<Menu> lmenu = new ArrayList<Menu>();
 		JSONObject salida = new JSONObject();
 		System.out.println(param.getParValor());
-		salida.put("usr", usr);salida.put("pwd", pass);salida.put("apl", aplicacion);
-		JSONObject respuesta = ConsumeREST.postClient(param.getParValor(),salida);
-		if(!respuesta.get("status").equals("OK"))
-			throw new Exception("ERROR al consultar sus permisos: "+respuesta.get("mensaje").toString());
+		salida.put("usr", usr);
+		salida.put("pwd", pass);
+		salida.put("apl", aplicacion);
+		JSONObject respuesta = ConsumeREST.postClient(param.getParValor(),
+				salida);
+		if (!respuesta.get("status").equals("OK"))
+			throw new Exception("ERROR al consultar sus permisos: "
+					+ respuesta.get("mensaje").toString());
 		else
 			lmenu = cargarMenu((JSONArray) respuesta.get("value"));
 		return lmenu;
-		
+
 	}
-	
 
 	/**
 	 * buscar los vehuculos por ID
@@ -87,38 +91,40 @@ public class ManagerAcceso {
 	public TransParametro parametroByID(String parametro) throws Exception {
 		return (TransParametro) mDAO.findById(TransParametro.class, parametro);
 	}
-	
+
 	/**
 	 * Devuelve el nombre de una persona
+	 * 
 	 * @param dni
 	 * @return String
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public String nombrePersonaWS(String dni) throws Exception{
+	public String nombrePersonaWS(String dni) throws Exception {
 		JSONObject objSalida = new JSONObject();
 		objSalida.put("query", dni);
-		String url = Funciones.hostWS+"WSPersonas/findPersonas";
+		String url = Funciones.hostWS + "WSPersonas/findPersonas";
 		JSONObject respuesta = ConsumeREST.postClient(url, objSalida);
-		if(!respuesta.get("status").equals("OK"))
+		if (!respuesta.get("status").equals("OK"))
 			throw new Exception("No se pudo recuperar el nombre de la persona.");
-		else{
+		else {
 			JSONArray arrayPersona = (JSONArray) respuesta.get("value");
 			JSONObject dataPersona = (JSONObject) arrayPersona.get(0);
 			return Funciones.evaluarDatoWS(dataPersona.get("nombres"));
 		}
 	}
-	
+
 	/**
 	 * Valida si posee permisos
+	 * 
 	 * @param vista
 	 * @param permisos
 	 * @return true o false
 	 */
-	public boolean poseePermiso(String vista, List<Menu> permisos){
+	public boolean poseePermiso(String vista, List<Menu> permisos) {
 		for (Menu menu : permisos) {
 			for (Submenu submenu : menu.getLstLinks()) {
-				if(submenu.getLink().equals(vista))
+				if (submenu.getLink().equals(vista))
 					return true;
 			}
 		}

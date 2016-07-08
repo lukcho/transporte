@@ -30,7 +30,6 @@ import transporte.model.dao.entities.TransFuncionarioConductor;
 import transporte.model.dao.entities.TransLugare;
 import transporte.model.dao.entities.TransVehiculo;
 import transporte.model.generic.Funciones;
-import transporte.model.generic.Mail;
 import transporte.model.generic.Mensaje;
 import transporte.model.manager.ManagerBuscar;
 import transporte.model.manager.ManagerCarga;
@@ -510,7 +509,7 @@ public class solicituduBean implements Serializable {
 				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Estimado(a) Administrador. <br/>"
-						+ "Le notificamos que posee una solitud de Transporte Pendiente.<br/><br/>"
+						+ "Le notificamos que posee una solicitud de Transporte Pendiente.<br/><br/>"
 						// +"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
 						+ "Nombre del Solicitante: "
 						+ Funciones.utf8Sting(sol_usuario_nombre)
@@ -575,9 +574,7 @@ public class solicituduBean implements Serializable {
 						.addAll(managersol
 								.findAllSolicitudesOrdenados(sol_usuario_cedula));
 			}
-
 			return "trans_solicitudesu?faces-redirect=true";
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -705,7 +702,7 @@ public class solicituduBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managersol
+					new FacesMessage("INFORMACIÓN", managersol
 							.cambioEstadoSolicitud(getSoli().getSolId())));
 			getListaSolicitudDesc().clear();
 			getListaSolicitudDesc().addAll(
@@ -716,6 +713,11 @@ public class solicituduBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * Metodo para cambiar el estado de la solicitud
+	 * 
+	 * @param soli
+	 */
 	public void cambiarEstadoSoli(TransSolicitud soli) {
 		setSoli(soli);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
@@ -802,7 +804,6 @@ public class solicituduBean implements Serializable {
 						+ " - " + t.getLugCiudad()));
 			}
 		}
-
 		return listadoSI;
 	}
 
@@ -818,7 +819,6 @@ public class solicituduBean implements Serializable {
 						+ " - " + t.getLugCiudad()));
 			}
 		}
-
 		return listadoSI;
 	}
 
@@ -834,13 +834,12 @@ public class solicituduBean implements Serializable {
 						.getCondNombre() + " " + t.getCondApellido()));
 			}
 		}
-
 		return listadoSI;
 	}
 
 	/**
-	 * metodo para mostrar los conductorefunacionario en solicitud Me llaMO lkc
-	 * ELECTROFLOGEAUR JAJAJ
+	 * metodo para mostrar los conductorefunacionario en solicitud 
+	 * 
 	 */
 	public List<SelectItem> getListaConductorfuncionario() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
@@ -853,12 +852,13 @@ public class solicituduBean implements Serializable {
 							.getFcoNombres()));
 			}
 		}
-
 		return listadoSI;
 	}
 
 	/**
 	 * metodo para mostrar los vehiculos en solicitud
+	 * 
+	 * @return listavehículo
 	 * 
 	 */
 	public List<SelectItem> getListaVehiculo() {
@@ -927,7 +927,6 @@ public class solicituduBean implements Serializable {
 	/**
 	 * limpia la informacion de horario
 	 * 
-	 * @return
 	 * @throws Exception
 	 */
 	public String volverSolicitud() throws Exception {
@@ -969,7 +968,6 @@ public class solicituduBean implements Serializable {
 	/**
 	 * Redirecciona a la pagina de creacion de vehiculos
 	 * 
-	 * @return
 	 */
 	public String nuevoSolicitud() {
 		String r = "";
@@ -1042,7 +1040,6 @@ public class solicituduBean implements Serializable {
 	/**
 	 * metodo para listar los registros
 	 * 
-	 * @return
 	 */
 	public List<TransSolicitud> getListaSolicitudDesc() {
 		BuscarPersona();
@@ -1056,6 +1053,11 @@ public class solicituduBean implements Serializable {
 		return l1;
 	}
 
+	/**
+	 * Metodo para buscar persona logeada
+	 * 
+	 * @throws Exception
+	 */
 	public void BuscarPersona() {
 		try {
 			cedula = ManagerCarga.consultaSQL(usuario);
@@ -1077,6 +1079,13 @@ public class solicituduBean implements Serializable {
 
 	}
 
+	/**
+	 * Metodo para obtener la fecha de tipo Date
+	 * 
+	 * @param date
+	 * @param days
+	 * @return Date
+	 */
 	public static Date addDays(Date date, int days) {
 		days = 1;
 		Calendar cal = Calendar.getInstance();
@@ -1085,23 +1094,22 @@ public class solicituduBean implements Serializable {
 		return cal.getTime();
 	}
 
+	/**
+	 * Metodo para saber si va a regresar el vehículo al lugar de donde partio 
+	 * 
+	 * @throws Exception
+	 */
 	public void regresoOrigen() {
 		try {
-			System.out.println(sol_regresorigen);
-			System.out.println("verregresorigen " + verregresorigen);
-			System.out.println("edicion " + edicion);
 			if (sol_regresorigen == true) {
 				verregresorigen = false;
-				System.out.println("entra1");
 			} else {
-				System.out.println("entra2");
 				verregresorigen = true;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**

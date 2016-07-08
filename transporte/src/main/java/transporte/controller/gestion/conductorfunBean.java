@@ -67,14 +67,14 @@ public class conductorfunBean implements Serializable {
 
 //	private Persona per;
 
-	// private PersonaFuncionario perfun;
+//	 private PersonaFuncionario perfun;
 
 	public conductorfunBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		// mangcar = new ManagerCarga();
+//		mangcar = new ManagerCarga();
 		usuario = ms.validarSesion("trans_conductoresfun.xhtml");
 		condf_cedula = null;
 		condf_estado = "A";
@@ -86,9 +86,8 @@ public class conductorfunBean implements Serializable {
 		ediciontipo = false;
 		ocultarbusqueda = true;
 		mostrarcondf_id = false;
-		// listaConductoresFun = managergest.findAllConductoresFuncionarios();
-	//	hashpersonfun = new HashMap<String, PersonaFuncionario>();
-
+// 		listaConductoresFun = managergest.findAllConductoresFuncionarios();
+//		hashpersonfun = new HashMap<String, PersonaFuncionario>();
 	}
 
 	public String getUsuario() {
@@ -208,6 +207,22 @@ public class conductorfunBean implements Serializable {
 			List<TransFuncionarioConductor> listaConductoresFun) {
 		this.listaConductoresFun = listaConductoresFun;
 	}
+	
+	public boolean isEdicion() {
+		return edicion;
+	}
+
+	public void setEdicion(boolean edicion) {
+		this.edicion = edicion;
+	}
+
+	public boolean isEdiciontipo() {
+		return ediciontipo;
+	}
+
+	public void setEdiciontipo(boolean ediciontipo) {
+		this.ediciontipo = ediciontipo;
+	}
 
 	// /**
 	// * metodo para lstar los funcionarios conductores
@@ -225,22 +240,6 @@ public class conductorfunBean implements Serializable {
 	// }
 	// return l1;
 	// }
-
-	public boolean isEdicion() {
-		return edicion;
-	}
-
-	public void setEdicion(boolean edicion) {
-		this.edicion = edicion;
-	}
-
-	public boolean isEdiciontipo() {
-		return ediciontipo;
-	}
-
-	public void setEdiciontipo(boolean ediciontipo) {
-		this.ediciontipo = ediciontipo;
-	}
 
 	// /**
 	// * accion para invocar el manager y crear conductor o editar el conductor
@@ -306,7 +305,7 @@ public class conductorfunBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * accion para cargar los datos del funcionarioconductor
 	 * 
 	 * @param condf_cedula
 	 * @param condf_nombre
@@ -331,9 +330,9 @@ public class conductorfunBean implements Serializable {
 			ediciontipo = false;
 			ocultarbusqueda = false;
 			System.out.println(usuario);
-			// per = mangcar.funcionarioByDNI(usuario);
-			// listafuncionariodebase =
-			// mangcar.funcionarioByGerencia(perfun.getPerGerencia());
+// 			per = mangcar.funcionarioByDNI(usuario);
+// 			listafuncionariodebase =
+//			mangcar.funcionarioByGerencia(perfun.getPerGerencia());
 			return "trans_nconductorfun?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception

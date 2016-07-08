@@ -153,7 +153,7 @@ public class lugarBean implements Serializable {
 
 	// VEHICULO
 	/**
-	 * accion para invocar el manager y crear vehiculo o editar el vehiculo
+	 * accion para invocar el manager y crear vehículo o editar el vehículo
 	 * 
 	 * @param lug_id
 	 * @param lug_nombre
@@ -231,14 +231,14 @@ public class lugarBean implements Serializable {
 	}
 
 	/**
-	 * activar y desactivar estado Lugar
+	 * activar y desactivar estadoLugar
 	 * 
 	 * @throws Exception
 	 */
 	public String cambiarEstadoLugar() {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACION",
+			context.addMessage(null, new FacesMessage("INFORMACIÓN",
 					managergest.cambioEstadoLugar(getLug().getLugId())));
 			getListaLugares().clear();
 			getListaLugares().addAll(managergest.findAllLugares());
@@ -264,6 +264,7 @@ public class lugarBean implements Serializable {
 	/**
 	 * metodo para conocer el lug_id si esta usado
 	 * 
+	 *  * @param lug_id
 	 */
 	public boolean averiguarLugarid(Integer lug_id) {
 		Integer t = 0;

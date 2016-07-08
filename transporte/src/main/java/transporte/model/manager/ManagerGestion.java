@@ -25,7 +25,6 @@ public class ManagerGestion {
 	 * 
 	 * @throws Exception
 	 */
-
 	@SuppressWarnings("unchecked")
 	public List<TransVehiculo> findprod() {
 		return mDAO.findWhere(TransVehiculo.class, "1=1", null);

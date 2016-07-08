@@ -190,7 +190,7 @@ public class vehiculoBean implements Serializable {
 	/**
 	 * Metodo para listar los vehiculos
 	 * 
-	 * @return
+	 * @return Listavehículos
 	 */
 	public List<TransVehiculo> ListaVehiculosSin() {
 		List<TransVehiculo> a = managergest.findAllVehiculos();
@@ -301,7 +301,6 @@ public class vehiculoBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cargarVehiculo(TransVehiculo vehi) {
-
 		try {
 			vehi_id = vehi.getVehiIdplaca();
 			vehi_nombre = vehi.getVehiNombre();
@@ -334,7 +333,7 @@ public class vehiculoBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managergest
+					new FacesMessage("INFORMACIÓN", managergest
 							.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
 			getListaVehiculo().clear();
 			getListaVehiculo().addAll(managergest.findAllVehiculos());
@@ -400,7 +399,7 @@ public class vehiculoBean implements Serializable {
 	/**
 	 * Lista de estadosfuncionales
 	 * 
-	 * @return lista de items de estadosfuncionales
+	 * @return listaestadosfuncionales
 	 */
 	public List<SelectItem> getlistEstadosfuncional() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
@@ -415,7 +414,6 @@ public class vehiculoBean implements Serializable {
 	/**
 	 * Redirecciona a la pagina de creacion de vehiculos
 	 * 
-	 * @return
 	 */
 	public String nuevoVehiculo() {
 		vehi_id = null;
@@ -436,7 +434,6 @@ public class vehiculoBean implements Serializable {
 	/**
 	 * limpia la informacion de horario
 	 * 
-	 * @return
 	 * @throws Exception
 	 */
 	public String volverVehiculo() throws Exception {

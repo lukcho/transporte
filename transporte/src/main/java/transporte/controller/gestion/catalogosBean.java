@@ -252,6 +252,7 @@ public class catalogosBean implements Serializable {
 	/**
 	 * metodo para mostrar los Catalogositems
 	 * 
+	 * @return categoria
 	 */
 	public List<SelectItem> getListaCategoria() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
@@ -264,6 +265,8 @@ public class catalogosBean implements Serializable {
 
 	/**
 	 * metodo para mostrar los Catalogositems
+	 * 
+	 * @return catalogositems
 	 * 
 	 */
 	public List<SelectItem> getListaCatalogoitem() {
@@ -278,6 +281,7 @@ public class catalogosBean implements Serializable {
 	/**
 	 * metodo para mostrar los Catalogositemsitems
 	 * 
+	 * @return catalogositemsitems
 	 */
 	public List<SelectItem> getListaCatalogoitemitems() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
@@ -328,7 +332,7 @@ public class catalogosBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managercat
+					new FacesMessage("INFORMACIÓN", managercat
 							.cambioEstadocati(getFabcati().getCatdId())));
 			getListaCatalogoItems().clear();
 			getListaCatalogoItems().addAll(managercat.findAllCatalogoItems());

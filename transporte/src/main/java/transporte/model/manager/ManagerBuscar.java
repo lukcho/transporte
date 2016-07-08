@@ -43,7 +43,14 @@ public class ManagerBuscar {
 		}
 	}
 
-	
+	/**
+ 	 * Metodo para el envio de mensajes usando WS
+	 * 
+	 * @param para
+	 * @param asunto
+	 * @param body
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	public void envioMailWS(String para, String asunto, String body)
 			throws Exception {
@@ -61,6 +68,13 @@ public class ManagerBuscar {
 			throw new Exception("Error al enviar el correo. (WS)");
 	}
 	
+	/**
+	 * Metodo para el envio de mensajes al administrador usando WS
+	 * 
+	 * @param asunto
+	 * @param body
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	public void envioMailAdminWS(String asunto, String body)
 			throws Exception {
@@ -88,5 +102,4 @@ public class ManagerBuscar {
 	public TransParametro parametroByID(String parametro) throws Exception {
 		return (TransParametro) mDAO.findById(TransParametro.class, parametro);
 	}
-
 }

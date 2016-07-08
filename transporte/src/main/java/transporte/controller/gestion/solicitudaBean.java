@@ -469,14 +469,6 @@ public class solicitudaBean implements Serializable {
 		this.lugdestino = lugdestino;
 	}
 
-	// public TransFuncionarioConductor getFco_id() {
-	// return fco_id;
-	// }
-	//
-	// public void setFco_id(TransFuncionarioConductor fco_id) {
-	// this.fco_id = fco_id;
-	// }
-
 	public TransVehiculo getVehi_idplaca() {
 		return vehi_idplaca;
 	}
@@ -533,6 +525,14 @@ public class solicitudaBean implements Serializable {
 	public void setSol_novedades(String sol_novedades) {
 		this.sol_novedades = sol_novedades;
 	}
+
+	// public TransFuncionarioConductor getFco_id() {
+	// return fco_id;
+	// }
+	//
+	// public void setFco_id(TransFuncionarioConductor fco_id) {
+	// this.fco_id = fco_id;
+	// }
 
 	// SOLICITUDES
 	/**
@@ -595,7 +595,7 @@ public class solicitudaBean implements Serializable {
 							+ "Estimado(a) Solicitante: "
 							+ Funciones.utf8Sting(sol_usuario_nombre)
 							+ ",<br/>"
-							+ "Le notificamos que su solitud de Transporte fue: "
+							+ "Le notificamos que su solicitud de Transporte fue: "
 							+ Funciones.utf8Sting(sol_estadonombre)
 							+ ", <br/><br/>"
 							+ "y contiene las siguientes novedades: <br/><br/>"
@@ -655,17 +655,20 @@ public class solicitudaBean implements Serializable {
 							+ "Observaciónes siguientes: "
 							+ Funciones.utf8Sting(sol_observacion)
 							+ "<br/><br/>"
-							+ "Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+							+ "Se recuerda que el automóvil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
 							+ "<br/>Atentamente,<br/>Sistema de Gestión de Transportes Yachay."
 							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-					
-					
-			mensajejefe = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+
+					mensajejefe = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 							+ "<meta name='viewport' content='width=device-width'></head><body>"
 							+ "Estimado(a): "
-							+ Funciones.utf8Sting(per1.getPerNombres()) +"  "+ Funciones.utf8Sting(per1.getPerApellidos())  
+							+ Funciones.utf8Sting(per1.getPerNombres())
+							+ "  "
+							+ Funciones.utf8Sting(per1.getPerApellidos())
 							+ ",<br/>"
-							+ "Le notificamos que la solitud de Transporte de "+ Funciones.utf8Sting(sol_usuario_nombre) +" fue "
+							+ "Le notificamos que la solitud de Transporte de "
+							+ Funciones.utf8Sting(sol_usuario_nombre)
+							+ " fue "
 							+ Funciones.utf8Sting(sol_estadonombre)
 							+ ", <br/><br/>"
 							+ "y contiene las siguientes novedades: <br/><br/>"
@@ -725,10 +728,10 @@ public class solicitudaBean implements Serializable {
 							+ "Observaciónes siguientes: "
 							+ Funciones.utf8Sting(sol_observacion)
 							+ "<br/><br/>"
-							+ "Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+							+ "Se recuerda que el automóvil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
 							+ "<br/>Atentamente,<br/>Sistema de Gestión de Transportes Yachay."
 							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-					
+
 					System.out.println(sol_correojefeinmediato);
 
 					// Mail.generateAndSendEmail(sol_correojefeinmediato,
@@ -765,7 +768,7 @@ public class solicitudaBean implements Serializable {
 					sol_regresorigen = false;
 					mensaje = "";
 					mensajeconductor = "";
-					mensajejefe="";
+					mensajejefe = "";
 					infomostrar = false;
 					sol_correo = "";
 					ediciontipo = false;
@@ -774,7 +777,7 @@ public class solicitudaBean implements Serializable {
 					horainiciotiemp = null;
 					horafintiemp = null;
 					guardaredicion = false;
-					arrayNovedades=null;
+					arrayNovedades = null;
 					getListaSolicitudespend().clear();
 					getListaSolicitudespend().addAll(
 							managersol.findAllSolicitudesOrdenadosapendiente());
@@ -861,11 +864,11 @@ public class solicitudaBean implements Serializable {
 								+ "Observaciónes: "
 								+ Funciones.utf8Sting(sol_observacion)
 								+ "<br/><br/>"
-								+ "Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+								+ "Se recuerda que el automóvil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
 								+ "<em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>"
 								+ "<br/>Atentamente,<br/>Sistema de Gestión de Transportes Yachay."
 								+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-						
+
 						mensajeconductor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 								+ "<meta name='viewport' content='width=device-width'></head><body>"
 								+ "Estimado(a) "
@@ -914,7 +917,7 @@ public class solicitudaBean implements Serializable {
 								+ "Observaciónes: "
 								+ Funciones.utf8Sting(sol_observacion)
 								+ "<br/><br/>"
-								+ "Se recuerda que el automovil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
+								+ "Se recuerda que el automóvil solo esperará 10 minutos a partir de la hora del inicio de la solicitud, favor estar atentos y puntuales.<br/>"
 								+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay."
 								+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
@@ -927,10 +930,10 @@ public class solicitudaBean implements Serializable {
 
 						mb.envioMailWS(sol_correo, "Respuesta de Vehículo",
 								mensaje);
-						mb.envioMailWS(Funciones.utf8Sting(managergest
-								.conductorByID(sol_conductor)
-								.getCondCorreo()), "Solicitud de Vehículo",
-								mensajeconductor);
+						mb.envioMailWS(
+								Funciones.utf8Sting(managergest.conductorByID(
+										sol_conductor).getCondCorreo()),
+								"Solicitud de Vehículo", mensajeconductor);
 
 						sol_id = null;
 						sol_usuario_cedula = usuario;
@@ -964,13 +967,15 @@ public class solicitudaBean implements Serializable {
 						horainiciotiemp = null;
 						horafintiemp = null;
 						guardaredicion = false;
-						arrayNovedades=null;
+						arrayNovedades = null;
 						getListaSolicitudespend().clear();
-						getListaSolicitudespend().addAll(
-								managersol.findAllSolicitudesOrdenadosapendiente());
+						getListaSolicitudespend()
+								.addAll(managersol
+										.findAllSolicitudesOrdenadosapendiente());
 						getListaSolicitudaprorecha().clear();
-						getListaSolicitudaprorecha().addAll(
-								managersol.findAllSolicitudesOrdenadosaaprorecha());
+						getListaSolicitudaprorecha()
+								.addAll(managersol
+										.findAllSolicitudesOrdenadosaaprorecha());
 					} else {
 						// mensaje =
 						// "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -1123,7 +1128,7 @@ public class solicitudaBean implements Serializable {
 					sol_regresorigen = false;
 					mensaje = "";
 					mensajeconductor = "";
-					mensajejefe="";
+					mensajejefe = "";
 					infomostrar = false;
 					sol_correo = "";
 					ediciontipo = false;
@@ -1132,7 +1137,7 @@ public class solicitudaBean implements Serializable {
 					horainiciotiemp = null;
 					horafintiemp = null;
 					guardaredicion = false;
-					arrayNovedades=null;
+					arrayNovedades = null;
 					getListaSolicitudespend().clear();
 					getListaSolicitudespend().addAll(
 							managersol.findAllSolicitudesOrdenadosapendiente());
@@ -1177,7 +1182,7 @@ public class solicitudaBean implements Serializable {
 				guardaredicion = false;
 				sol_regresorigen = false;
 				sol_novedades = "";
-				arrayNovedades=null;
+				arrayNovedades = null;
 				getListaSolicitudespend().clear();
 				getListaSolicitudespend().addAll(
 						managersol.findAllSolicitudesOrdenadosapendiente());
@@ -1434,8 +1439,6 @@ public class solicitudaBean implements Serializable {
 	public void cambiarEstadoSoli(TransSolicitud soli) {
 		setSoli(soli);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
-
 	}
 
 	/**
@@ -1495,7 +1498,6 @@ public class solicitudaBean implements Serializable {
 						+ " - " + t.getLugCiudad()));
 			}
 		}
-
 		return listadoSI;
 	}
 
@@ -1511,7 +1513,6 @@ public class solicitudaBean implements Serializable {
 						+ " - " + t.getLugCiudad()));
 			}
 		}
-
 		return listadoSI;
 	}
 
@@ -1528,7 +1529,6 @@ public class solicitudaBean implements Serializable {
 						.getCondNombre() + " " + t.getCondApellido()));
 			}
 		}
-
 		return listadoSI;
 	}
 
@@ -1774,7 +1774,7 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * metodo para listar los vehiculos que tienen solicitud por fecha
 	 * 
-	 * @return
+	 * @return listavehiculosocu
 	 */
 	public List<TransSolicitud> getListaVehiOcu() {
 		List<TransSolicitud> a = managersol.findAllVehiculosOcu(sol_vehi,
@@ -1790,7 +1790,7 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * metodo para listar los registros disponibles
 	 * 
-	 * @return
+	 * @return listavehiculos
 	 */
 	public List<TransSolicitud> getListVehiculosDisponible() {
 		List<TransSolicitud> a = managersol
@@ -1808,7 +1808,7 @@ public class solicitudaBean implements Serializable {
 	/**
 	 * metodo para listar reporte vahiculo conductor
 	 * 
-	 * @return
+	 * @return listavehpiculoconductor
 	 */
 	public List<TransSolicitud> getListavehiculoconduct() {
 		getListaVehiculoCond().clear();
@@ -1855,14 +1855,14 @@ public class solicitudaBean implements Serializable {
 			System.out.println(sol_usuario_cedula);
 			// per = mc.funcionarioByDNI(usuario);
 			per = mb.buscarPersonaWSReg(sol_usuario_cedula);
-			
+
 			// per = mc.personasolicitudByDNI(sol_usuario_cedula);
 			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
 			sol_usuario_cedula = per.getPerDNI();
 			sol_correo = per.getPerCorreo();
 			per1 = mc.personasolicitudByDNI(sol_usuario_cedula);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
