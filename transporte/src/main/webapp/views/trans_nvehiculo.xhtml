@@ -18,24 +18,24 @@
 			<b:panel title="Registro de Veh&iacute;culos" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="N&uacute;mero de Placa:* " for="num"/>
+						<h:outputLabel value="N&uacute;mero de Placa:* " for="num" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="num" value="#{vehiculoBean.vehi_id}" required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
+						<p:inputText id="num" value="#{vehiculoBean.vehi_id}"
+							required="true" disabled="#{vehiculoBean.mostrarvehi_id}"
 							requiredMessage="Campo num. placa requerido" maxlength="100"
-							styleClass="form-control"
-							style="width:100%; margin-bottom:15px;"
+							styleClass="form-control" style="width:100%; margin-bottom:15px;"
 							validatorMessage="Num. placa con error. Ejemplo. ABC-123">
 							<f:validateRegex pattern="^([A-Z]{3}-\d{3,4})$" />
 						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " for="nom"/>
+						<h:outputLabel value="Nombre:* " for="nom" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="nom" value="#{vehiculoBean.vehi_nombre}" required="true"
-							requiredMessage="Campo nombre requerido" maxlength="100"
-							styleClass="form-control"
+						<p:inputText id="nom" value="#{vehiculoBean.vehi_nombre}"
+							required="true" requiredMessage="Campo nombre requerido"
+							maxlength="100" styleClass="form-control"
 							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar nombre el veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
@@ -44,24 +44,24 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Marca:* " for="mar"/>
+						<h:outputLabel value="Marca:* " for="mar" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="mar" value="#{vehiculoBean.vehi_marca}" required="true"
-							requiredMessage="Campo marca requerido" maxlength="100"
-							styleClass="form-control"
+						<p:inputText id="mar" value="#{vehiculoBean.vehi_marca}"
+							required="true" requiredMessage="Campo marca requerido"
+							maxlength="100" styleClass="form-control"
 							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar marca del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
 						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Modelo:* " for="mod"/>
+						<h:outputLabel value="Modelo:* " for="mod" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="mod" value="#{vehiculoBean.vehi_modelo}" required="true"
-							requiredMessage="Campo modelo requerido" maxlength="100"
-							styleClass="form-control"
+						<p:inputText id="mod" value="#{vehiculoBean.vehi_modelo}"
+							required="true" requiredMessage="Campo modelo requerido"
+							maxlength="100" styleClass="form-control"
 							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar modelo del veh&iacute;culo.">
 							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
@@ -70,24 +70,27 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Tipo:* " for="tip"/>
+						<h:outputLabel value="Tipo:* " for="trackseleccionar7" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="tip" value="#{vehiculoBean.vehi_tipo}" required="true"
-							requiredMessage="Campo tipo requerido" maxlength="100"
-							styleClass="form-control"
-							style="width:100%; margin-bottom:15px;"
-							validatorMessage="Vertificar tipo del veh&iacute;culo.">
-							<f:validateRegex pattern="[a-zA-Z0-9 ñíóúéáÑÁÉÍÓÚ]+" />
-						</p:inputText>
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar7" required="true"
+								styleClass="form-control"
+								requiredMessage="Requerido Tipo de vehículo"
+								value="#{vehiculoBean.vehi_tipo}">
+								<f:selectItem itemLabel="Selecci&oacute;n tipo vehículo"
+									itemValue="" />
+								<f:selectItems value="#{vehiculoBean.listVehiculo}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Capacidad:* " for="cap"/>
+						<h:outputLabel value="Capacidad:* " for="cap" />
 					</b:column>
 					<b:column span="4">
-						<p:inputText id="cap" value="#{vehiculoBean.vehi_capacidad}" required="true"
-							requiredMessage="Campo capacidad requerido" maxlength="100"
-							styleClass="form-control"
+						<p:inputText id="cap" value="#{vehiculoBean.vehi_capacidad}"
+							required="true" requiredMessage="Campo capacidad requerido"
+							maxlength="100" styleClass="form-control"
 							style="width:100%; margin-bottom:15px;"
 							validatorMessage="Vertificar capacidad del veh&iacute;culo solo n&uacute;meros.">
 							<f:validateRegex pattern="[0-9]+" />
@@ -113,15 +116,15 @@
 						<b:selectOneMenu id="estf"
 							value="#{vehiculoBean.vehi_estado_funcional}"
 							rendered="#{vehiculoBean.edicion}">
-							<f:selectItems
-								value="#{vehiculoBean.listEstadosfuncional}" />
+							<f:selectItems value="#{vehiculoBean.listEstadosfuncional}" />
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
-							style="padding:7px;" actionListener="#{vehiculoBean.abrirDialog()}"
+							style="padding:7px;"
+							actionListener="#{vehiculoBean.abrirDialog()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
@@ -135,12 +138,12 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la informaci&oacute;n?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			message="Está seguro de guardar la informaci&oacute;n?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check"
-					action="#{vehiculoBean.crearVehiculo()}"
+					icon="ui-icon-check" action="#{vehiculoBean.crearVehiculo()}"
 					oncomplete="PF('gu').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

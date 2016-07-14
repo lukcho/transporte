@@ -63,6 +63,7 @@ public class vehiculoBean implements Serializable {
 		usuario = ms.validarSesion("trans_vehiculos.xhtml");
 		vehi_id = null;
 		vehi_estado_funcional = "A";
+		vehi_tipo=null;
 		vehi_estado = "A";
 		vehi_capacidad = null;
 		edicion = false;
@@ -408,6 +409,18 @@ public class vehiculoBean implements Serializable {
 		lista.add(new SelectItem(Funciones.estadoInactivo,
 				Funciones.estadoInactivo + " : "
 						+ Funciones.valorEstadoInactivo));
+		return lista;
+	}
+	
+	/**
+	 * Lista de vehiculos
+	 * 
+	 * @return lista de items de vehiculos
+	 */
+	public List<SelectItem> getlistVehiculo() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.automovil, Funciones.automovil));
+		lista.add(new SelectItem(Funciones.camioneta, Funciones.camioneta));
 		return lista;
 	}
 

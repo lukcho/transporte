@@ -57,6 +57,25 @@
 					</b:column>
 				</b:row>
 				<b:row>
+				<b:column span="5"/>
+					<b:column span="2">
+						<h:outputLabel value="Tipo de Vehículo:* " for="trackseleccionar8" />
+					</b:column>
+					<b:column span="3">
+						<h:panelGroup>
+							<h:selectOneMenu id="trackseleccionar8" required="true"
+								disabled="#{solicitudaBean.edicion}" styleClass="form-control"
+								requiredMessage="Requerido Tipo de vehículo"
+								value="#{solicitudaBean.sol_tipovehiculo}">
+								<f:selectItem itemLabel="Selecci&oacute;n tipo vehículo"
+									itemValue="" />
+								<f:selectItems value="#{solicitudaBean.listVehiculo}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</b:column>
+				</b:row>
+				<br/>
+				<b:row>
 					<b:column span="5">
 						<b:thumbnail tooltip="Origen">
 							<f:facet name="caption">
@@ -116,7 +135,7 @@
 								<h:outputLabel value="Hora Regreso:* " for="trackseleccionar5" />
 								<h:panelGroup>
 									<h:selectOneMenu id="trackseleccionar5" required="true"
-										disabled="#{solicitudaBean.verregresorigen}"
+										disabled="#{solicitudaBean.horamostrar}"
 										styleClass="form-control"
 										requiredMessage="Requerido Hora Destino"
 										value="#{solicitudaBean.sol_hora_fin}">

@@ -60,6 +60,7 @@ public class solicituduBean implements Serializable {
 	private Timestamp sol_fecha_aprobacion;
 	private String sol_pasajeros;
 	private String sol_motivo;
+	private String sol_tipovehiculo;
 	private String sol_hora_inicio;
 	private String sol_hora_fin;
 	private boolean sol_flexibilidad;
@@ -127,6 +128,7 @@ public class solicituduBean implements Serializable {
 		sol_conductor = "Ninguno";
 		sol_correo = "";
 		sol_vehi = "Ninguno";
+		sol_tipovehiculo="";
 		sol_fcoid = "Ninguno";
 		sol_flexibilidad = true;
 		sol_pasajeros = null;
@@ -324,6 +326,14 @@ public class solicituduBean implements Serializable {
 	public void setSol_motivo(String sol_motivo) {
 		this.sol_motivo = sol_motivo;
 	}
+	
+	public String getSol_tipovehiculo() {
+		return sol_tipovehiculo;
+	}
+	
+	public void setSol_tipovehiculo(String sol_tipovehiculo) {
+		this.sol_tipovehiculo = sol_tipovehiculo;
+	}
 
 	public String getSol_hora_inicio() {
 		return sol_hora_inicio;
@@ -481,6 +491,7 @@ public class solicituduBean implements Serializable {
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
 				sol_motivo = null;
+				sol_tipovehiculo=null;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
 				sol_flexibilidad = true;
@@ -503,7 +514,7 @@ public class solicituduBean implements Serializable {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						sol_usuario_nombre, pasajeros, sol_motivo.trim(),
 						horainiciotiemp, horafintiemp, sol_flexibilidad,
-						sol_fcoid, sol_regresorigen);
+						sol_fcoid, sol_regresorigen,sol_tipovehiculo);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 
 				String mensaje = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -513,6 +524,12 @@ public class solicituduBean implements Serializable {
 						// +"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
 						+ "Nombre del Solicitante: "
 						+ Funciones.utf8Sting(sol_usuario_nombre)
+						+ "<br/>"
+						+ "Por el Motivo: "
+						+ Funciones.utf8Sting(sol_motivo)
+						+ "<br/>"
+						+ "Tipo de Automóvil: "
+						+ Funciones.utf8Sting(sol_tipovehiculo)
 						+ "<br/>"
 						+ "Correo del Solicitante: "
 						+ Funciones.utf8Sting(sol_correo)
@@ -533,7 +550,6 @@ public class solicituduBean implements Serializable {
 						+ "Número de Pasajeros: "
 						+ sol_pasajeros.toString()
 						+ "<br/><br/>"
-						+ "<em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>"						
 						+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay."
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";;
 
@@ -549,6 +565,7 @@ public class solicituduBean implements Serializable {
 				sol_id_destino = null;
 				sol_fcoid = "";
 				sol_vehi = "";
+				sol_tipovehiculo=null;
 				sol_conductor = "";
 				sol_regresorigen = false;
 				sol_fecha = null;
@@ -666,6 +683,7 @@ public class solicituduBean implements Serializable {
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
 			sol_motivo = sol.getSolMotivo();
+			sol_tipovehiculo= sol.getSolTipovehiculo();
 			sol_hora_inicio = sol.getSolHoraInicio().toString();
 			sol_hora_fin = sol.getSolHoraFin().toString();
 			sol_flexibilidad = sol.getSolFlexibilidad();
@@ -771,9 +789,6 @@ public class solicituduBean implements Serializable {
 	 */
 	public List<SelectItem> getlistHoras() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
-		lista.add(new SelectItem(Funciones.hora_5, Funciones.hora_5));
-		lista.add(new SelectItem(Funciones.hora_6, Funciones.hora_6));
-		lista.add(new SelectItem(Funciones.hora_7, Funciones.hora_7));
 		lista.add(new SelectItem(Funciones.hora_8, Funciones.hora_8));
 		lista.add(new SelectItem(Funciones.hora_9, Funciones.hora_9));
 		lista.add(new SelectItem(Funciones.hora_10, Funciones.hora_10));
@@ -784,11 +799,18 @@ public class solicituduBean implements Serializable {
 		lista.add(new SelectItem(Funciones.hora_15, Funciones.hora_15));
 		lista.add(new SelectItem(Funciones.hora_16, Funciones.hora_16));
 		lista.add(new SelectItem(Funciones.hora_17, Funciones.hora_17));
-		lista.add(new SelectItem(Funciones.hora_18, Funciones.hora_18));
-		lista.add(new SelectItem(Funciones.hora_19, Funciones.hora_19));
-		lista.add(new SelectItem(Funciones.hora_20, Funciones.hora_20));
-		lista.add(new SelectItem(Funciones.hora_21, Funciones.hora_21));
-		lista.add(new SelectItem(Funciones.hora_22, Funciones.hora_22));
+		return lista;
+	}
+	
+	/**
+	 * Lista de vehiculos
+	 * 
+	 * @return lista de items de vehiculos
+	 */
+	public List<SelectItem> getlistVehiculo() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.automovil, Funciones.automovil));
+		lista.add(new SelectItem(Funciones.camioneta, Funciones.camioneta));
 		return lista;
 	}
 
@@ -943,6 +965,7 @@ public class solicituduBean implements Serializable {
 		sol_conductornombrefuncionario = "";
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
+		sol_tipovehiculo=null;
 		sol_regresorigen = false;
 		sol_pasajeros = null;
 		sol_motivo = null;
@@ -988,6 +1011,7 @@ public class solicituduBean implements Serializable {
 			sol_regresorigen = false;
 			verregresorigen = true;
 			sol_hora_inicio = null;
+			sol_tipovehiculo=null;
 			sol_hora_fin = null;
 			sol_flexibilidad = true;
 			sol_observacion = null;
@@ -1014,6 +1038,7 @@ public class solicituduBean implements Serializable {
 			sol_fecha = null;
 			sol_fecha_aprobacion = null;
 			sol_pasajeros = null;
+			sol_tipovehiculo=null;
 			sol_motivo = null;
 			sol_regresorigen = false;
 			verregresorigen = true;

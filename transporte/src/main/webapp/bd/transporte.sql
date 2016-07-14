@@ -146,6 +146,7 @@ create table TRANS_SOLICITUD (
    SOL_CORREO           VARCHAR(255)         null,
    SOL_NOVEDADES        VARCHAR(200)         null,
    SOL_REGRESORIGEN     BOOL                 null,
+   SOL_TIPOVEHICULO     VARCHAR(50)          null,
    constraint PK_TRANS_SOLICITUD primary key (SOL_ID)
 );
 

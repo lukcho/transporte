@@ -229,7 +229,7 @@ public class ManagerSolicitud {
 	 */
 	public void insertarSolicitud(Timestamp sol_fecha, String usuario_cedula,String usuario_nombre,
 			Integer sol_pasajeros, String sol_motivo, Time sol_hora_inicio,
-			Time sol_hora_fin, boolean sol_flexibilidad, String sol_fcoid, boolean sol_regresorigen) throws Exception {
+			Time sol_hora_fin, boolean sol_flexibilidad, String sol_fcoid, boolean sol_regresorigen,String sol_tipovehiculo) throws Exception {
 		TransSolicitud sol = new TransSolicitud();
 		sol.setSolIdSolicitante(usuario_cedula);
 		sol.setSolNomSolicitante(usuario_nombre);
@@ -243,6 +243,7 @@ public class ManagerSolicitud {
 		sol.setSolFechaCreacion(fecha_creacion);
 		sol.setSolFecha(sol_fecha);
 		sol.setSolPasajeros(sol_pasajeros);
+		sol.setSolTipovehiculo(sol_tipovehiculo);
 		sol.setSolMotivo(sol_motivo);
 		sol.setSolHoraInicio(sol_hora_inicio);
 		sol.setSolHoraFin(sol_hora_fin);
