@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -169,32 +167,25 @@ public class lugarBean implements Serializable {
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				lug_id = null;
-				lug_nombre = null;
-				lug_ciudad = null;
-				lug_estado = "A";
+				limpiarCampos();
 			} else {
 				managergest.insertarLugar(lug_nombre.trim(), lug_ciudad.trim());
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				getListaLugares().clear();
 				getListaLugares().addAll(managergest.findAllLugares());
-				lug_id = null;
-				lug_nombre = null;
-				lug_ciudad = null;
-				lug_estado = "A";
+				limpiarCampos();
 			}
 			return "trans_lugares?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehiculo", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear vehículo");
+			e.printStackTrace();
 			return "";
 		}
+	}
+
+	public void limpiarCampos() {
+		lug_id = null;lug_nombre = null;
+		lug_ciudad = null;lug_estado = "A";
 	}
 
 	/**
@@ -224,7 +215,6 @@ public class lugarBean implements Serializable {
 			ediciontipo = false;
 			return "trans_nlugar?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -237,13 +227,11 @@ public class lugarBean implements Serializable {
 	 */
 	public String cambiarEstadoLugar() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("INFORMACIÓN",
-					managergest.cambioEstadoLugar(getLug().getLugId())));
+			Mensaje.crearMensajeINFO(managergest.cambioEstadoLugar(getLug().getLugId()));
 			getListaLugares().clear();
 			getListaLugares().addAll(managergest.findAllLugares());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -257,14 +245,12 @@ public class lugarBean implements Serializable {
 	public void cambiarEstadoLugara(TransLugare cond) {
 		setLug(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
-
 	}
 
 	/**
 	 * metodo para conocer el lug_id si esta usado
 	 * 
-	 *  * @param lug_id
+	 * * @param lug_id
 	 */
 	public boolean averiguarLugarid(Integer lug_id) {
 		Integer t = 0;
@@ -272,13 +258,9 @@ public class lugarBean implements Serializable {
 		List<TransLugare> lug = managergest.findAllLugares();
 		for (TransLugare y : lug) {
 			if (y.getLugId().equals(lug_id)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del lugar existe.", null));
+				Mensaje.crearMensajeWARN("El codigo del lugar existe");
 			}
 		}
 		if (t == 0) {
@@ -308,12 +290,9 @@ public class lugarBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoLugar() {
-		lug_id = null;
-		lug_nombre = null;
-		lug_ciudad = null;
-		lug_estado = "A";
-		verhorario = false;
-		mostrarlug_id = false;
+		lug_id = null;lug_nombre = null;
+		lug_ciudad = null;lug_estado = "A";
+		verhorario = false;mostrarlug_id = false;
 		edicion = false;
 		return "trans_nlugar?faces-redirect=true";
 	}
@@ -325,12 +304,9 @@ public class lugarBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String volverLugar() throws Exception {
-		lug_id = null;
-		lug_nombre = null;
-		lug_ciudad = null;
-		lug_estado = "A";
-		ediciontipo = false;
-		mostrarlug_id = false;
+		lug_id = null;lug_nombre = null;
+		lug_ciudad = null;lug_estado = "A";
+		ediciontipo = false;mostrarlug_id = false;
 		edicion = false;
 		getListaLugares().clear();
 		getListaLugares().addAll(managergest.findAllLugares());

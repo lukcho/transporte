@@ -12,10 +12,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -130,6 +128,8 @@ public class solicitudaBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		mc = new ManagerCarga();
+		fi = new Date();
+		ff = new Date();
 		sol_conductor = "Ninguno";
 		sol_vehi = "";
 		sol_correo = "";
@@ -142,7 +142,6 @@ public class solicitudaBean implements Serializable {
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_tipovehiculo = null;
-		;
 		sol_id = null;
 		sol_estado = "P";
 		sol_flexibilidad = false;
@@ -153,8 +152,6 @@ public class solicitudaBean implements Serializable {
 		horamostrar = false;
 		ediciontipo = false;
 		guardaredicion = true;
-		fi = new Date();
-		ff = new Date();
 		listaSolicitudespend = managersol
 				.findAllSolicitudesOrdenadosapendiente();
 		listaSolicitudaprorecha = managersol
@@ -961,7 +958,7 @@ public class solicitudaBean implements Serializable {
 						sol_fcoid = "Ninguno";
 						sol_vehi = null;
 						sol_conductor = "Ninguno";
-						sol_tipovehiculo=null;
+						sol_tipovehiculo = null;
 						sol_fecha = null;
 						sol_fecha_aprobacion = null;
 						sol_pasajeros = null;
@@ -1135,7 +1132,7 @@ public class solicitudaBean implements Serializable {
 					sol_fecha_aprobacion = null;
 					sol_pasajeros = null;
 					sol_motivo = null;
-					sol_tipovehiculo=null;
+					sol_tipovehiculo = null;
 					sol_hora_inicio = null;
 					sol_hora_fin = null;
 					sol_flexibilidad = false;
@@ -1168,7 +1165,7 @@ public class solicitudaBean implements Serializable {
 				managersol.insertarSolicitud(sol_fecha, sol_usuario_cedula,
 						sol_usuario_nombre, pasajeros, sol_motivo.trim(),
 						horainiciotiemp, horafintiemp, sol_flexibilidad,
-						sol_fcoid, sol_regresorigen,sol_tipovehiculo);
+						sol_fcoid, sol_regresorigen, sol_tipovehiculo);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				sol_id = null;
 				date = new Date();
@@ -1184,7 +1181,7 @@ public class solicitudaBean implements Serializable {
 				sol_fecha_aprobacion = null;
 				sol_pasajeros = null;
 				sol_motivo = null;
-				sol_tipovehiculo=null;
+				sol_tipovehiculo = null;
 				sol_hora_inicio = null;
 				sol_hora_fin = null;
 				sol_flexibilidad = false;
@@ -1213,10 +1210,7 @@ public class solicitudaBean implements Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear solicitud", null));
+			Mensaje.crearMensajeWARN("Error al crear solicitud");
 			return "";
 		}
 	}
@@ -1234,27 +1228,16 @@ public class solicitudaBean implements Serializable {
 			horafintiemp = new java.sql.Time(formatter.parse(sol_hora_fin)
 					.getTime());
 			if (sol_fcoid.equals("Ninguno") && sol_conductor.equals("Ninguno")) {
-				System.out.println("entra aca1");
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						"Debe seleccionar un conductor o funcionario", " "));
+				Mensaje.crearMensajeWARN("Debe seleccionar un conductor o funcionario");
 			} else if (!sol_fcoid.equals("Ninguno")
 					&& !sol_conductor.equals("Ninguno")) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(
-						null,
-						new FacesMessage(
-								"Debe seleccionar solo un conductor o funcionario",
-								" "));
+				Mensaje.crearMensajeWARN("Debe seleccionar solo un conductor o funcionario");
 			} else if (horafintiemp.getTime() < horainiciotiemp.getTime()) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						"Error..!!! verifique su horario", ""));
+				Mensaje.crearMensajeWARN("verifique su horario");
 			} else {
 				RequestContext.getCurrentInstance().execute("PF('gu').show();");
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1319,7 +1302,7 @@ public class solicitudaBean implements Serializable {
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
 			sol_motivo = sol.getSolMotivo();
-			sol_tipovehiculo=sol.getSolTipovehiculo();
+			sol_tipovehiculo = sol.getSolTipovehiculo();
 			sol_hora_inicio = sol.getSolHoraInicio().toString();
 			sol_hora_fin = sol.getSolHoraFin().toString();
 			sol_flexibilidad = sol.getSolFlexibilidad();
@@ -1346,7 +1329,6 @@ public class solicitudaBean implements Serializable {
 			r = "trans_nsolicituda?faces-redirect=true";
 			return r;
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -1396,7 +1378,7 @@ public class solicitudaBean implements Serializable {
 			sol_fecha_aprobacion = sol.getSolFechaAprobacion();
 			sol_pasajeros = sol.getSolPasajeros().toString();
 			sol_motivo = sol.getSolMotivo();
-			sol_tipovehiculo=sol.getSolTipovehiculo();
+			sol_tipovehiculo = sol.getSolTipovehiculo();
 			sol_hora_inicio = sol.getSolHoraInicio().toString();
 			sol_hora_fin = sol.getSolHoraFin().toString();
 			sol_flexibilidad = sol.getSolFlexibilidad();
@@ -1426,7 +1408,6 @@ public class solicitudaBean implements Serializable {
 			r = "trans_nsolicituda?faces-redirect=true";
 			return r;
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -1440,11 +1421,8 @@ public class solicitudaBean implements Serializable {
 	 */
 	public String cambiarEstadoSoli() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managersol
-							.cambioEstadoSolicitud(getSoli().getSolId())));
+			Mensaje.crearMensajeINFO(managersol
+					.cambioEstadoSolicitud(getSoli().getSolId()));
 			getListaSolicitudespend().clear();
 			getListaSolicitudespend().addAll(
 					managersol.findAllSolicitudesOrdenadosapendiente());
@@ -1452,7 +1430,7 @@ public class solicitudaBean implements Serializable {
 			getListaSolicitudaprorecha().addAll(
 					managersol.findAllSolicitudesOrdenadosaaprorecha());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -1474,13 +1452,9 @@ public class solicitudaBean implements Serializable {
 				.findAllSolicitudesOrdenadosapendiente();
 		for (TransSolicitud y : soli) {
 			if (y.getSolId().equals(soli_id)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del solicitud existe.", null));
+				Mensaje.crearMensajeWARN("El código del solicitud existe");
 			}
 		}
 		if (t == 0) {
@@ -1596,7 +1570,6 @@ public class solicitudaBean implements Serializable {
 	 * 
 	 */
 	public String asignarConductor() {
-		System.out.println("conductor: " + sol_conductor);
 		if (sol_conductor == null)
 			sol_conductor = "";
 		else
@@ -1633,15 +1606,9 @@ public class solicitudaBean implements Serializable {
 			if (Integer.parseInt(sol_pasajeros) <= ve.getVehiCapacidad())
 				managersol.asignarvehiculo(sol_vehi);
 			else {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(
-						null,
-						new FacesMessage(
-								"El número pasajeros exceden la capacidad del vehículo",
-								" "));
+				Mensaje.crearMensajeWARN("El número pasajeros exceden la capacidad del vehículo");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -1654,9 +1621,6 @@ public class solicitudaBean implements Serializable {
 	 */
 	public void reporteVehiculoConductor() {
 		if (sol_vehi == null) {
-			System.out.println("Es null");
-			System.out.println("fi: " + new Timestamp(fi.getTime()));
-			System.out.println("ff: " + new Timestamp(ff.getTime()));
 			getListareporte().clear();
 			getListareporte().addAll(
 					managersol.findAllVehiculosfecha(
@@ -1664,9 +1628,6 @@ public class solicitudaBean implements Serializable {
 							new Timestamp(ff.getTime())));
 			getListareporte().size();
 		} else {
-			System.out.println("No es null");
-			System.out.println("fi: " + new Timestamp(fi.getTime()));
-			System.out.println("ff: " + new Timestamp(ff.getTime()));
 			getListareporte().clear();
 			getListareporte().addAll(
 					managersol.findAllVehiculosfechacond(sol_vehi,
@@ -1709,7 +1670,7 @@ public class solicitudaBean implements Serializable {
 		sol_fecha = null;
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;
-		sol_tipovehiculo=null;
+		sol_tipovehiculo = null;
 		sol_motivo = null;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
@@ -1755,7 +1716,7 @@ public class solicitudaBean implements Serializable {
 		sol_fecha_aprobacion = null;
 		sol_pasajeros = null;
 		sol_motivo = null;
-		sol_tipovehiculo=null;
+		sol_tipovehiculo = null;
 		sol_hora_inicio = null;
 		sol_hora_fin = null;
 		sol_novedades = "";
@@ -1789,7 +1750,6 @@ public class solicitudaBean implements Serializable {
 		List<TransSolicitud> l1 = new ArrayList<TransSolicitud>();
 		for (TransSolicitud t : a) {
 			l1.add(t);
-
 		}
 		return l1;
 	}
@@ -1851,10 +1811,8 @@ public class solicitudaBean implements Serializable {
 	 * @throws Exception
 	 */
 	public void BuscarPersona() {
-
 		try {
 			cedula = ManagerCarga.consultaSQL(usuario);
-			System.out.println(usuario);
 			// per = mc.funcionarioByDNI(usuario);
 			per = mb.buscarPersonaWSReg(cedula);
 			sol_usuario_nombre = per.getPerNombres() + " "
@@ -1862,7 +1820,6 @@ public class solicitudaBean implements Serializable {
 			sol_usuario_cedula = per.getPerDNI();
 			sol_correo = per.getPerCorreo();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1875,19 +1832,15 @@ public class solicitudaBean implements Serializable {
 	public void BuscarPersonasolicitud() {
 
 		try {
-			System.out.println(sol_usuario_cedula);
 			// per = mc.funcionarioByDNI(usuario);
 			per = mb.buscarPersonaWSReg(sol_usuario_cedula);
-
 			// per = mc.personasolicitudByDNI(sol_usuario_cedula);
 			sol_usuario_nombre = per.getPerNombres() + " "
 					+ per.getPerApellidos();
 			sol_usuario_cedula = per.getPerDNI();
 			sol_correo = per.getPerCorreo();
 			per1 = mc.personasolicitudByDNI(sol_usuario_cedula);
-
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1898,15 +1851,11 @@ public class solicitudaBean implements Serializable {
 	 */
 	public void reporteNovedades() {
 		try {
-			System.out.println("fi: " + new Timestamp(fi.getTime()));
-			System.out.println("ff: " + new Timestamp(ff.getTime()));
 			getListaNovedades().clear();
 			getListaNovedades().addAll(
 					mc.FindAllNovedadesByFecha(new Timestamp(fi.getTime()),
 							new Timestamp(ff.getTime())));
-			System.out.println("entra con:" + listaNovedades.size());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1919,9 +1868,7 @@ public class solicitudaBean implements Serializable {
 		try {
 			getListaNovedades().clear();
 			getListaNovedades().addAll(mc.FindAllNovedades());
-			System.out.println("entra con:" + listaNovedades.size());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1945,7 +1892,7 @@ public class solicitudaBean implements Serializable {
 		lista.add(new SelectItem(Funciones.hora_17, Funciones.hora_17));
 		return lista;
 	}
-	
+
 	/**
 	 * Lista de vehiculos
 	 * 
@@ -1965,7 +1912,6 @@ public class solicitudaBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String volver() throws Exception {
-		// limpiar datos
 		getListareporte().clear();
 		getListaNovedades().clear();
 		return "index?faces-redirect=true";
@@ -1978,18 +1924,12 @@ public class solicitudaBean implements Serializable {
 	 */
 	public void regresoOrigen() {
 		try {
-			System.out.println(sol_regresorigen);
-			System.out.println("verregresorigen " + verregresorigen);
-			System.out.println("edicion " + edicion);
 			if (sol_regresorigen == true) {
 				verregresorigen = false;
-				System.out.println("entra1");
 			} else {
-				System.out.println("entra2");
 				verregresorigen = true;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

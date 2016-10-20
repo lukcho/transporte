@@ -46,7 +46,7 @@ public class ManagerSolicitud {
 
 	@SuppressWarnings("unchecked")
 	public List<TransSolicitud> findsol() {
-		return mDAO.findWhere(TransSolicitud.class, "1=1", null);
+		return mDAO.findWhere(TransSolicitud.class, " 1=1 ", null);
 	}
 
 	/**

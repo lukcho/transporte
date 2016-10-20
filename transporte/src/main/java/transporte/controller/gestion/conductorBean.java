@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -41,7 +39,6 @@ public class conductorBean implements Serializable {
 
 	private TransConductore cond;
 
-	// mostrar
 	private boolean mostrarcond_id;
 	private boolean edicion;
 	private boolean ediciontipo;
@@ -58,12 +55,9 @@ public class conductorBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		cond_cedula = null;
-		cond_estado = "A";
-		cond_estadonombre = "";
-		cond_correo = "";
-		edicion = false;
-		ediciontipo = false;
+		cond_cedula = null;cond_estado = "A";
+		cond_estadonombre = "";cond_correo = "";
+		edicion = false;ediciontipo = false;
 		mostrarcond_id = false;
 		usuario = ms.validarSesion("trans_conductores.xhtml");
 		listaConductores = managergest.findAllConductores();
@@ -220,7 +214,6 @@ public class conductorBean implements Serializable {
 				getListaConductores().addAll(managergest.findAllConductores());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			} else {
-
 				managergest.insertarConductor(cond_cedula.trim(),
 						cond_nombre.trim(), cond_apellido.trim(),
 						cond_telefono.trim(), cond_correo.trim());
@@ -230,14 +223,8 @@ public class conductorBean implements Serializable {
 			}
 			return "trans_conductores?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear conductor", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear conductor");
+			e.printStackTrace();
 			return "";
 		}
 	}
@@ -266,7 +253,6 @@ public class conductorBean implements Serializable {
 			ediciontipo = false;
 			return "trans_nconductor?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -279,15 +265,11 @@ public class conductorBean implements Serializable {
 	 */
 	public String cambiarEstadoCondu() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACIÓN", managergest
-							.cambioEstadoConductor(getCond().getCondCedula())));
+			Mensaje.crearMensajeINFO(managergest.cambioEstadoConductor(getCond().getCondCedula()));
 			getListaConductores().clear();
 			getListaConductores().addAll(managergest.findAllConductores());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -300,8 +282,6 @@ public class conductorBean implements Serializable {
 	public void cambiarEstadoCon(TransConductore cond) {
 		setCond(cond);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
-
 	}
 
 	/**
@@ -315,13 +295,9 @@ public class conductorBean implements Serializable {
 		List<TransConductore> cond = managergest.findAllConductores();
 		for (TransConductore y : cond) {
 			if (y.getCondCedula().equals(cond_id)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"La cédula del conductor existe.", null));
+				Mensaje.crearMensajeWARN("La cédula del conductor existe");
 			}
 		}
 		if (t == 0) {
@@ -340,13 +316,9 @@ public class conductorBean implements Serializable {
 		List<TransConductore> cond = managergest.findAllConductores();
 		for (TransConductore y : cond) {
 			if (y.getCondCorreo().equals(cond_correo)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El correo del conductor existe.", null));
+				Mensaje.crearMensajeWARN("El correo del conductor existe");
 			}
 		}
 		if (t == 0) {
@@ -375,15 +347,7 @@ public class conductorBean implements Serializable {
 	 * 
 	 */
 	public String nuevoConductor() {
-		cond_cedula = null;
-		cond_nombre = null;
-		cond_correo = null;
-		cond_apellido = null;
-		cond_telefono = null;
-		cond_estado = "A";
-		ediciontipo = false;
-		mostrarcond_id = false;
-		edicion = false;
+		limpiarCampos();
 		return "trans_nconductor?faces-redirect=true";
 	}
 
@@ -393,19 +357,18 @@ public class conductorBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String volverConductor() throws Exception {
-		// limpiar datos
-		cond_cedula = null;
-		cond_nombre = null;
-		cond_apellido = null;
-		cond_correo = null;
-		cond_telefono = null;
-		cond_estado = "A";
-		ediciontipo = false;
-		mostrarcond_id = false;
-		edicion = false;
+		limpiarCampos();
 		getListaConductores().clear();
 		getListaConductores().addAll(managergest.findAllConductores());
 		return "trans_conductores?faces-redirect=true";
+	}
+	
+	public void limpiarCampos(){
+		cond_cedula = null;cond_nombre = null;
+		cond_correo = null;cond_apellido = null;
+		cond_telefono = null;cond_estado = "A";
+		ediciontipo = false;mostrarcond_id = false;
+		edicion = false;
 	}
 
 	/**

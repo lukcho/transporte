@@ -76,16 +76,11 @@ public class conductorfunBean implements Serializable {
 	public void ini() {
 //		mangcar = new ManagerCarga();
 		usuario = ms.validarSesion("trans_conductoresfun.xhtml");
-		condf_cedula = null;
-		condf_estado = "A";
-		condf_direccion = "";
-		condf_telefono = "";
-		condf_correo = "";
-		condf_gerencia = "";
-		edicion = false;
-		ediciontipo = false;
-		ocultarbusqueda = true;
-		mostrarcondf_id = false;
+		condf_cedula = null;condf_estado = "A";
+		condf_direccion = "";condf_telefono = "";
+		condf_correo = "";condf_gerencia = "";
+		edicion = false;ediciontipo = false;
+		ocultarbusqueda = true;mostrarcondf_id = false;
 // 		listaConductoresFun = managergest.findAllConductoresFuncionarios();
 //		hashpersonfun = new HashMap<String, PersonaFuncionario>();
 	}
@@ -335,7 +330,6 @@ public class conductorfunBean implements Serializable {
 //			mangcar.funcionarioByGerencia(perfun.getPerGerencia());
 			return "trans_nconductorfun?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -474,10 +468,8 @@ public class conductorfunBean implements Serializable {
 	 * liberar datos
 	 */
 	public void liberarDatos() {
-		condf_cedula = null;
-		condf_nombre = null;
-		condf_gerencia = null;
-		condf_direccion = null;
+		condf_cedula = null;condf_nombre = null;
+		condf_gerencia = null;condf_direccion = null;
 	}
 
 	// /**

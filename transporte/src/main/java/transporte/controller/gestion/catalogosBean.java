@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
@@ -52,10 +50,8 @@ public class catalogosBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		cat_id = 0;
-		cati_nombre = "";
-		cati_estado = "A";
-		edicion = false;
+		cat_id = 0;cati_nombre = "";
+		cati_estado = "A";edicion = false;
 		ediciontipo = false;
 		listaCatalogoItems = managercat.findAllCatalogoItems();
 		listaCatalogo = managercat.findAllCatalogos();
@@ -165,10 +161,8 @@ public class catalogosBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoCatalogoitem() {
-		edicion = false;
-		cati_nombre = "";
-		cati_estado = "A";
-		cati_id = 0;
+		edicion = false;cati_nombre = "";
+		cati_estado = "A";cati_id = 0;
 		return "ncatalogo?faces-redirect=true";
 	}
 
@@ -198,14 +192,8 @@ public class catalogosBean implements Serializable {
 			r = "catalogos?faces-redirect=true";
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear catalogo item", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear catalogo item");
+			e.printStackTrace();
 		}
 		return r;
 	}
@@ -230,7 +218,6 @@ public class catalogosBean implements Serializable {
 			edicion = true;
 			return "ncatalogo?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -329,15 +316,11 @@ public class catalogosBean implements Serializable {
 	 */
 	public String cambiarEstado() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACIÓN", managercat
-							.cambioEstadocati(getFabcati().getCatdId())));
+			Mensaje.crearMensajeINFO(managercat.cambioEstadocati(getFabcati().getCatdId()));
 			getListaCatalogoItems().clear();
 			getListaCatalogoItems().addAll(managercat.findAllCatalogoItems());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -367,11 +350,7 @@ public class catalogosBean implements Serializable {
 				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El nombre del catalogo del producto existe.",
-								null));
+				Mensaje.crearMensajeWARN("El nombre del catálogo del producto existe");
 			}
 		}
 		if (t == 0) {
@@ -397,29 +376,12 @@ public class catalogosBean implements Serializable {
 		return lista;
 	}
 
-	// /**
-	// * Lista de listatipo
-	// *
-	// * @return lista de items de tiposcata
-	// */
-	// public List<SelectItem> getlistTipo() {
-	// List<SelectItem> lista = new ArrayList<SelectItem>();
-	// lista.add(new SelectItem(Funciones.estadoProducto,
-	// Funciones.estadoProducto + " : "
-	// + Funciones.valorEstadoProducto));
-	// lista.add(new SelectItem(Funciones.estadoServicio,
-	// Funciones.estadoServicio + " : "
-	// + Funciones.valorEstadoServicio));
-	// return lista;
-	// }
-
 	/**
 	 * limpia la informacion
 	 * 
 	 * @return
 	 */
 	public String salir() {
-		// limpiar datos
 		edicion = false;
 		ediciontipo = false;
 		getListaCatalogoItems().clear();
@@ -438,4 +400,20 @@ public class catalogosBean implements Serializable {
 		} else if (!averiguarCatId(cati_nombre))
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
+	
+	// /**
+		// * Lista de listatipo
+		// *
+		// * @return lista de items de tiposcata
+		// */
+		// public List<SelectItem> getlistTipo() {
+		// List<SelectItem> lista = new ArrayList<SelectItem>();
+		// lista.add(new SelectItem(Funciones.estadoProducto,
+		// Funciones.estadoProducto + " : "
+		// + Funciones.valorEstadoProducto));
+		// lista.add(new SelectItem(Funciones.estadoServicio,
+		// Funciones.estadoServicio + " : "
+		// + Funciones.valorEstadoServicio));
+		// return lista;
+		// }
 }

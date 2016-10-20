@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -63,7 +61,7 @@ public class vehiculoBean implements Serializable {
 		usuario = ms.validarSesion("trans_vehiculos.xhtml");
 		vehi_id = null;
 		vehi_estado_funcional = "A";
-		vehi_tipo=null;
+		vehi_tipo = null;
 		vehi_estado = "A";
 		vehi_capacidad = null;
 		edicion = false;
@@ -264,14 +262,8 @@ public class vehiculoBean implements Serializable {
 			}
 			return "trans_vehiculos?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear vehículo", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear vehículo");
+			e.printStackTrace();
 			return "";
 		}
 	}
@@ -316,7 +308,6 @@ public class vehiculoBean implements Serializable {
 			ediciontipo = false;
 			return "trans_nvehiculo?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -329,17 +320,12 @@ public class vehiculoBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cambiarEstadoVehi() {
-
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACIÓN", managergest
-							.cambioEstadoVerhiculo(getVehi().getVehiIdplaca())));
+			Mensaje.crearMensajeINFO(managergest.cambioEstadoVerhiculo(getVehi().getVehiIdplaca()));
 			getListaVehiculo().clear();
 			getListaVehiculo().addAll(managergest.findAllVehiculos());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -350,10 +336,8 @@ public class vehiculoBean implements Serializable {
 	 * @param vehi
 	 */
 	public void cambiarEstadovehi(TransVehiculo vehi) {
-
 		setVehi(vehi);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
 	}
 
 	/**
@@ -367,13 +351,9 @@ public class vehiculoBean implements Serializable {
 		List<TransVehiculo> pro = managergest.findAllVehiculos();
 		for (TransVehiculo y : pro) {
 			if (y.getVehiIdplaca().equals(vehi_id)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El codigo del Vehículo existe.", null));
+				Mensaje.crearMensajeWARN("El código del Vehículo existe");
 			}
 		}
 		if (t == 0) {
@@ -411,7 +391,7 @@ public class vehiculoBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
-	
+
 	/**
 	 * Lista de vehiculos
 	 * 
@@ -450,7 +430,6 @@ public class vehiculoBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String volverVehiculo() throws Exception {
-		// limpiar datos
 		vehi_id = null;
 		vehi_nombre = null;
 		vehi_marca = null;
