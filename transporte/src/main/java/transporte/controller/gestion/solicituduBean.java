@@ -490,20 +490,20 @@ public class solicituduBean implements Serializable {
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Estimado(a) Administrador. <br/>"
 						+ "Le notificamos que posee una solicitud de Transporte Pendiente.<br/><br/>"
-						// +"Número de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
+						// +"Nï¿½mero de Solicitud: "+query.consultaSQL("SELECT max(sol_id)  FROM trans_solicitud;")+"<br/>"
 						+ "Nombre del Solicitante: "
 						+ Funciones.utf8Sting(sol_usuario_nombre)
 						+ "<br/>"
 						+ "Por el Motivo: "
 						+ Funciones.utf8Sting(sol_motivo)
 						+ "<br/>"
-						+ "Tipo de Automóvil: "
+						+ "Tipo de AutomÃ³vil: "
 						+ Funciones.utf8Sting(sol_tipovehiculo)
 						+ "<br/>"
 						+ "Correo del Solicitante: "
 						+ Funciones.utf8Sting(sol_correo)
 						+ "<br/>"
-						+ "Fecha de Petición: "
+						+ "Fecha de PeticiÃ³n: "
 						+ Funciones.dateToString(sol_fecha)
 						+ "<br/>"
 						+ "Lugar Origen y Destino: "
@@ -516,17 +516,17 @@ public class solicituduBean implements Serializable {
 						+ " - "
 						+ horafintiemp.toString()
 						+ "<br/>"
-						+ "Número de Pasajeros: "
+						+ "NÃºmero de Pasajeros: "
 						+ sol_pasajeros.toString()
 						+ "<br/><br/>"
-						+ "<br/>Atentamente,<br/>Sistema de gestión de Transportes Yachay."
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/>Atentamente,<br/>Sistema de gestiÃ³n de Transportes Yachay."
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automÃ¡ticamente por el sistema favor no responder al mismo.</em></body></html>";
 				;
 
 				// Mail.generateAndSendEmail("lcorrea@yachay.gob.ec",
-				// "Petición de Vehículo", mensaje);
+				// "Peticiï¿½n de Vehï¿½culo", mensaje);
 				//
-				mb.envioMailAdminWS("Petición de Vehículo", mensaje);
+				mb.envioMailAdminWS("PeticiÃ³n de VehÃ­culo", mensaje);
 				mensaje = null;
 				limpiarCampos();
 				getListaSolicitudDesc().clear();
@@ -717,7 +717,7 @@ public class solicituduBean implements Serializable {
 			if (y.getSolId().equals(soli_id)) {
 				t = 1;
 				r = true;
-				Mensaje.crearMensajeWARN("El código del producto existe"); 
+				Mensaje.crearMensajeWARN("El cÃ³digo del producto existe"); 
 			}
 		}
 		if (t == 0) {
@@ -840,7 +840,7 @@ public class solicituduBean implements Serializable {
 	/**
 	 * metodo para mostrar los vehiculos en solicitud
 	 * 
-	 * @return listavehículo
+	 * @return listavehï¿½culo
 	 * 
 	 */
 	public List<SelectItem> getListaVehiculo() {
@@ -1079,7 +1079,7 @@ public class solicituduBean implements Serializable {
 	}
 
 	/**
-	 * Metodo para saber si va a regresar el vehículo al lugar de donde partio
+	 * Metodo para saber si va a regresar el vehï¿½culo al lugar de donde partio
 	 * 
 	 * @throws Exception
 	 */
@@ -1096,7 +1096,7 @@ public class solicituduBean implements Serializable {
 	}
 
 	/**
-	 * Validar sesión y permiso
+	 * Validar sesiï¿½n y permiso
 	 */
 	public void vSesionPermiso() {
 		ms.validarSesion("trans_solicitudesu.xhtml");

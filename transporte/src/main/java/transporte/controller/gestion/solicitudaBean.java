@@ -48,6 +48,11 @@ public class solicitudaBean implements Serializable {
 
 	private ManagerCarga mc;
 
+	private static String Activo = "A";
+	private static String Pendiente = "P";
+	private static String Aprobado = "A";
+	private static String Rechazado = "R";
+	private static String Anulado = "N";
 	// SOLICITUD
 	private Integer sol_id;
 	private Timestamp sol_fecha;
@@ -1941,5 +1946,19 @@ public class solicitudaBean implements Serializable {
 	public String asignarHoraFin() {
 		sol_hora_fin = sol_hora_inicio;
 		return "";
+	}
+	
+	public String cambiarNombre(String param){
+		String r="";
+		if(param.equals(Pendiente)){
+			r= "Pendiente";
+		} else if(param.equals(Aprobado)){
+			r= "Aprobado";
+		} else if(param.equals(Anulado)){
+			r= "Anulado";
+		} else if(param.equals(Rechazado)){
+				r= "Rechazado";
+			}
+		return r;
 	}
 }

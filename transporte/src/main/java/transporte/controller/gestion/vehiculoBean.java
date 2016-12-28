@@ -28,6 +28,7 @@ public class vehiculoBean implements Serializable {
 	@EJB
 	private ManagerGestion managergest;
 
+	private static String Activo = "A";
 	// VEHICULO
 	private String vehi_id;
 	private String vehi_nombre;
@@ -444,5 +445,13 @@ public class vehiculoBean implements Serializable {
 		getListaVehiculo().clear();
 		getListaVehiculo().addAll(managergest.findAllVehiculos());
 		return "trans_vehiculos?faces-redirect=true";
+	}
+	
+	public String cambiarNombre(String param){
+		if(param.equals(Activo)){
+			return "Activo";
+		}else{
+			return "Inactivo";
+		}
 	}
 }

@@ -55,7 +55,7 @@
 					</p:column>
 					<p:column filterBy="#{lug.lugEstado}" filterMatchMode="contains"
 						 headerText="ESTADO"  width="30">
-						<h:outputText value="#{lug.lugEstado}"></h:outputText>
+						 <h:outputText value="#{lugarBean.cambiarNombre(lug.lugEstado)}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

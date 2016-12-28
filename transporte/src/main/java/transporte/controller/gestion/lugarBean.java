@@ -28,6 +28,7 @@ public class lugarBean implements Serializable {
 	@EJB
 	private ManagerGestion managergest;
 
+	private static String Activo = "A";
 	// Lugares
 	private Integer lug_id;
 	private String lug_nombre;
@@ -311,5 +312,13 @@ public class lugarBean implements Serializable {
 		getListaLugares().clear();
 		getListaLugares().addAll(managergest.findAllLugares());
 		return "trans_lugares?faces-redirect=true";
+	}
+	
+	public String cambiarNombre(String param){
+		if(param.equals(Activo)){
+			return "Activo";
+		}else{
+			return "Inactivo";
+		}
 	}
 }

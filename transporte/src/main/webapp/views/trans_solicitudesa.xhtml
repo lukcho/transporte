@@ -80,7 +80,7 @@
 							</p:column>
 							<p:column filterBy="#{sol.solEstado}" filterMatchMode="contains"
 								headerText="ESTADO" width="70">
-								<h:outputText value="#{sol.solEstado}"></h:outputText>
+								<h:outputText value="#{solicitudaBean.cambiarNombre(sol.solEstado)}"></h:outputText>
 							</p:column>
 						</p:dataTable>
 					</b:panel>

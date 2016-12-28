@@ -30,7 +30,7 @@
 					reflow="true" var="vehi" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="OPCIONES" width="50">
+					<p:column headerText="OPCIONES" width="60">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
 							action="#{vehiculoBean.cargarVehiculo(vehi)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
@@ -68,12 +68,12 @@
 						<h:outputText value="#{vehi.vehiCapacidad}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiEstado}" filterMatchMode="contains"
-						headerText="ESTADO" width="50">
-						<h:outputText value="#{vehi.vehiEstado}"></h:outputText>
+						headerText="ESTADO" width="60">
+						<h:outputText value="#{vehiculoBean.cambiarNombre(vehi.vehiEstado)}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{vehi.vehiEstadoFuncional}" filterMatchMode="contains"
 						 headerText="ESTADO FUNCIONAL"  width="60">
-						<h:outputText value="#{vehi.vehiEstadoFuncional}"></h:outputText>
+						 <h:outputText value="#{vehiculoBean.cambiarNombre(vehi.vehiEstadoFuncional)}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

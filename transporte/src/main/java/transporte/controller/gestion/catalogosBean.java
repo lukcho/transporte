@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
+
 import transporte.model.dao.entities.TransCatCab;
 import transporte.model.dao.entities.TransCatDet;
 import transporte.model.generic.Funciones;
@@ -26,6 +27,7 @@ public class catalogosBean implements Serializable {
 	@EJB
 	private ManagerCatalogos managercat;
 
+	private static String Activo = "A";
 	// CATALOGO
 	private Integer cat_id;// para la seleccion de categoria
 	private Integer cati_id;// para la seleccion de categoria
@@ -399,6 +401,14 @@ public class catalogosBean implements Serializable {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		} else if (!averiguarCatId(cati_nombre))
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+	}
+	
+	public String cambiarNombre(String param){
+		if(param.equals(Activo)){
+			return "Activo";
+		}else{
+			return "Inactivo";
+		}
 	}
 	
 	// /**

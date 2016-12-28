@@ -28,6 +28,7 @@ public class conductorBean implements Serializable {
 	@EJB
 	private ManagerGestion managergest;
 
+	private static String Activo = "A";
 	// VEHICULO
 	private String cond_cedula;
 	private String cond_nombre;
@@ -385,4 +386,11 @@ public class conductorBean implements Serializable {
 		}
 	}
 	
+	public String cambiarNombre(String param){
+		if(param.equals(Activo)){
+			return "Activo";
+		}else{
+			return "Inactivo";
+		}
+	}
 }
